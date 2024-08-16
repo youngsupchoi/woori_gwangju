@@ -12,6 +12,5 @@ module.exports = {
         },
       },
     ],
-    'nativewind/babel', // 위치 변경
   ],
 };
