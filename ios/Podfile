@@ -16,6 +16,14 @@ end
 
 target 'woori_gwangju' do
   config = use_native_modules!
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+
+    pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone"
+
+    pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition"
+
 
   use_react_native!(
     :path => config[:reactNativePath],

@@ -1,55 +1,63 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {VStack, HStack, Button, Input, Image} from 'native-base';
+import haversine from 'haversine';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
-  VStack,
-  HStack,
-  Text,
-  Button,
-  ScrollView,
-  Input,
-  Icon,
-  Divider,
-  Image,
-  View,
-} from 'native-base';
-import {useRecoilState} from 'recoil';
-import {recentSearchesState} from 'state/SearchAtoms';
+  recentSearchesState,
+  searchKeywordState,
+  searchResultState,
+} from 'state/SearchAtoms';
 import {useNavigation} from '@react-navigation/native';
-// import {MaterialIcons} from '@expo/vector-icons';
 import LeftChevron from '../assets/images/leftChevron.png';
 import micIcon from '../assets/images/mic.png';
-import busIcon from '../assets/images/bus.png';
-import trainIcon from '../assets/images/train.png';
-import peopleIcon from '../assets/images/people.png';
-import settingsIcon from '../assets/images/settings.png';
+import SharedSearchListComponent from 'components/searchpage/SharedSearchListComponent';
 import historyIcon from '../assets/images/history.png';
+import searchResultLocationIcon from '../assets/images/searchResultLocationIcon.png';
+import FilterButtons from 'components/mainpage/FilterButtons';
+import {fetchPOIResults} from 'apis/poiSearch';
+import {locationState} from 'state/locationState';
 
 const SearchPage = () => {
-  const [recentSearches, setRecentSearches] =
-    useRecoilState(recentSearchesState);
   const navigation = useNavigation();
+  const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
+  const [recentSearches] = useRecoilState(recentSearchesState);
+  const [searchResult, setSearchResult] = useRecoilState(searchResultState);
+  const currentLocation = useRecoilValue(locationState); // 현재 위치 가져오기
+
+  useEffect(() => {
+    if (searchKeyword) {
+      // 검색어가 있을 경우 TMAP API 호출
+      fetchPOIResults(searchKeyword).then(results => {
+        if (currentLocation.latitude && currentLocation.longitude) {
+          // 현재 위치와 각 POI 간의 거리를 계산해 추가
+          const resultsWithDistance = results.map(item => {
+            const distance = haversine(currentLocation, {
+              latitude: item.frontLat,
+              longitude: item.frontLon,
+            });
+            console.log(
+              item.frontLat,
+              item.frontLon,
+              currentLocation.latitude,
+              currentLocation.longitude,
+            );
+            return {...item, distance: distance.toFixed(2)}; // 거리 값을 km로 표시
+          });
+          setSearchResult(resultsWithDistance);
+        } else {
+          setSearchResult(results);
+        }
+      });
+    }
+  }, [searchKeyword, currentLocation]);
 
   return (
     <VStack flex={1} bg="white" p={0} m={0}>
       {/* 검색 바 */}
-      <HStack space={2} alignItems="center" mb={4}>
+      <HStack alignItems="center" px={4} pt={4}>
         <Button variant="ghost" onPress={() => navigation.goBack()}>
-          {/* <Icon as={MaterialIcons} name="arrow-back" size={6} /> */}
           <Image source={LeftChevron} alt="back" width={'8'} height={'8'} />
         </Button>
-        {/* <Input
-          placeholder="장소 검색하기"
-          width="85%"
-          bg="gray.100"
-          pl={5}
-          borderRadius="full"
-          py={3}
-          fontSize="18"
-          InputRightElement={
-            <Button borderRadius={'full'} mr={2} bg={'gray.200'}>
-              <Icon as={MaterialIcons} name="mic" size={6} />
-            </Button>
-          }
-        /> */}
         <Input
           placeholder="장소/주소 검색"
           width="85%"
@@ -64,6 +72,7 @@ const SearchPage = () => {
           placeholderTextColor={'gray.400'}
           color={'gray.400'}
           borderColor={'gray.100'}
+          onChange={e => setSearchKeyword(e.nativeEvent.text)}
           _focus={{
             borderColor: 'gray.100',
             backgroundColor: 'white',
@@ -81,123 +90,21 @@ const SearchPage = () => {
       </HStack>
 
       {/* 필터 버튼들 */}
-      <ScrollView
-        horizontal
-        maxH={'20'}
-        h={'20'}
-        bg={'gray.300'}
-        showsHorizontalScrollIndicator={false}
-        py={5}>
-        <HStack space={4} justifyContent="flex-start" px={4}>
-          <Button
-            variant="solid"
-            bg="gray.100"
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius="full"
-            _focus={{bg: 'gray.200'}}
-            _pressed={{bg: 'gray.300'}}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
-            leftIcon={
-              <Image
-                source={busIcon}
-                alt="bus"
-                style={{width: 24, height: 24}}
-              />
-            }>
-            버스
-          </Button>
-          <Button
-            variant="solid"
-            bg="gray.100"
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius="full"
-            _focus={{bg: 'gray.200'}}
-            _pressed={{bg: 'gray.300'}}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
-            leftIcon={
-              <Image
-                source={trainIcon}
-                alt="bus"
-                style={{width: 24, height: 24}}
-              />
-            }>
-            지하철
-          </Button>
-          <Button
-            variant="solid"
-            bg="gray.100"
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius="full"
-            _focus={{bg: 'gray.200'}}
-            _pressed={{bg: 'gray.300'}}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
-            leftIcon={
-              <Image
-                source={peopleIcon}
-                alt="bus"
-                style={{width: 24, height: 24}}
-              />
-            }>
-            장애인 화장실
-          </Button>
-          <Button
-            variant="solid"
-            bg="gray.100"
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius="full"
-            _focus={{bg: 'gray.200'}}
-            _pressed={{bg: 'gray.300'}}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
-            leftIcon={
-              <Image
-                source={settingsIcon}
-                alt="bus"
-                style={{width: 24, height: 24}}
-              />
-            }>
-            설정
-          </Button>
-        </HStack>
-      </ScrollView>
+      <FilterButtons />
 
-      <Text fontSize="md" bold mb={2}>
-        최근 검색
-      </Text>
-      <ScrollView>
-        {recentSearches.map((item, index) => (
-          <VStack key={index} space={2} mb={4}>
-            <HStack space={2} px={4} py={2}>
-              <Image
-                source={historyIcon}
-                alt="history"
-                width={'6'}
-                height={'6'}
-              />
-              <VStack justifyContent="space-between" alignItems="flex-start">
-                <HStack space={2}>
-                  <Text fontSize={18} fontWeight={'regular'}>
-                    {item.name}
-                  </Text>
-                  <View
-                    px={2}
-                    bg={'gray.200'}
-                    borderRadius={'sm'}
-                    alignItems={'center'}
-                    justifyContent={'center'}>
-                    <Text color="gray.500">{item.distance}</Text>
-                  </View>
-                </HStack>
-                <Text color="gray.500">{item.address}</Text>
-              </VStack>
-            </HStack>
-            <Divider />
-          </VStack>
-        ))}
-      </ScrollView>
+      {searchKeyword === '' ? (
+        <SharedSearchListComponent
+          data={recentSearches}
+          iconSource={historyIcon}
+          title="최근 검색"
+        />
+      ) : (
+        <SharedSearchListComponent
+          data={searchResult}
+          iconSource={searchResultLocationIcon}
+          highlightKeyword={searchKeyword}
+        />
+      )}
     </VStack>
   );
 };

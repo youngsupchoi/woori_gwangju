@@ -1,6 +1,8 @@
-// src/navigation/index.tsx
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackCardInterpolationProps,
+} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import OnboardingPage from '../screens/OnboardingPage';
 import MainPage from '../screens/MainPage';
@@ -10,15 +12,25 @@ import SearchDetailTransportPage from '../screens/SearchDetailTransportPage';
 import SearchDetailModificationPage from '../screens/SearchDetailModificationPage';
 import RouteTransportPage from '../screens/RouteTransportPage';
 import RouteWheelchairPage from '../screens/RouteWheelchairPage';
+import useCurrentLocation from 'hooks/currentLocation/useCurrentLocation';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
+  useCurrentLocation();
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Main"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{
+          headerShown: false,
+          cardStyleInterpolator: ({current}: StackCardInterpolationProps) => ({
+            cardStyle: {
+              opacity: current.progress,
+            },
+          }),
+        }}>
         <Stack.Screen name="Onboarding" component={OnboardingPage} />
         <Stack.Screen name="Main" component={MainPage} />
         <Stack.Screen name="Search" component={SearchPage} />

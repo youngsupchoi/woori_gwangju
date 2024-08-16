@@ -1,22 +1,11 @@
 import React from 'react';
 // import {View} from 'react-native';
-import {
-  Input,
-  HStack,
-  Button,
-  VStack,
-  View,
-  Image,
-  ScrollView,
-} from 'native-base';
-// import {MaterialIcons} from '@expo/vector-icons';
+import {Input, HStack, Button, VStack, View, Image} from 'native-base';
 import micIcon from '../assets/images/mic.png';
-import busIcon from '../assets/images/bus.png';
-import trainIcon from '../assets/images/train.png';
-import peopleIcon from '../assets/images/people.png';
-import settingsIcon from '../assets/images/settings.png';
 import targetIcon from '../assets/images/target.png';
 import {useNavigation} from '@react-navigation/native';
+import FilterButtons from 'components/mainpage/FilterButtons';
+import MainMapComponent from 'components/mainpage/MainMapComponent';
 
 const MainPage = () => {
   const navigation = useNavigation();
@@ -56,106 +45,19 @@ const MainPage = () => {
       </HStack>
 
       {/* 필터 버튼들 */}
-      <ScrollView
-        horizontal
-        maxH={'20'}
-        bg={'gray.400'}
-        showsHorizontalScrollIndicator={false}
-        py={5}>
-        <HStack space={4} justifyContent="flex-start" px={4}>
-          <Button
-            variant="solid"
-            bg="gray.100"
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius="full"
-            _focus={{bg: 'gray.200'}}
-            _pressed={{bg: 'gray.300'}}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
-            leftIcon={
-              <Image
-                source={busIcon}
-                alt="bus"
-                style={{width: 24, height: 24}}
-              />
-            }>
-            버스
-          </Button>
-          <Button
-            variant="solid"
-            bg="gray.100"
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius="full"
-            _focus={{bg: 'gray.200'}}
-            _pressed={{bg: 'gray.300'}}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
-            leftIcon={
-              <Image
-                source={trainIcon}
-                alt="bus"
-                style={{width: 24, height: 24}}
-              />
-            }>
-            지하철
-          </Button>
-          <Button
-            variant="solid"
-            bg="gray.100"
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius="full"
-            _focus={{bg: 'gray.200'}}
-            _pressed={{bg: 'gray.300'}}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
-            leftIcon={
-              <Image
-                source={peopleIcon}
-                alt="bus"
-                style={{width: 24, height: 24}}
-              />
-            }>
-            장애인 화장실
-          </Button>
-          <Button
-            variant="solid"
-            bg="gray.100"
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius="full"
-            _focus={{bg: 'gray.200'}}
-            _pressed={{bg: 'gray.300'}}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
-            leftIcon={
-              <Image
-                source={settingsIcon}
-                alt="bus"
-                style={{width: 24, height: 24}}
-              />
-            }>
-            설정
-          </Button>
-        </HStack>
-      </ScrollView>
+      <FilterButtons />
 
       {/* 지도 Placeholder */}
-      <View
-        flex={1}
-        position={'absolute'}
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        zIndex={-1}
-        bg="gray.300"
-        opacity={0.5}
-      />
+      <MainMapComponent />
+
       <Button
         position={'absolute'}
         bottom={30}
         right={0}
         p={'10px'}
         m={18}
+        _focus={{bg: 'gray.200'}}
+        _pressed={{bg: 'gray.300'}}
         bg={'gray.100'}
         borderRadius={'full'}>
         <Image
