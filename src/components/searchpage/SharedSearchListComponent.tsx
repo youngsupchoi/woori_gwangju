@@ -8,6 +8,8 @@ import {
   VStack,
 } from 'native-base';
 import React from 'react';
+import {TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const SharedSearchListComponent = ({
   data,
@@ -20,12 +22,25 @@ const SharedSearchListComponent = ({
   highlightKeyword?: string;
   title?: string;
 }) => {
+  const navigation = useNavigation();
+
+  const handlePress = (item: any) => {
+    navigation.navigate('SearchResult', {
+      latitude: item.frontLat,
+      longitude: item.frontLon,
+      name: item.name,
+      address: item.newAddressList?.newAddress[0].fullAddressRoad,
+    } as {latitude: any; longitude: any; name: any; address: any});
+  };
+
   const highlightText = (text: string = '', highlight: string = '') => {
     if (!highlight || !text.includes(highlight)) {
       return (
-        <Text fontSize={18} fontWeight={'regular'} p={0} isTruncated>
-          {text}
-        </Text>
+        <View>
+          <Text fontSize={18} fontWeight={'regular'} p={0} isTruncated>
+            {text}
+          </Text>
+        </View>
       );
     }
 
@@ -34,7 +49,7 @@ const SharedSearchListComponent = ({
       part.toLowerCase() === highlight.toLowerCase() ? (
         <Text
           key={index}
-          fontSize={18}
+          fontSize={'18px'}
           fontWeight={'regular'}
           color="blue.500"
           p={0}
@@ -44,7 +59,7 @@ const SharedSearchListComponent = ({
       ) : (
         <Text
           key={index}
-          fontSize={18}
+          fontSize={'18px'}
           fontWeight={'regular'}
           p={0}
           m={0}
@@ -65,35 +80,52 @@ const SharedSearchListComponent = ({
       <ScrollView>
         {data.map((item, index) => (
           <VStack key={index} space={2} mb={4}>
-            <HStack space={2} px={4} py={2}>
-              <Image source={iconSource} alt="icon" width={'6'} height={'6'} />
-              <VStack justifyContent="space-between" alignItems="flex-start">
-                <HStack>
-                  {highlightText(item.name, highlightKeyword)}
-                  {item.distance && (
-                    <View
-                      px={2}
-                      ml={2}
-                      bg={'gray.200'}
-                      borderRadius={'sm'}
-                      alignItems={'center'}
-                      justifyContent={'center'}>
-                      <Text color="gray.500" isTruncated>
-                        {item.distance}km
-                      </Text>
+            <TouchableOpacity onPress={() => handlePress(item)}>
+              <HStack space={2} px={4} py={2} alignItems={'flex-start'}>
+                <Image
+                  source={iconSource}
+                  alt="icon"
+                  width={'20px'}
+                  height={'20px'}
+                />
+                <VStack
+                  justifyContent="space-between"
+                  alignItems="flex-start"
+                  flex={1}
+                  w={'100%'}>
+                  <HStack
+                    flex={1}
+                    maxW={'100%'}
+                    _text={{overflow: 'hidden', ellipsizeMode: 'tail'}}>
+                    <View maxW={'80%'} flexDir={'row'} overflow={'hidden'}>
+                      {highlightText(item.name, highlightKeyword)}
                     </View>
+                    {item.distance && (
+                      <View
+                        px={2}
+                        ml={2}
+                        bg={'#F1F3F5'}
+                        borderRadius={'sm'}
+                        alignItems={'center'}
+                        justifyContent={'center'}>
+                        <Text
+                          color="gray.500"
+                          fontWeight={'semibold'}
+                          fontSize={'12px'}
+                          isTruncated>
+                          {item.distance}km
+                        </Text>
+                      </View>
+                    )}
+                  </HStack>
+                  {item.newAddressList && (
+                    <Text color="#889096" isTruncated>
+                      {item.newAddressList?.newAddress[0].fullAddressRoad}
+                    </Text>
                   )}
-                </HStack>
-                {item.newAddressList && (
-                  <Text color="gray.500" isTruncated>
-                    {item.newAddressList?.newAddress[0].fullAddressRoad}
-                  </Text>
-                )}
-                {console.log(
-                  item.newAddressList?.newAddress[0].fullAddressRoad,
-                )}
-              </VStack>
-            </HStack>
+                </VStack>
+              </HStack>
+            </TouchableOpacity>
             <Divider />
           </VStack>
         ))}

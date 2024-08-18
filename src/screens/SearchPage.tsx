@@ -16,6 +16,7 @@ import searchResultLocationIcon from '../assets/images/searchResultLocationIcon.
 import FilterButtons from 'components/mainpage/FilterButtons';
 import {fetchPOIResults} from 'apis/poiSearch';
 import {locationState} from 'state/locationState';
+import MainSearchBar from 'components/mainpage/MainSearchbar';
 
 const SearchPage = () => {
   const navigation = useNavigation();
@@ -41,7 +42,7 @@ const SearchPage = () => {
               currentLocation.latitude,
               currentLocation.longitude,
             );
-            return {...item, distance: distance.toFixed(2)}; // 거리 값을 km로 표시
+            return {...item, distance: distance.toFixed(1)}; // 거리 값을 km로 표시
           });
           setSearchResult(resultsWithDistance);
         } else {
@@ -54,44 +55,16 @@ const SearchPage = () => {
   return (
     <VStack flex={1} bg="white" p={0} m={0}>
       {/* 검색 바 */}
-      <HStack alignItems="center" px={4} pt={4}>
-        <Button variant="ghost" onPress={() => navigation.goBack()}>
-          <Image source={LeftChevron} alt="back" width={'8'} height={'8'} />
-        </Button>
-        <Input
-          placeholder="장소/주소 검색"
-          width="85%"
-          bg="gray.100"
-          pl={5}
-          borderRadius="full"
-          py={3}
-          px={3}
-          h={'56px'}
-          fontSize="18"
-          fontWeight={'bold'}
-          placeholderTextColor={'gray.400'}
-          color={'gray.400'}
-          borderColor={'gray.100'}
-          onChange={e => setSearchKeyword(e.nativeEvent.text)}
-          _focus={{
-            borderColor: 'gray.100',
-            backgroundColor: 'white',
-          }}
-          InputRightElement={
-            <Button borderRadius={'full'} mr={2} bg={'gray.200'}>
-              <Image
-                source={micIcon}
-                style={{width: 24, height: 24}}
-                alt="mic"
-              />
-            </Button>
-          }
-        />
-      </HStack>
+
+      <MainSearchBar
+        showBackButton={true}
+        onChangeText={text => setSearchKeyword(text)}
+      />
 
       {/* 필터 버튼들 */}
       <FilterButtons />
 
+      {console.log(searchResult)}
       {searchKeyword === '' ? (
         <SharedSearchListComponent
           data={recentSearches}

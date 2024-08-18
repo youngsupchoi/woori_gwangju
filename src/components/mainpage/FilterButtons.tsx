@@ -12,10 +12,13 @@ const FilterButtons = () => {
   return (
     <ScrollView
       horizontal
-      maxH={'20'}
-      showsHorizontalScrollIndicator={false}
-      py={5}>
-      <HStack space={4} justifyContent="flex-start" px={4}>
+      h={'36px'}
+      maxH={'36px'}
+      mt={'18px'}
+      //   bg={'gray.100'}
+      p={0}
+      showsHorizontalScrollIndicator={false}>
+      <HStack space={4} justifyContent="flex-start" px={4} py={0}>
         {buttons.map((button, index) => (
           <Button
             key={index}
@@ -26,6 +29,7 @@ const FilterButtons = () => {
             borderRadius="full"
             _focus={{bg: 'gray.200'}}
             _pressed={{bg: 'gray.300'}}
+            py={0}
             _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
             leftIcon={
               <Image

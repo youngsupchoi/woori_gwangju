@@ -17,3 +17,18 @@ declare module '*.gif' {
   const value: any;
   export default value;
 }
+
+interface window {
+  __REDUX_DEVTOOLS_EXTENSION__: any;
+  webkitSpeechRecognition: any;
+}
+
+declare global {
+  interface Window {
+    webkitSpeechRecognition: any;
+  }
+
+  interface window {
+    webkitSpeechRecognition: any;
+  }
+}

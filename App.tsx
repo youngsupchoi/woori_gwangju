@@ -7,7 +7,6 @@ import {NativeBaseProvider} from 'native-base';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  console.log('isDarkMode:', isDarkMode);
 
   return (
     <NativeBaseProvider>

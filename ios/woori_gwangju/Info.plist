@@ -10,7 +10,11 @@
 	<string>Your location is needed to provide nearby results.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Your location is needed to provide nearby results.</string>
-	
+	<key>NSMicrophoneUsageDescription</key>
+	<string>이 앱은 음성 인식을 위해 마이크를 사용합니다.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>이 앱은 음성 인식을 위해 사용자의 음성을 텍스트로 변환합니다.</string>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

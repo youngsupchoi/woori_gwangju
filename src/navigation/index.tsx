@@ -13,6 +13,7 @@ import SearchDetailModificationPage from '../screens/SearchDetailModificationPag
 import RouteTransportPage from '../screens/RouteTransportPage';
 import RouteWheelchairPage from '../screens/RouteWheelchairPage';
 import useCurrentLocation from 'hooks/currentLocation/useCurrentLocation';
+import VoiceSearchPage from 'screens/VoiceSearchPage';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,8 @@ const AppNavigator = () => {
           name="SearchDetailTransport"
           component={SearchDetailTransportPage}
         />
+        <Stack.Screen name="VoiceSearch" component={VoiceSearchPage} />
+        {/* VoiceSearchPage 추가 */}
         <Stack.Screen
           name="SearchDetailModification"
           component={SearchDetailModificationPage}
