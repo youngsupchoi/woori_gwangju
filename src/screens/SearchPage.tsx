@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {VStack, HStack, Button, Input, Image} from 'native-base';
+import {VStack} from 'native-base';
 import haversine from 'haversine';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
@@ -7,9 +7,6 @@ import {
   searchKeywordState,
   searchResultState,
 } from 'state/SearchAtoms';
-import {useNavigation} from '@react-navigation/native';
-import LeftChevron from '../assets/images/leftChevron.png';
-import micIcon from '../assets/images/mic.png';
 import SharedSearchListComponent from 'components/searchpage/SharedSearchListComponent';
 import historyIcon from '../assets/images/history.png';
 import searchResultLocationIcon from '../assets/images/searchResultLocationIcon.png';
@@ -19,7 +16,6 @@ import {locationState} from 'state/locationState';
 import MainSearchBar from 'components/mainpage/MainSearchbar';
 
 const SearchPage = () => {
-  const navigation = useNavigation();
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
   const [recentSearches] = useRecoilState(recentSearchesState);
   const [searchResult, setSearchResult] = useRecoilState(searchResultState);

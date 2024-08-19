@@ -28,7 +28,7 @@ const useCurrentLocation = () => {
           error => {
             console.log('Error getting location: ', error);
           },
-          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+          {enableHighAccuracy: true, timeout: 3000, maximumAge: 10000},
         );
       } else {
         console.log('Location permission denied');

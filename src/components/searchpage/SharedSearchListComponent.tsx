@@ -10,6 +10,8 @@ import {
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {DestinationState} from 'state/RouteAtoms';
 
 const SharedSearchListComponent = ({
   data,
@@ -23,14 +25,19 @@ const SharedSearchListComponent = ({
   title?: string;
 }) => {
   const navigation = useNavigation();
+  const [, setDestinationState] = useRecoilState(DestinationState);
 
   const handlePress = (item: any) => {
-    navigation.navigate('SearchResult', {
-      latitude: item.frontLat,
-      longitude: item.frontLon,
+    // Recoil 상태에 선택된 목적지 설정
+    setDestinationState({
       name: item.name,
-      address: item.newAddressList?.newAddress[0].fullAddressRoad,
-    } as {latitude: any; longitude: any; name: any; address: any});
+      longitude: item.frontLon,
+      latitude: item.frontLat,
+      address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
+    });
+
+    // SearchResultPage로 이동
+    navigation.navigate('SearchResult');
   };
 
   const highlightText = (text: string = '', highlight: string = '') => {

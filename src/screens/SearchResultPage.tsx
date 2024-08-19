@@ -1,15 +1,16 @@
 import React from 'react';
 import {View, Text, Button, HStack, Image} from 'native-base';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Dimensions, TouchableOpacity} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import LeftChevron from '../assets/images/leftChevron.png';
 import CloseButton from '../assets/images/closeIcon.png';
+import {useRecoilValue} from 'recoil';
+import {DestinationState} from 'state/RouteAtoms';
 
 const SearchResultPage = () => {
   const navigation = useNavigation();
-  const route = useRoute();
-  const {latitude, longitude, name, address} = route.params;
+  const destination = useRecoilValue(DestinationState); // Recoil에서 목적지 정보 가져오기
 
   const {width, height} = Dimensions.get('window');
   const ASPECT_RATIO = width / height;
@@ -34,10 +35,9 @@ const SearchResultPage = () => {
             width={'32px'}
             height={'32px'}
           />
-          {/* <Icon as={MaterialIcons} name="arrow-back" size={6} /> */}
         </TouchableOpacity>
         <Text fontSize="18" bold isTruncated maxWidth="80%">
-          {name}
+          {destination.name}
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Main')}>
           <Image
@@ -53,12 +53,18 @@ const SearchResultPage = () => {
       <MapView
         style={{flex: 1}}
         initialRegion={{
-          latitude: latitude,
-          longitude: longitude,
+          latitude: destination.latitude,
+          longitude: destination.longitude,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}>
-        <Marker coordinate={{latitude, longitude}} title={name} />
+        <Marker
+          coordinate={{
+            latitude: destination.latitude,
+            longitude: destination.longitude,
+          }}
+          title={destination.name}
+        />
       </MapView>
 
       {/* 하단 정보 */}
@@ -70,10 +76,10 @@ const SearchResultPage = () => {
         bottom={0}
         width="100%">
         <Text fontSize="20" bold isTruncated>
-          {name}
+          {destination.name}
         </Text>
         <Text fontSize={'16'} color="gray.500" isTruncated>
-          {address}
+          {destination.address}
         </Text>
 
         <HStack space={4} mt={8}>
@@ -93,7 +99,7 @@ const SearchResultPage = () => {
             borderRadius={'xl'}
             h={'56px'}
             onPress={() => {
-              /* 도착지로 선택 로직 추가 */
+              navigation.navigate('Route'); // RoutePage로 이동
             }}>
             도착지로 선택하기
           </Button>
