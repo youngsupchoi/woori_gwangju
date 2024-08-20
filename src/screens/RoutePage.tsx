@@ -102,20 +102,18 @@ const RoutePage = () => {
     <VStack flex={1} bg="white">
       <RouteHeader />
       <RouteInfoComponent />
-      <ScrollView flex={1}>
-        {selectedMethodState === '휠체어' ? (
-          <>
-            <MethodFilterComponent />
-            <WalkRouteComponent />
-          </>
-        ) : (
+
+      {selectedMethodState === '휠체어' ? (
+        <></>
+      ) : (
+        <ScrollView flex={1}>
           <>
             <MethodFilterComponent />
             {/* 경로 리스트 렌더링 */}
             <RouteListComponent />
           </>
-        )}
-      </ScrollView>
+        </ScrollView>
+      )}
     </VStack>
   );
 };
