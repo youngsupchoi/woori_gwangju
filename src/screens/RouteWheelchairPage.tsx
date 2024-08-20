@@ -9,9 +9,8 @@ import {
   IconButton,
 } from 'native-base';
 import {Animated} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // 아이콘 사용
 import targetIcon from '../assets/images/target2.png';
-import navigation from '../assets/images/navigation.png';
+import navigation from '../assets/images/navigationBlue.png';
 import mediumVolume from '../assets/images/medium-volume.png';
 import mute from '../assets/images/mute.png';
 import route from '../assets/images/route.png';
