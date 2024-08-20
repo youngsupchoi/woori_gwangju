@@ -11,7 +11,6 @@ import SearchResultPage from '../screens/SearchResultPage';
 import SearchDetailTransportPage from '../screens/SearchDetailTransportPage';
 import SearchDetailModificationPage from '../screens/SearchDetailModificationPage';
 import RouteTransportPage from '../screens/RouteTransportPage';
-import RouteWheelchairPage from '../screens/RouteWheelchairPage';
 import useCurrentLocation from 'hooks/currentLocation/useCurrentLocation';
 import VoiceSearchPage from 'screens/VoiceSearchPage';
 import RoutePage from 'screens/RoutePage';
@@ -50,7 +49,6 @@ const AppNavigator = () => {
         />
         <Stack.Screen name="Route" component={RoutePage} />
         <Stack.Screen name="RouteTransport" component={RouteTransportPage} />
-        <Stack.Screen name="RouteWheelchair" component={RouteWheelchairPage} />
         <Stack.Screen
           name="ActiveWalkingRoutePage"
           component={ActiveWalkingRoutePage}

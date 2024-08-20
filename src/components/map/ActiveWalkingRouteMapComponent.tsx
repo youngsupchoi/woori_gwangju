@@ -1,10 +1,13 @@
 import React from 'react';
 import {View} from 'react-native';
-import MapView, {Marker, Polyline} from 'react-native-maps';
+import MapView, {Marker, Polyline, Region} from 'react-native-maps';
 import {useRecoilValue} from 'recoil';
 import {walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 
-const ActiveWalkingRouteMapComponente: React.FC = () => {
+const ActiveWalkingRouteMapComponente: React.FC<{
+  mapRef: React.RefObject<MapView>;
+  onRegionChangeComplete: (region: Region) => void;
+}> = ({mapRef, onRegionChangeComplete}) => {
   const walkingRoute = useRecoilValue(walkingRouteAtom);
 
   const initialRegion = {
@@ -29,7 +32,7 @@ const ActiveWalkingRouteMapComponente: React.FC = () => {
           <Polyline
             key={`polyline-${index}`}
             coordinates={polylineCoordinates}
-            strokeColor="#0000FF" // 파란색 선
+            strokeColor="#007AFF" // 파란색 선
             strokeWidth={6} // 선 두께
           />
         );
@@ -66,8 +69,10 @@ const ActiveWalkingRouteMapComponente: React.FC = () => {
   return (
     <View style={{flex: 1}}>
       <MapView
+        ref={mapRef}
         style={{flex: 1}}
         initialRegion={initialRegion}
+        onRegionChangeComplete={onRegionChangeComplete}
         minZoomLevel={10}
         maxZoomLevel={20}
         zoomEnabled={true}

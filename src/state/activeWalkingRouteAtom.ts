@@ -11,6 +11,11 @@ export const VoiceGuideAtom = atom({
   default: true,
 });
 
+export const mapZoomLevelAtom = atom<number>({
+  key: 'mapZoomLevelAtom',
+  default: 10, // 초기 줌 레벨 값 (필요에 따라 설정)
+});
+
 export const walkingRouteAtom = atom({
   key: 'walkingRouteAtom',
   default: {

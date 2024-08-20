@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {VStack, ScrollView, View} from 'native-base';
+import {VStack, ScrollView, View, Box} from 'native-base';
 import {useRecoilState} from 'recoil';
 import {RouteHeader} from 'components/routepage/RouteHeader';
 import RouteInfoComponent from 'components/routepage/RouteInfoComponent';
@@ -16,6 +16,9 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import WalkRouteComponent from 'components/routepage/WalkRouteComponent';
 import useFetchArrivalData from 'hooks/arrivalData/useArrivalData';
+import WalkingRouteBottmeSheetComponent from 'components/routepage/WalkingRouteBottomSheetComponent';
+import ActiveWalkingRouteMapComponente from 'components/map/ActiveWalkingRouteMapComponent';
+import {useSearchWalkingRoute} from 'hooks/searchRoute/useSearchWalknigRoute';
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -25,6 +28,23 @@ const RoutePage = () => {
   const [destinationState] = useRecoilState(DestinationState);
   const [selectedMethodState] = useRecoilState(SelectedMethodState);
   const [routeList, setRouteList] = useRecoilState(RouteListState);
+
+  const {
+    routeData: walkingRouteData,
+    loading: searchWalkingRouteLoading,
+    error: walkingRouteError,
+  } = useSearchWalkingRoute({
+    startX: startPointState.longitude,
+    startY: startPointState.latitude,
+    endX: destinationState.longitude,
+    endY: destinationState.latitude,
+    startName: '출발',
+    endName: '도착',
+    // 사람이 걷는 속도, 단위는 Km/h
+    speed: 5,
+  });
+  console.log('🚀 ~ RoutePage ~ walkingRouteError:', walkingRouteError);
+  console.log('🚀 ~ RoutePage ~ walkingRouteData:', walkingRouteData);
 
   const fetchAddressFromCoordinates = async (latitude, longitude) => {
     try {
@@ -45,6 +65,7 @@ const RoutePage = () => {
     }
   };
 
+  // 대중 교통 경로 가져오기
   const fetchRoutes = async () => {
     try {
       const response = await axios.post(
@@ -104,7 +125,12 @@ const RoutePage = () => {
       <RouteInfoComponent />
 
       {selectedMethodState === '휠체어' ? (
-        <></>
+        <>
+          <ActiveWalkingRouteMapComponente />
+          <Box position="absolute" bottom={0} left={0} right={0}>
+            <WalkingRouteBottmeSheetComponent />
+          </Box>
+        </>
       ) : (
         <ScrollView flex={1}>
           <>
