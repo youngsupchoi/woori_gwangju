@@ -1,24 +1,84 @@
 import React from 'react';
-import MapView, {Marker} from 'react-native-maps';
-import {Box} from 'native-base';
+import {View} from 'react-native';
+import MapView, {Marker, Polyline} from 'react-native-maps';
+import {useRecoilValue} from 'recoil';
+import {walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 
-export default function ActiveWalkingRouteMapComponente() {
+const ActiveWalkingRouteMapComponente: React.FC = () => {
+  const walkingRoute = useRecoilValue(walkingRouteAtom);
+
+  const initialRegion = {
+    latitude: 37.556774278906374,
+    longitude: 126.92364851900282,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  };
+
+  const renderPolylines = () => {
+    return walkingRoute.features
+      .filter(feature => feature.geometry.type === 'LineString')
+      .map((feature, index) => {
+        const coordinates = feature.geometry.coordinates as [number, number][];
+
+        const polylineCoordinates = coordinates.map(coord => ({
+          latitude: coord[1],
+          longitude: coord[0],
+        }));
+
+        return (
+          <Polyline
+            key={`polyline-${index}`}
+            coordinates={polylineCoordinates}
+            strokeColor="#0000FF" // 파란색 선
+            strokeWidth={6} // 선 두께
+          />
+        );
+      });
+  };
+
+  const renderMarkers = () => {
+    return walkingRoute.features
+      .filter(feature => feature.geometry.type === 'Point')
+      .map((feature, index) => {
+        const coordinates = feature.geometry.coordinates as [number, number];
+        const {pointType, description} = feature.properties;
+
+        return (
+          <Marker
+            key={`marker-${index}`}
+            coordinate={{
+              latitude: coordinates[1],
+              longitude: coordinates[0],
+            }}
+            title={description}
+            pinColor={
+              pointType === 'SP'
+                ? 'green' // 시작 지점
+                : pointType === 'EP'
+                ? 'red' // 도착 지점
+                : 'blue' // 중간 지점
+            }
+          />
+        );
+      });
+  };
+
   return (
-    <Box flex={1}>
+    <View style={{flex: 1}}>
       <MapView
         style={{flex: 1}}
-        initialRegion={{
-          latitude: 37.5665, // 초기 맵 중심 위치 (예시: 서울의 위도/경도)
-          longitude: 126.978,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }}>
-        <Marker
-          coordinate={{latitude: 37.5665, longitude: 126.978}} // 예시 마커
-          title="출발"
-          description="여기서 시작합니다."
-        />
+        initialRegion={initialRegion}
+        minZoomLevel={10}
+        maxZoomLevel={20}
+        zoomEnabled={true}
+        scrollEnabled={true}
+        pitchEnabled={true}
+        rotateEnabled={true}>
+        {renderPolylines()}
+        {renderMarkers()}
       </MapView>
-    </Box>
+    </View>
   );
-}
+};
+
+export default ActiveWalkingRouteMapComponente;
