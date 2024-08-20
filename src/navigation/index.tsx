@@ -15,6 +15,7 @@ import RouteWheelchairPage from '../screens/RouteWheelchairPage';
 import useCurrentLocation from 'hooks/currentLocation/useCurrentLocation';
 import VoiceSearchPage from 'screens/VoiceSearchPage';
 import RoutePage from 'screens/RoutePage';
+import ActiveWalkingRoutePage from 'screens/ActiveWalkingRoutePage';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +25,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Route"
+        initialRouteName="ActiveWalkingRoutePage"
         screenOptions={{
           headerShown: false,
           cardStyleInterpolator: ({current}: StackCardInterpolationProps) => ({
@@ -50,6 +51,10 @@ const AppNavigator = () => {
         <Stack.Screen name="Route" component={RoutePage} />
         <Stack.Screen name="RouteTransport" component={RouteTransportPage} />
         <Stack.Screen name="RouteWheelchair" component={RouteWheelchairPage} />
+        <Stack.Screen
+          name="ActiveWalkingRoutePage"
+          component={ActiveWalkingRoutePage}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

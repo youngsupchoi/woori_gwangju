@@ -14,6 +14,7 @@ import {
 import {locationState} from 'state/locationState';
 import axios from 'axios';
 import Config from 'react-native-config';
+import WalkRouteComponent from 'components/routepage/WalkRouteComponent';
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -110,6 +111,7 @@ const RoutePage = () => {
         {selectedMethodState === '휠체어' ? (
           <>
             <MethodFilterComponent />
+            <WalkRouteComponent />
           </>
         ) : (
           <>
