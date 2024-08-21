@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {VStack, Text, HStack, View, Image} from 'native-base';
 import {useRecoilState} from 'recoil';
-import {RouteListState, selectedRouteState} from 'state/RouteAtoms';
+import {
+  RouteListState,
+  selectedRouteState,
+  SelectedTransportMethodState,
+} from 'state/RouteAtoms';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native';
 import BusIcon from 'assets/images/whiteBusIcon.png';
@@ -72,8 +76,38 @@ const formatTime = (totalSeconds: number) => {
   return `${minutes}분`;
 };
 
+const CountdownTimer = ({initialSeconds}) => {
+  const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSecondsLeft(prev => Math.max(prev - 1, 0));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (secondsLeft <= 0) {
+    return (
+      <Text fontSize="16px" color="red.500">
+        곧 도착
+      </Text>
+    );
+  }
+
+  const minutes = Math.floor(secondsLeft / 60);
+  const seconds = secondsLeft % 60;
+
+  return (
+    <Text fontSize="16px" color="red.500">
+      {minutes > 0 ? `${minutes}분 ${seconds}초` : `${seconds}초`}
+    </Text>
+  );
+};
+
 const RouteListComponent = () => {
   const [routeList] = useRecoilState(RouteListState);
+  const [selectedMethod] = useRecoilState(SelectedTransportMethodState); // 선택된 대중교통 수단
   const navigation = useNavigation();
   const [, setSelectedRouteState] = useRecoilState(selectedRouteState);
 
@@ -81,8 +115,42 @@ const RouteListComponent = () => {
     setSelectedRouteState(route);
     navigation.navigate('RouteTransport');
   };
+  // 필터링 로직: 선택된 대중교통 수단에 따라 routeList 자체를 필터링
+  const filterRoutesBySelectedMethod = () => {
+    if (selectedMethod === '전체')
+      return routeList.filter(route => {
+        const hasWalk = route.legs.some(leg => leg.mode === 'WALK');
+        const notHasTrain = route.legs.some(leg => leg.mode !== 'TRAIN');
+        return hasWalk && notHasTrain;
+      });
+
+    if (selectedMethod === '버스') {
+      return routeList.filter(route =>
+        route.legs.every(leg => leg.mode === 'WALK' || leg.mode === 'BUS'),
+      );
+    }
+
+    if (selectedMethod === '지하철') {
+      return routeList.filter(route =>
+        route.legs.every(leg => leg.mode === 'WALK' || leg.mode === 'SUBWAY'),
+      );
+    }
+
+    if (selectedMethod === '버스+지하철') {
+      return routeList.filter(route => {
+        const hasBus = route.legs.some(leg => leg.mode === 'BUS');
+        const hasSubway = route.legs.some(leg => leg.mode === 'SUBWAY');
+        const hasWalk = route.legs.some(leg => leg.mode === 'WALK');
+        return hasBus && hasSubway && hasWalk;
+      });
+    }
+
+    return routeList;
+  };
 
   const renderBusTag = route => {
+    if (!route) return null; // route가 undefined 또는 null인 경우 처리
+
     const tagLabel = route.includes(':') ? route.split(':')[0] : null;
     if (tagLabel) {
       let bgColor = '#FFA500'; // 기본 배경색: 노란색 (간선)
@@ -98,8 +166,11 @@ const RouteListComponent = () => {
 
   return (
     <>
-      {routeList.map((item, index) => (
-        <TouchableOpacity key={index} onPress={() => handleRoutePress(item)}>
+      {filterRoutesBySelectedMethod().map((item, index) => (
+        <TouchableOpacity
+          key={index}
+          onPress={() => handleRoutePress(item)}
+          activeOpacity={0.8}>
           <VStack pt={'16px'}>
             <Text fontSize="24px" fontWeight="bold" px={4}>
               {formatTime(item.totalTime)}
@@ -154,9 +225,9 @@ const RouteListComponent = () => {
                             ? leg.route?.split(':')[1]
                             : leg.route}
                         </Text>
-                        <Text fontSize="16px" color="red.500">
-                          {Math.ceil(leg.arrtime / 60)}분
-                        </Text>
+                        {leg.arrtime && (
+                          <CountdownTimer initialSeconds={leg.arrtime} />
+                        )}
                       </HStack>
                     </VStack>
                   </VStack>

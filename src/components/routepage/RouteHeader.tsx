@@ -53,7 +53,10 @@ export const RouteHeader = () => {
           />
         ))}
       </HStack>
-      <Button variant="ghost" onPress={() => navigation.navigate('Main')}>
+      <Button
+        variant="ghost"
+        onPress={() => navigation.navigate('Main')}
+        _pressed={{backgroundColor: 'transparent'}}>
         <Image source={CloseIcon} alt="close" width={'24px'} height={'24px'} />
       </Button>
     </HStack>

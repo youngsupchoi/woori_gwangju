@@ -15,7 +15,7 @@ import {locationState} from 'state/locationState';
 import axios from 'axios';
 import Config from 'react-native-config';
 import WalkRouteComponent from 'components/routepage/WalkRouteComponent';
-import useFetchBusArrivalData from 'hooks/busArrival/useFetchBusArrivalData';
+import useFetchArrivalData from 'hooks/arrivalData/useArrivalData';
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -96,7 +96,7 @@ const RoutePage = () => {
     }
   }, [currentLocation, setStartPointState]);
 
-  useFetchBusArrivalData();
+  useFetchArrivalData();
 
   return (
     <VStack flex={1} bg="white">
