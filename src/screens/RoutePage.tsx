@@ -16,6 +16,7 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import WalkRouteComponent from 'components/routepage/WalkRouteComponent';
 import useFetchBusArrivalData from 'hooks/busArrival/useFetchBusArrivalData';
+import useFetchSubwayArrivalData from 'hooks/subwayArrival/useFetchSubwayArrivalData';
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -97,6 +98,7 @@ const RoutePage = () => {
   }, [currentLocation, setStartPointState]);
 
   useFetchBusArrivalData();
+  useFetchSubwayArrivalData();
 
   return (
     <VStack flex={1} bg="white">
