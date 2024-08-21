@@ -18,15 +18,10 @@ export const useCurrentLocationMapController = () => {
         const longitudeDelta = 1 / zoomFactor;
 
         if (mapRef.current) {
-          mapRef.current.animateToRegion(
-            {
-              latitude,
-              longitude,
-              latitudeDelta,
-              longitudeDelta,
-            },
-            10, // 애니메이션 지속 시간 (밀리초)
-          );
+          mapRef.current.animateCamera({
+            center: {latitude, longitude},
+            zoom: zoomLevel, // 줌 레벨
+          });
         }
       },
       error => {
