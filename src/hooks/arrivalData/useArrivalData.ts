@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {useRecoilState} from 'recoil';
 import {RouteListState} from 'state/RouteAtoms';
+import axios from 'axios';
 import subwayStations from '../../subwayDatabase/subwayStation.json';
 import subwaySchedule from '../../subwayDatabase/subwaySchedule.json';
 import dayjs from 'dayjs';
@@ -13,6 +14,75 @@ dayjs.extend(timezone);
 
 // 한국 표준 시간대 설정
 const KST = 'Asia/Seoul';
+
+const TAGO_API_KEY =
+  'XF6TR4JT8oOCoXwVPiqzRFQ5lWsUmoqTp88Kln0ndIS6dJJtrDMQb8ZI2aE4tZKumyT+2wGF1bWesMrsguh9kg=='.replace(
+    /\+/g,
+    '%2B',
+  );
+
+// 버스 정류소 Node ID를 가져오는 함수
+const fetchBusStopNodeId = async nodeNm => {
+  const serviceKey = TAGO_API_KEY;
+  const cityCode = '24';
+  const nodeNmString = encodeURIComponent(String(nodeNm));
+
+  try {
+    const response = await axios.get(
+      `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnNoList?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&_type=json&cityCode=${cityCode}&nodeNm=${nodeNmString}`,
+    );
+
+    const data = response.data;
+
+    if (!data.response.body.items.item) {
+      throw new Error('No bus stop found with the given name');
+    }
+
+    return Array.isArray(data.response.body.items.item)
+      ? data.response.body.items.item
+      : [data.response.body.items.item];
+  } catch (error) {
+    console.error('Error fetching bus stop node ID:', error);
+    return [];
+  }
+};
+
+// 정류소별 버스 노선을 가져오는 함수
+const fetchBusRoutesAtStop = async nodeId => {
+  const serviceKey = TAGO_API_KEY;
+  const cityCode = 24;
+  try {
+    const response = await axios.get(
+      `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&_type=json&cityCode=${cityCode}&nodeid=${nodeId}`,
+    );
+    const data = response.data;
+
+    return Array.isArray(data.response.body.items.item)
+      ? data.response.body.items.item
+      : [data.response.body.items.item];
+  } catch (error) {
+    console.error('Error fetching bus routes at stop:', error);
+    return [];
+  }
+};
+
+// 버스 도착 정보를 가져오는 함수
+const fetchBusArrivalInfo = async (nodeId, routeId) => {
+  const serviceKey = TAGO_API_KEY;
+  const cityCode = 24;
+  try {
+    const response = await axios.get(
+      `http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&_type=json&cityCode=${cityCode}&nodeId=${nodeId}&routeId=${routeId}`,
+    );
+    const data = response.data;
+    const arrivalInfo = data.response.body.items.item;
+
+    return Array.isArray(arrivalInfo) ? arrivalInfo : [arrivalInfo];
+  } catch (error) {
+    console.error('Error fetching bus arrival info:', error);
+    return [];
+  }
+};
 
 // 현재 요일을 반환하는 함수
 const getCurrentDayType = (): string => {
@@ -77,6 +147,7 @@ const calculateRemainingTimeInSeconds = (nearestSubwayTime: string): number => {
   return subwayArrivalTime.diff(currentTime, 'second');
 };
 
+// 상하행 구분 함수
 const removeWhitespace = (text: string): string => text.replace(/\s+/g, '');
 
 const getSubwayDirection = (
@@ -101,15 +172,16 @@ const getSubwayDirection = (
   return startIndex < endIndex ? 1 : 2; // 1: 상행 (녹동 -> 평동), 2: 하행 (평동 -> 녹동)
 };
 
-const useFetchSubwayArrivalData = () => {
+const useFetchArrivalData = () => {
   const [routeList, setRouteList] = useRecoilState(RouteListState);
 
   useEffect(() => {
-    const fetchAndUpdateSubwayData = async () => {
+    const fetchAndUpdateArrivalData = async () => {
       const updatedRouteList = await Promise.all(
         routeList.map(async route => {
-          const updatedLegs = await Promise.all(
+          const tempLegs = await Promise.all(
             route.legs.map(async leg => {
+              // SUBWAY 모드일 때 처리
               if (leg.mode === 'SUBWAY') {
                 const startStation =
                   leg.passStopList?.stationList[0].stationName;
@@ -157,22 +229,66 @@ const useFetchSubwayArrivalData = () => {
                   }
                 }
               }
+
+              // BUS 모드일 때 처리
+              if (leg.mode === 'BUS') {
+                const busStops = await fetchBusStopNodeId(leg.start.name);
+
+                if (busStops.length > 0) {
+                  for (const stop of busStops) {
+                    const nodeId = stop.nodeid;
+
+                    const busRoutes = await fetchBusRoutesAtStop(nodeId);
+
+                    const legRouteNumber = leg.route?.match(/\d+/)?.[0]; // 경로에서 숫자만 추출
+
+                    const matchedRoutes = busRoutes.filter(route => {
+                      const routeno = route.routeno;
+                      const routeNumberInRouteNo = routeno.match(/\d+/)?.[0]; // routeno에서 숫자만 추출
+
+                      return routeNumberInRouteNo === legRouteNumber;
+                    });
+
+                    for (const matchedRoute of matchedRoutes) {
+                      const arrivalDataArray = await fetchBusArrivalInfo(
+                        nodeId,
+                        matchedRoute.routeid,
+                      );
+
+                      for (const arrivalData of arrivalDataArray) {
+                        if (arrivalData) {
+                          return {
+                            ...leg,
+                            arrprevstationcnt: arrivalData.arrprevstationcnt,
+                            arrtime: arrivalData.arrtime,
+                            vehicletp: arrivalData.vehicletp,
+                          };
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              // SUBWAY나 BUS 모드가 아닌 경우, 기존 leg 그대로 반환
               return leg;
             }),
           );
 
+          // 각 route의 legs를 업데이트한 결과 반환
           return {
             ...route,
-            legs: updatedLegs,
+            legs: tempLegs,
           };
         }),
       );
 
+      // 업데이트된 routeList를 Recoil 상태로 반영
       setRouteList(updatedRouteList);
     };
 
-    fetchAndUpdateSubwayData();
+    fetchAndUpdateArrivalData();
   }, []);
 };
 
-export default useFetchSubwayArrivalData;
+export default useFetchArrivalData;

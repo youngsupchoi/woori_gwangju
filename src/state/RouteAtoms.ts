@@ -30,9 +30,19 @@ export const StartPointState = atom<{
   },
 });
 
+export const VoiceNavigationState = atom({
+  key: 'voiceNavigationState',
+  default: false,
+});
+
 export const SelectedMethodState = atom({
   key: 'selectedMethodState',
   default: '대중교통',
+});
+
+export const SelectedTransportMethodState = atom({
+  key: 'selectedTransportMethodState',
+  default: '전체',
 });
 
 export const selectedRouteState = atom({

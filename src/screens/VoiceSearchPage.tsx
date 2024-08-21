@@ -179,6 +179,7 @@ const VoiceSearchPage = () => {
           bg="#ffffff"
           justifyContent="center"
           alignItems="center"
+          _pressed={{backgroundColor: 'transparent'}}
           mt={8}>
           <Image
             source={closeIcon}

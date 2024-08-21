@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   VStack,
   HStack,
@@ -11,8 +11,8 @@ import {
   Collapse,
 } from 'native-base';
 import MapView, {Circle, Marker, Polyline} from 'react-native-maps';
-import {useRecoilValue} from 'recoil';
-import {selectedRouteState} from 'state/RouteAtoms';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {selectedRouteState, VoiceNavigationState} from 'state/RouteAtoms';
 import {Dimensions, PanResponder} from 'react-native';
 import Animated, {
   useSharedValue,
@@ -128,13 +128,19 @@ const HeaderComponent = ({onBackPress, title}) => (
     bg="white"
     borderBottomWidth={1}
     borderBottomColor="gray.200">
-    <Button variant="ghost" onPress={onBackPress}>
+    <Button
+      variant="ghost"
+      onPress={onBackPress}
+      _pressed={{backgroundColor: 'transparent'}}>
       <Image source={LeftChevron} alt="back" width={'24px'} height={'24px'} />
     </Button>
     <Text fontSize="18" bold isTruncated maxWidth="80%">
       {title}
     </Text>
-    <Button variant="ghost" onPress={() => console.log('Close pressed')}>
+    <Button
+      variant="ghost"
+      onPress={() => console.log('Close pressed')}
+      _pressed={{backgroundColor: 'transparent'}}>
       <Image source={CloseIcon} alt="close" width={'24px'} height={'24px'} />
     </Button>
   </HStack>
@@ -172,10 +178,15 @@ const RouteInfoComponent = ({route}) => {
           </Text>
         </View>
       </HStack>
-      <Text color="#60646C" fontSize="16px" fontWeight={'medium'}>
-        {departureTime} - {arrivalTime} |{' '}
-        {route.fare.regular.totalFare.toLocaleString()}원
-      </Text>
+      <HStack space={2}>
+        <Text color="#60646C" fontSize="16px" fontWeight={'medium'}>
+          {departureTime} - {arrivalTime}
+        </Text>
+        <View h={'100%'} bg={'#E8E8EC'} w={'0.5px'} />
+        <Text color="#60646C" fontSize="16px" fontWeight={'medium'}>
+          {route.fare.regular.totalFare.toLocaleString()}원
+        </Text>
+      </HStack>
       {/* 구간 정보를 순회하며 렌더링 */}
       <HStack
         alignItems="center"
@@ -186,7 +197,7 @@ const RouteInfoComponent = ({route}) => {
         justifyContent={'space-between'} // space-between으로 조정
       >
         {route.legs.map((leg, index) => {
-          const legColor = `#${leg.routeColor || '000'}`; // 경로 색상, 없으면 기본 검정색
+          const legColor = `#${leg.routeColor || '888'}`; // 경로 색상, 없으면 기본 검정색
           const legTime = Math.ceil(leg.sectionTime / 60); // 구간 시간 (분 단위)
 
           return (
@@ -194,7 +205,7 @@ const RouteInfoComponent = ({route}) => {
               key={index}
               flex={legTime}
               minW={'30px'}
-              mx={'-5px'}
+              mx={'-1px'}
               alignItems="center">
               {/* flex={1}로 모든 요소가 동일한 비율로 확장되도록 */}
               {leg.mode === 'WALK' && (
@@ -202,7 +213,7 @@ const RouteInfoComponent = ({route}) => {
                   {/* flex 및 space 적용 */}
                   <View
                     p={'4px'}
-                    bg={'#000000'} // 도보 아이콘 색상 (예시)
+                    bg={'#888'} // 도보 아이콘 색상 (예시)
                     borderRadius={'full'}
                     alignItems={'center'}
                     justifyContent="center"
@@ -258,7 +269,7 @@ const RouteInfoComponent = ({route}) => {
                   </Text>
                 </HStack>
               )}
-              {leg.mode === 'SUBWAY' && (
+              {(leg.mode === 'SUBWAY' || leg.mode === 'TRAIN') && (
                 <HStack alignItems="center">
                   {/* flex 및 space 적용 */}
                   <View
@@ -294,6 +305,68 @@ const RouteInfoComponent = ({route}) => {
     </VStack>
   );
 };
+const CountdownTimer = ({initialSeconds}) => {
+  const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSecondsLeft(prev => Math.max(prev - 1, 0));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (secondsLeft <= 0) {
+    return (
+      <Text fontSize="16px" color="red.500">
+        곧 도착
+      </Text>
+    );
+  }
+
+  const minutes = Math.floor(secondsLeft / 60);
+  const seconds = secondsLeft % 60;
+
+  return (
+    <Text fontSize="16px" color="red.500">
+      {minutes > 0 ? `${minutes}분 ${seconds}초` : `${seconds}초`}
+    </Text>
+  );
+};
+
+type DetailTagProps = {
+  label: string;
+  bgColor?: string;
+  textColor?: string;
+};
+
+const DetailTag = ({
+  label,
+  bgColor = '#D9D9E0',
+  textColor = '#80838D',
+}: DetailTagProps) => (
+  <View bg={bgColor} borderRadius={'4px'} py={'2px'} px={'4px'}>
+    <Text fontSize="12" fontWeight="bold" color={textColor}>
+      {label}
+    </Text>
+  </View>
+);
+
+const renderBusTag = route => {
+  if (!route) return null; // route가 undefined 또는 null인 경우 처리
+
+  const tagLabel = route.includes(':') ? route.split(':')[0] : null;
+  if (tagLabel) {
+    let bgColor = '#FFA500'; // 기본 배경색: 노란색 (간선)
+    if (tagLabel === '지선') bgColor = '#00C853'; // 지선: 초록색
+    else if (tagLabel === '직행좌석') bgColor = '#CDCED6';
+    else if (tagLabel === '저상') bgColor = '#419E1A';
+    else if (tagLabel === '일반') bgColor = '#F44336'; // 일반: 빨간색
+
+    return <DetailTag label={tagLabel} bgColor={bgColor} textColor="white" />;
+  }
+  return null;
+};
 
 const RouteDetailsComponent = ({route}) => {
   // 각 구간의 Collapse 상태를 관리하는 상태값
@@ -313,21 +386,41 @@ const RouteDetailsComponent = ({route}) => {
   return (
     <VStack
       space={4}
-      p={4}
+      p={'16px'}
       height={height / 2}
       mb={'240px'}
       borderTopColor={'#E0E1E6'}
       borderTopWidth={1}>
       {route.legs.map((leg, index) => {
-        const legColor = `#${leg.routeColor || '000'}`; // 경로 색상, 없으면 기본 검정색
+        const legColor = `#${leg.routeColor || '888'}`; // 경로 색상, 없으면 기본 검정색
         const stationCount = leg.passStopList?.stationList.length - 1; // 정거장 또는 역의 수
 
         return (
-          <VStack key={index} space={2}>
-            <HStack alignItems="center" space={2}>
+          <VStack key={index} space={2} position={'relative'}>
+            {/* 왼쪽에 있는 막대 */}
+            <View
+              alignItems="center"
+              position={'absolute'}
+              flex={1}
+              width={'2px'}
+              height={'100%'}
+              bg={index !== leg.length - 2 ? legColor : 'transparent'}
+              top={'60px'}
+              bottom={0}
+              left={'30px'}
+            />
+            <HStack
+              alignItems="center"
+              space={2}
+              px={0}
+              justifyContent={'flex-start'}>
               {/* 경로 아이콘 */}
               {index === 0 && (
-                <View w={'64px'} alignItems={'center'}>
+                <View
+                  w={'64px'}
+                  alignItems={'center'}
+                  borderColor={'white'}
+                  borderWidth={8}>
                   <Image
                     source={routeStartIcon}
                     alt="start"
@@ -337,24 +430,46 @@ const RouteDetailsComponent = ({route}) => {
                 </View>
               )}
               {leg.mode === 'BUS' && (
-                <View w={'64px'} alignItems={'center'}>
-                  <Image source={whiteBusIcon} alt="bus" size="12px" />
+                <View
+                  w={'64px'}
+                  alignItems={'center'}
+                  borderColor={'white'}
+                  borderWidth={8}>
+                  <View
+                    w={'24px'}
+                    h={'24px'}
+                    justifyContent={'center'}
+                    borderRadius={'full'}
+                    alignItems={'center'}
+                    bg={legColor}>
+                    <Image source={whiteBusIcon} alt="bus" size="12px" />
+                  </View>
                 </View>
               )}
               {leg.mode === 'SUBWAY' && (
                 <View
-                  w={'24px'}
-                  h={'24px'}
-                  justifyContent={'center'}
-                  borderRadius={'full'}
-                  mx={'20px'}
+                  w={'64px'}
                   alignItems={'center'}
-                  bg={legColor}>
-                  <Image source={whiteBusIcon} alt="subway" size="12px" />
+                  borderColor={'white'}
+                  borderWidth={8}>
+                  <View
+                    w={'24px'}
+                    h={'24px'}
+                    justifyContent={'center'}
+                    borderRadius={'full'}
+                    mx={'20px'}
+                    alignItems={'center'}
+                    bg={legColor}>
+                    <Image source={whiteBusIcon} alt="subway" size="12px" />
+                  </View>
                 </View>
               )}
               {index === route.legs.length - 1 && (
-                <View w={'64px'} alignItems={'center'}>
+                <View
+                  w={'64px'}
+                  alignItems={'center'}
+                  borderColor={'white'}
+                  borderWidth={8}>
                   <Image
                     source={routeEndIcon}
                     alt="end"
@@ -368,14 +483,24 @@ const RouteDetailsComponent = ({route}) => {
                 leg.mode !== 'BUS' &&
                 leg.mode !== 'SUBWAY' && (
                   <View
-                    w={'24px'}
-                    h={'24px'}
-                    justifyContent={'center'}
-                    borderRadius={'full'}
-                    mx={'20px'}
+                    w={'64px'}
                     alignItems={'center'}
-                    bg={legColor}>
-                    <Image source={wheelchairIcon} alt="transfer" size="12px" />
+                    borderColor={'white'}
+                    borderWidth={8}>
+                    <View
+                      w={'24px'}
+                      h={'24px'}
+                      justifyContent={'center'}
+                      borderRadius={'full'}
+                      mx={'20px'}
+                      alignItems={'center'}
+                      bg={legColor}>
+                      <Image
+                        source={wheelchairIcon}
+                        alt="transfer"
+                        size="12px"
+                      />
+                    </View>
                   </View>
                 )}
 
@@ -384,7 +509,7 @@ const RouteDetailsComponent = ({route}) => {
                 <Text fontWeight="bold" color="black" fontSize={'16px'}>
                   {leg.start.name} {getLegStatus(index, leg.mode)}
                 </Text>
-                <HStack alignItems={'center'}>
+                <HStack alignItems={'center'} space={1}>
                   {leg.mode === 'WALK' && (
                     <Text
                       fontSize="14px"
@@ -393,27 +518,43 @@ const RouteDetailsComponent = ({route}) => {
                       휠체어 {leg.distance}m
                     </Text>
                   )}
+                  {renderBusTag(leg.route)}
+                  {leg.mode === 'BUS' && (
+                    <Text fontSize="16px" color="black" fontWeight={'semibold'}>
+                      {leg.route.includes(':')
+                        ? leg.route.split(':')[1]
+                        : leg.route}
+                    </Text>
+                  )}
+                  {leg.mode === 'SUBWAY' && (
+                    <Text fontSize="16px" color="black" fontWeight={'semibold'}>
+                      {leg.route}
+                    </Text>
+                  )}
+                  {leg.arrtime && (
+                    <CountdownTimer initialSeconds={leg.arrtime} />
+                  )}
+                </HStack>
+                <HStack alignItems={'center'}>
                   {leg.mode === 'BUS' && (
                     <Text
                       fontSize="14px"
                       color="gray.500"
+                      mr={2}
                       fontWeight={'medium'}>
-                      {leg.route} {stationCount}개 정류장 이동
+                      {stationCount}개 정류장 이동
                     </Text>
                   )}
                   {leg.mode === 'SUBWAY' && (
                     <Text
                       fontSize="14px"
                       color="gray.500"
+                      mr={2}
                       fontWeight={'medium'}>
-                      {leg.route} {stationCount}개 역 이동
+                      {stationCount}개 역 이동
                     </Text>
                   )}
-                  <Text
-                    fontSize="16px"
-                    color="black"
-                    fontWeight={'bold'}
-                    ml={2}>
+                  <Text fontSize="16px" color="black" fontWeight={'bold'}>
                     {Math.ceil(leg.sectionTime / 60)}분
                   </Text>
 
@@ -438,13 +579,13 @@ const RouteDetailsComponent = ({route}) => {
                         )
                       }
                       size={'24px'}
+                      _pressed={{opacity: 0.5}}
                       onPress={() => toggleCollapse(index)}
                     />
                   )}
                 </HStack>
               </VStack>
             </HStack>
-
             {/* Collapse 영역: 정거장 정보 표시 */}
             {leg.mode !== 'WALK' && (
               <Collapse isOpen={expandedLegIndex === index}>
@@ -457,6 +598,7 @@ const RouteDetailsComponent = ({route}) => {
                     bottom={0}
                     bg={legColor}
                     opacity={0.1}
+                    borderRadius={'12px'}
                   />
                   {leg.passStopList.stationList.map((station, i) => (
                     <HStack
@@ -482,63 +624,73 @@ const RouteDetailsComponent = ({route}) => {
   );
 };
 
-const ActionButtonsComponent = ({onDetailsPress, modalState}) => (
-  <HStack
-    zIndex={10}
-    justifyContent="space-between"
-    p={4}
-    bg="white"
-    position={'absolute'}
-    height={'80px'}
-    w={'100%'}
-    bottom={0}>
-    <Button
-      bg={'#F0F0F3'}
-      borderRadius={'10px'}
-      flex={1}
-      mr={2}
-      _pressed={{bg: 'gray.200'}}
-      leftIcon={
-        <>
-          {modalState === '접기' ? (
-            <Image
-              source={hamburgerMenuIcon}
-              alt="details"
-              style={{width: 20, height: 20}}
-            />
-          ) : (
+const ActionButtonsComponent = ({onDetailsPress, modalState}) => {
+  const [voiceNavigationState, setVoiceNavigationState] =
+    useRecoilState(VoiceNavigationState);
+
+  return (
+    <HStack
+      zIndex={10}
+      justifyContent="space-between"
+      p={4}
+      bg="white"
+      position={'absolute'}
+      height={'80px'}
+      w={'100%'}
+      bottom={0}>
+      <Button
+        bg={'#F0F0F3'}
+        borderRadius={'10px'}
+        flex={1}
+        mr={2}
+        _pressed={{bg: 'gray.200'}}
+        leftIcon={
+          <>
+            {modalState === '접기' ? (
+              <Image
+                source={hamburgerMenuIcon}
+                alt="details"
+                style={{width: 20, height: 20}}
+              />
+            ) : (
+              <Image
+                source={navigationIcon}
+                alt="navigation"
+                style={{width: 20, height: 20}}
+              />
+            )}
+          </>
+        }
+        onPress={onDetailsPress}>
+        <Text color={'#60646C'} fontSize={'16px'} fontWeight={'semibold'}>
+          {modalState === '접기' ? '상세 경로' : '지도뷰 보기'}
+        </Text>
+      </Button>
+      <Button
+        flex={2}
+        borderRadius={'10px'}
+        bg={voiceNavigationState ? '#FF3B30' : '#0090FF'}
+        onPress={() => {
+          setVoiceNavigationState(!voiceNavigationState);
+        }}
+        _text={{color: 'white'}}
+        _pressed={{bg: '#0077CC'}}
+        leftIcon={
+          voiceNavigationState ? undefined : (
             <Image
               source={navigationIcon}
               alt="navigation"
               style={{width: 20, height: 20}}
             />
-          )}
-        </>
-      }
-      onPress={onDetailsPress}>
-      <Text color={'#60646C'} fontSize={'16px'} fontWeight={'semibold'}>
-        {modalState === '접기' ? '상세 경로' : '지도뷰 보기'}
-      </Text>
-    </Button>
-    <Button
-      flex={2}
-      borderRadius={'10px'}
-      bg="#0090FF"
-      _text={{color: 'white'}}
-      _pressed={{bg: '#0077CC'}}
-      leftIcon={
-        <Image
-          source={navigationIcon}
-          alt="navigation"
-          style={{width: 20, height: 20}}
-        />
-      }>
-      <Text color={'white'} fontSize={'16px'} fontWeight={'bold'}>
-        음성 안내 시작하기
-      </Text>
-    </Button>
-  </HStack>
-);
+          )
+        }>
+        <Text color={'white'} fontSize={'16px'} fontWeight={'bold'}>
+          {voiceNavigationState ? '음성 안내 종료' : '음성 안내 시작하기'}
+        </Text>
+      </Button>
+    </HStack>
+  );
+};
 
 const RouteTransportPage = () => {
   const selectedRoute = useRecoilValue(selectedRouteState); // 선택된 경로 가져오기
@@ -549,7 +701,8 @@ const RouteTransportPage = () => {
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: (evt, gestureState) => {
-        return Math.abs(gestureState.dy) > 20; // 세로로 20 이상 움직일 경우 감지
+        // 세로로 20 이상 움직일 경우 감지, 단 스크롤 중일 때는 감지하지 않음
+        return Math.abs(gestureState.dy) > 20 && !gestureState.vy;
       },
       onPanResponderRelease: (evt, gestureState) => {
         if (gestureState.dy > 20) {
@@ -608,9 +761,9 @@ const RouteTransportPage = () => {
           my={'18px'}
           borderRadius={'full'}
         />
-        <VStack w="100%" borderTopRadius="20px" overflow="hidden">
+        <VStack w="100%" borderTopRadius="20px">
           <RouteInfoComponent route={selectedRoute} />
-          <ScrollView w={'100%'} pb={'80px'}>
+          <ScrollView w={'100%'} pb={'80px'} nestedScrollEnabled={true}>
             <RouteDetailsComponent route={selectedRoute} />
           </ScrollView>
         </VStack>
