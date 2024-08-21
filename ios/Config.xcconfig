@@ -1,0 +1,10 @@
+//
+//  Config.xcconfig
+//  woori_gwangju
+//
+//  Created by 이흥규 on 8/20/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include? "tmp.xcconfig"

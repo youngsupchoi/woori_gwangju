@@ -15,7 +15,6 @@ const useVoiceRecognition = () => {
     if (!recognition) return;
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
-      console.log(event);
       recognition.stop();
       setIsListening(false);
     };

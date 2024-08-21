@@ -155,7 +155,7 @@ const RouteListComponent = () => {
                             : leg.route}
                         </Text>
                         <Text fontSize="16px" color="red.500">
-                          {Math.ceil(leg.sectionTime / 60)}분
+                          {Math.ceil(leg.arrtime / 60)}분
                         </Text>
                       </HStack>
                     </VStack>
