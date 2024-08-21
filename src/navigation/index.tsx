@@ -25,7 +25,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="ActiveWalkingRoutePage"
+        initialRouteName="Route"
         screenOptions={{
           headerShown: false,
           cardStyleInterpolator: ({current}: StackCardInterpolationProps) => ({

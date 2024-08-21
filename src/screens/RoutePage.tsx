@@ -15,6 +15,7 @@ import {locationState} from 'state/locationState';
 import axios from 'axios';
 import Config from 'react-native-config';
 import WalkRouteComponent from 'components/routepage/WalkRouteComponent';
+import useFetchBusArrivalData from 'hooks/busArrival/useFetchBusArrivalData';
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -38,7 +39,6 @@ const RoutePage = () => {
           longitude,
           address,
         }));
-        console.log(address);
       }
     } catch (error) {
       console.error('Error fetching address from coordinates:', error);
@@ -47,12 +47,6 @@ const RoutePage = () => {
 
   const fetchRoutes = async () => {
     try {
-      console.log(
-        startPointState.longitude,
-        startPointState.latitude,
-        destinationState.longitude,
-        destinationState.latitude,
-      );
       const response = await axios.post(
         'https://apis.openapi.sk.com/transit/routes',
         {
@@ -73,7 +67,6 @@ const RoutePage = () => {
         },
       );
 
-      console.log(response.data.metaData);
       if (
         response.data.metaData &&
         response.data.metaData.plan &&
@@ -103,6 +96,8 @@ const RoutePage = () => {
     }
   }, [currentLocation, setStartPointState]);
 
+  useFetchBusArrivalData();
+
   return (
     <VStack flex={1} bg="white">
       <RouteHeader />
@@ -117,7 +112,6 @@ const RoutePage = () => {
           <>
             <MethodFilterComponent />
             {/* 경로 리스트 렌더링 */}
-            {console.log(routeList)}
             <RouteListComponent />
           </>
         )}
