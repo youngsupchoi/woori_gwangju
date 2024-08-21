@@ -19,6 +19,7 @@ import useFetchArrivalData from 'hooks/arrivalData/useArrivalData';
 import WalkingRouteBottmeSheetComponent from 'components/routepage/WalkingRouteBottomSheetComponent';
 import ActiveWalkingRouteMapComponente from 'components/map/ActiveWalkingRouteMapComponent';
 import {useSearchWalkingRoute} from 'hooks/searchRoute/useSearchWalknigRoute';
+import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -119,6 +120,8 @@ const RoutePage = () => {
 
   useFetchArrivalData();
 
+  const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
+    useCurrentLocationMapController();
   return (
     <VStack flex={1} bg="white">
       <RouteHeader />
@@ -126,7 +129,10 @@ const RoutePage = () => {
 
       {selectedMethodState === '휠체어' ? (
         <>
-          <ActiveWalkingRouteMapComponente />
+          <ActiveWalkingRouteMapComponente
+            mapRef={mapRef}
+            onRegionChangeComplete={onRegionChangeComplete}
+          />
           <Box position="absolute" bottom={0} left={0} right={0}>
             <WalkingRouteBottmeSheetComponent />
           </Box>
