@@ -1,103 +1,94 @@
 import React from 'react';
-import {Center, Image, Button, Text, VStack} from 'native-base';
+import {Center, Image, Button, Text, VStack, View} from 'native-base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
+import disabledPeople from 'assets/gif/disabled_people.gif';
+import onboardingWheelchair from 'assets/images/onboardingWheelchair.png';
+import onboardingBlindMan from 'assets/images/onboardingBlindMan.png';
+import onboardingDeaf from 'assets/images/onboardingDeaf.png';
 
 const OnboardingPage = () => {
+  const navigation = useNavigation();
+
+  const handleDisabilitySelection = async type => {
+    try {
+      await AsyncStorage.removeItem('disabilityType');
+      await AsyncStorage.setItem('disabilityType', type);
+      navigation.navigate('Main');
+    } catch (error) {
+      console.error('Error saving disability type to AsyncStorage', error);
+    }
+  };
+
+  const renderDisabilityButton = (label, type, icon) => (
+    <Button
+      variant="outline"
+      w={'100%'}
+      p={'20px'}
+      borderColor="#E0E1E6"
+      alignItems={'flex-start'}
+      textAlign={'left'}
+      justifyContent={'flex-start'}
+      _pressed={{bg: 'gray.200'}}
+      borderRadius={'20px'}
+      leftIcon={<Image source={icon} size={'36px'} alt="icon" />}
+      onPress={() => handleDisabilitySelection(type)}>
+      <Text
+        fontSize={'20px'}
+        color={'#11181C'}
+        fontWeight={'semibold'}
+        textAlign={'left'}>
+        {label}
+      </Text>
+    </Button>
+  );
+
   return (
-    <Center flex={1} px={6} bg="white">
+    <Center flex={1} bg="white" alignItems={'center'} justifyContent={'center'}>
       {/* 제목 */}
       <VStack
         space={2}
-        alignItems="center"
+        pt={10}
+        alignItems="flex-start"
         alignContent={'center'}
-        justifyContent={'center'}
-        flex={1}>
-        <Text fontSize="2xl" fontWeight="bold" textAlign="center">
+        w={'100%'}
+        px={'18px'}>
+        <Text fontSize="28px" fontWeight="bold" textAlign="left">
           어떤 도움이 필요하신가요?
         </Text>
-        <Text color="coolGray.500" textAlign="center">
+        <Text fontSize={'16px'} color="coolGray.500" textAlign="left">
           맞춤형 도움을 제공해드릴게요.
         </Text>
       </VStack>
 
       {/* 이미지 */}
-      <Image
-        source={require('../assets/gif/disabled_people.gif')}
-        alt="Disabled People"
-        size="2xl"
-        resizeMode="cover"
-        mb={8}
-        flex={1}
-      />
+      <View w={'100%'}>
+        <Image
+          source={disabledPeople}
+          alt="Disabled People"
+          mx={'18px'}
+          resizeMode="contain"
+        />
+      </View>
 
       {/* 버튼들 */}
-      <VStack
-        space={4}
-        flex={1}
-        w="100%"
-        pb={8}
-        alignItems={'center'}
-        justifyContent={'center'}>
-        <Button
-          variant="outline"
-          borderRadius="lg"
-          flex={1}
-          w={'100%'}
-          textAlign={'center'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          borderColor="coolGray.300"
-          _text={{
-            fontSize: 'lg',
-          }}
-          //   leftIcon={<Text fontSize="lg">🦽</Text>}
-        >
-          휠체어로 이동해야 해요.
-        </Button>
-
-        <Button
-          variant="outline"
-          borderRadius="lg"
-          flex={1}
-          w={'100%'}
-          alignItems={'center'}
-          borderColor="coolGray.300"
-          _text={{
-            fontSize: 'lg',
-          }}
-          //   leftIcon={<Text fontSize="lg">👨‍🦯</Text>}
-        >
-          시각 장애가 있어요.
-        </Button>
-
-        <Button
-          variant="outline"
-          borderRadius="lg"
-          flex={1}
-          w={'100%'}
-          alignItems={'center'}
-          borderColor="coolGray.300"
-          _text={{
-            fontSize: 'lg',
-          }}
-          //   leftIcon={<Text fontSize="lg">🦻</Text>}
-        >
-          청각 장애가 있어요.
-        </Button>
+      <VStack space={4} w="100%" px={'18px'} pb={8} alignItems={'center'}>
+        {renderDisabilityButton(
+          '휠체어로 이동해야 해요.',
+          '지체장애',
+          onboardingWheelchair,
+        )}
+        {renderDisabilityButton(
+          '시각 장애가 있어요.',
+          '시각장애',
+          onboardingBlindMan,
+        )}
+        {renderDisabilityButton(
+          '청각 장애가 있어요.',
+          '청각장애',
+          onboardingDeaf,
+        )}
       </VStack>
-
-      {/* 아래 버튼 */}
-      {/* <Button
-        mt={4}
-        bg="coolGray.100"
-        borderRadius="full"
-        _text={{
-          fontSize: 'lg',
-          textAlign: 'center',
-          color: 'coolGray.700',
-        }}
-        w="100%">
-        일단 먼저 둘러볼게요
-      </Button> */}
     </Center>
   );
 };

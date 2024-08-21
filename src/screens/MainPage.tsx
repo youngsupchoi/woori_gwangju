@@ -4,18 +4,19 @@ import targetIcon from '../assets/images/target.png';
 import FilterButtons from 'components/mainpage/FilterButtons';
 import MainMapComponent from 'components/mainpage/MainMapComponent';
 import MainSearchBar from 'components/mainpage/MainSearchbar';
-import {searchKeywordState} from 'state/SearchAtoms';
-import {useRecoilState} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
 
 const MainPage = () => {
-  const [, setSearchKeyword] = useRecoilState(searchKeywordState);
   const navigation = useNavigation();
+
   return (
     <VStack flex={1} bg="blue.400" p={0} m={0}>
       {/* 검색 바 */}
-
-      <MainSearchBar onFocus={() => navigation.navigate('Search')} flex={1} />
+      <MainSearchBar
+        onFocus={() => navigation.navigate('Search')}
+        flex={1}
+        showMenuButton={true}
+      />
 
       {/* 필터 버튼들 */}
       <FilterButtons />
@@ -23,6 +24,7 @@ const MainPage = () => {
       {/* 지도 Placeholder */}
       <MainMapComponent />
 
+      {/* 위치 버튼 */}
       <Button
         position={'absolute'}
         bottom={30}
