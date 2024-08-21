@@ -15,6 +15,7 @@ import useCurrentLocation from 'hooks/currentLocation/useCurrentLocation';
 import VoiceSearchPage from 'screens/VoiceSearchPage';
 import RoutePage from 'screens/RoutePage';
 import ActiveWalkingRoutePage from 'screens/ActiveWalkingRoutePage';
+import LimitationsAndResponsibilitiesPage from 'screens/LimitationsAndResponsibilitiesPage';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +25,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Route"
+        initialRouteName="Main"
         screenOptions={{
           headerShown: false,
           cardStyleInterpolator: ({current}: StackCardInterpolationProps) => ({
@@ -52,6 +53,10 @@ const AppNavigator = () => {
         <Stack.Screen
           name="ActiveWalkingRoutePage"
           component={ActiveWalkingRoutePage}
+        />
+        <Stack.Screen
+          name="LimitationsAndResponsibilitiesPage"
+          component={LimitationsAndResponsibilitiesPage}
         />
       </Stack.Navigator>
     </NavigationContainer>

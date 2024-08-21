@@ -67,7 +67,7 @@ export default function WalkingRouteBottmeSheetComponent() {
               fontSize="xs"
               color="gray.500"
               onPress={() => {
-                console.log('hihi');
+                navigation.navigate('LimitationsAndResponsibilitiesPage');
               }}>
               (정보 제공의 한계 및 책임)
             </Text>
