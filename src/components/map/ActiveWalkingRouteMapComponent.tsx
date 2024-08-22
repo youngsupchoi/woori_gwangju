@@ -1,73 +1,32 @@
 import React from 'react';
 import {View} from 'react-native';
-import MapView, {Marker, Polyline} from 'react-native-maps';
+import MapView, {Region} from 'react-native-maps';
+// import {rederCurrentLocationMarker} from 'components/map/marker/CurrentLocationMaker';
+import {renderPolylines} from 'components/map/marker/WalkPoliLine';
+import {renderMarkers} from 'components/map/marker/StartMidEndMarker';
+import {locationState} from 'state/locationState';
 import {useRecoilValue} from 'recoil';
-import {walkingRouteAtom} from 'state/activeWalkingRouteAtom';
+import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
 
-const ActiveWalkingRouteMapComponente: React.FC = () => {
-  const walkingRoute = useRecoilValue(walkingRouteAtom);
+const ActiveWalkingRouteMapComponente: React.FC<{
+  mapRef: React.RefObject<MapView>;
+  onRegionChangeComplete: (region: Region) => void;
+}> = ({mapRef, onRegionChangeComplete}) => {
+  const currentLocationState = useRecoilValue(locationState);
 
   const initialRegion = {
     latitude: 37.556774278906374,
-    longitude: 126.92364851900282,
+    longitude: 126.92164851900282,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
-
-  const renderPolylines = () => {
-    return walkingRoute.features
-      .filter(feature => feature.geometry.type === 'LineString')
-      .map((feature, index) => {
-        const coordinates = feature.geometry.coordinates as [number, number][];
-
-        const polylineCoordinates = coordinates.map(coord => ({
-          latitude: coord[1],
-          longitude: coord[0],
-        }));
-
-        return (
-          <Polyline
-            key={`polyline-${index}`}
-            coordinates={polylineCoordinates}
-            strokeColor="#0000FF" // 파란색 선
-            strokeWidth={6} // 선 두께
-          />
-        );
-      });
-  };
-
-  const renderMarkers = () => {
-    return walkingRoute.features
-      .filter(feature => feature.geometry.type === 'Point')
-      .map((feature, index) => {
-        const coordinates = feature.geometry.coordinates as [number, number];
-        const {pointType, description} = feature.properties;
-
-        return (
-          <Marker
-            key={`marker-${index}`}
-            coordinate={{
-              latitude: coordinates[1],
-              longitude: coordinates[0],
-            }}
-            title={description}
-            pinColor={
-              pointType === 'SP'
-                ? 'green' // 시작 지점
-                : pointType === 'EP'
-                ? 'red' // 도착 지점
-                : 'blue' // 중간 지점
-            }
-          />
-        );
-      });
-  };
-
   return (
     <View style={{flex: 1}}>
       <MapView
+        ref={mapRef}
         style={{flex: 1}}
         initialRegion={initialRegion}
+        onRegionChangeComplete={onRegionChangeComplete}
         minZoomLevel={10}
         maxZoomLevel={20}
         zoomEnabled={true}
@@ -76,6 +35,11 @@ const ActiveWalkingRouteMapComponente: React.FC = () => {
         rotateEnabled={true}>
         {renderPolylines()}
         {renderMarkers()}
+        {/* {rederCurrentLocationMarker(
+          currentLocationState.latitude,
+          currentLocationState.longitude,
+        )} */}
+        <CurrentLocationMarker />
       </MapView>
     </View>
   );

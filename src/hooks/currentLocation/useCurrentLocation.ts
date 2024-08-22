@@ -5,6 +5,7 @@ import {locationState} from 'state/locationState';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {Platform} from 'react-native';
 
+// 초기에 현재위치를 가져오고 permission을 설정
 const useCurrentLocation = () => {
   const [location, setLocation] = useRecoilState(locationState);
 
@@ -23,6 +24,7 @@ const useCurrentLocation = () => {
         Geolocation.getCurrentPosition(
           position => {
             const {latitude, longitude} = position.coords;
+
             setLocation({latitude, longitude});
           },
           error => {
@@ -34,6 +36,7 @@ const useCurrentLocation = () => {
         console.log('Location permission denied');
       }
     };
+    console.log('🚀 ~ requestLocationPermission ~ latitude:', location);
 
     requestLocationPermission();
   }, [setLocation]);

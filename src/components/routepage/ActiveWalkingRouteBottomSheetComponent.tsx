@@ -9,24 +9,46 @@ import {
   IconButton,
 } from 'native-base';
 import {Animated} from 'react-native';
-import targetIcon from '../assets/images/target2.png';
-import navigation from '../assets/images/navigationBlue.png';
-import mediumVolume from '../assets/images/medium-volume.png';
-import mute from '../assets/images/mute.png';
-import route from '../assets/images/route.png';
+import targetIcon from '../../assets/images/target2.png';
+import navigationBlue from '../../assets/images/navigationBlue.png';
+import mediumVolume from '../../assets/images/medium-volume.png';
+import mute from '../../assets/images/mute.png';
+import route from '../../assets/images/route.png';
 
 // PNG 이미지 파일을 import로 불러옵니다.
-import arrowUpImage from '../assets/images/arrowUp.png';
-import arrowDownImage from '../assets/images/arrowDown.png';
-import {useRecoilState} from 'recoil';
-import {VoiceGuideAtom} from 'state/activeWalkingRouteAtom';
+import arrowUpImage from '../../assets/images/arrowUp.png';
+import arrowDownImage from '../../assets/images/arrowDown.png';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {VoiceGuideAtom, walkingRouteAtom} from 'state/activeWalkingRouteAtom';
+import {useNavigation} from '@react-navigation/native';
+import {useCalculateArrivalTime} from 'hooks/searchRoute/useCalculatorArrivalTime';
 
-export default function ActiveRouteInfoBottomSheet() {
+export default function ActiveWalkingRouteBottomSheetComponent({
+  setMapToCurrentLocation,
+}) {
+  const navigation = useNavigation();
+
   const BottomSheetHeight = 87;
   const [expanded, setExpanded] = useState<boolean>(false);
   const [isWideViewState, setIsWideViewState] = useState<boolean>(false);
   const animatedHeight = useRef(new Animated.Value(BottomSheetHeight)).current;
   const [voiceGuideState, setVoiceGuideState] = useRecoilState(VoiceGuideAtom);
+
+  const walkingRouteState = useRecoilValue(walkingRouteAtom);
+  const totalTime: number =
+    walkingRouteState.features[0].properties.totalTime || 0;
+  const totalDistance: number =
+    walkingRouteState.features[0].properties.totalDistance || 0;
+
+  const {arrivalTime, minutes} = useCalculateArrivalTime(totalTime);
+
+  const terminateRouteGuide = async () => {
+    // 음성 안내 state를 false로 변경
+    setVoiceGuideState(false);
+
+    // 경로 탐색 페이지로 이동
+    navigation.navigate('Route');
+  };
 
   const toggleHeight = () => {
     Animated.timing(animatedHeight, {
@@ -58,7 +80,7 @@ export default function ActiveRouteInfoBottomSheet() {
             ) : (
               <Image
                 key="narrowViwe"
-                source={navigation}
+                source={navigationBlue}
                 alt="Target Icon"
                 size="2xs"
               />
@@ -106,7 +128,7 @@ export default function ActiveRouteInfoBottomSheet() {
           padding={14}
           // _hover={{bg: 'red.600'}}
           _pressed={{bg: '#D9D9E0'}}
-          onPress={() => console.log('세 번째 버튼 클릭')}
+          onPress={() => setMapToCurrentLocation(12)}
         />
       </VStack>
 
@@ -126,39 +148,73 @@ export default function ActiveRouteInfoBottomSheet() {
               <Text fontSize="xs" color="gray.500">
                 도착예정
               </Text>
-              <Text fontSize="xl" fontWeight="extrabold">
-                오후 1:51
-              </Text>
+              <HStack>
+                <Text fontSize="xl" fontWeight="extrabold">
+                  오후
+                </Text>
+
+                <Text fontSize="xl" fontWeight="extrabold">
+                  {arrivalTime}
+                </Text>
+              </HStack>
             </VStack>
             <VStack>
               <Text fontSize="xs" color="gray.500">
                 시간
               </Text>
-              <Text fontSize="xl" fontWeight="extrabold">
-                23분
-              </Text>
+              <HStack>
+                <Text fontSize="xl" fontWeight="extrabold">
+                  {parseInt(minutes)}
+                </Text>
+                <Text fontSize="xl" fontWeight="extrabold">
+                  분
+                </Text>
+              </HStack>
             </VStack>
             <VStack>
               <Text fontSize="xs" color="gray.500">
                 거리
               </Text>
-              <Text fontSize="xl" fontWeight="extrabold">
-                1.9 km
-              </Text>
+              <HStack>
+                <Text fontSize="xl" fontWeight="extrabold">
+                  {parseInt(totalDistance / 100) / 10}
+                </Text>
+                <Text fontSize="xl" fontWeight="extrabold">
+                  km
+                </Text>
+              </HStack>
             </VStack>
-            <Image
-              source={expanded ? arrowDownImage : arrowUpImage}
-              alt="Toggle Arrow"
-              size="xs"
-              onTouchEnd={toggleHeight}
-              borderRadius={999}
-              padding={6}
-              backgroundColor={'#F0F0F3'}
-            />
+            {expanded ? (
+              <Image
+                source={arrowDownImage}
+                alt="Toggle Arrow"
+                size="xs"
+                onTouchEnd={toggleHeight}
+                borderRadius={999}
+                padding={6}
+                backgroundColor={'#F0F0F3'}
+              />
+            ) : (
+              <Image
+                source={arrowUpImage}
+                alt="Toggle Arrow"
+                size="xs"
+                onTouchEnd={toggleHeight}
+                borderRadius={999}
+                padding={6}
+                backgroundColor={'#F0F0F3'}
+              />
+            )}
           </HStack>
 
           {expanded && (
-            <Button mt={4} borderRadius={10} colorScheme="red">
+            <Button
+              mt={4}
+              borderRadius={10}
+              colorScheme="red"
+              onPress={() => {
+                terminateRouteGuide();
+              }}>
               <Text color="white" fontWeight={'bold'}>
                 길 안내 종료하기
               </Text>
