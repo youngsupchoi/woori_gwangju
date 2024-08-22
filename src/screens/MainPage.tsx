@@ -8,6 +8,7 @@ import {useRecoilState} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
 import MainMapComponent from '../components/map/MainMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
+import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
 
 const MainPage = () => {
   const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
@@ -29,7 +30,7 @@ const MainPage = () => {
         onRegionChangeComplete={onRegionChangeComplete}
       />
 
-      <Button
+      {/* <Button
         position={'absolute'}
         bottom={30}
         right={0}
@@ -45,7 +46,10 @@ const MainPage = () => {
           alt="target"
           style={{width: 28, height: 28}}
         />
-      </Button>
+      </Button> */}
+      <CurrentLocationButtonComponent
+        onPressFunction={setMapToCurrentLocation}
+      />
     </VStack>
   );
 };
