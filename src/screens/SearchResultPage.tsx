@@ -7,6 +7,8 @@ import LeftChevron from '../assets/images/leftChevron.png';
 import CloseButton from '../assets/images/closeIcon.png';
 import {useRecoilValue} from 'recoil';
 import {DestinationState} from 'state/RouteAtoms';
+import SearchResultMapComponent from 'components/map/SearchResultMapComponent';
+import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 
 const SearchResultPage = () => {
   const navigation = useNavigation();
@@ -16,6 +18,9 @@ const SearchResultPage = () => {
   const ASPECT_RATIO = width / height;
   const LATITUDE_DELTA = 0.005;
   const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+  const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
+    useCurrentLocationMapController();
 
   return (
     <View flex={1} bg="white">
@@ -52,7 +57,7 @@ const SearchResultPage = () => {
       </HStack>
 
       {/* 지도 */}
-      <MapView
+      {/* <MapView
         style={{flex: 1}}
         initialRegion={{
           latitude: destination.latitude,
@@ -67,7 +72,12 @@ const SearchResultPage = () => {
           }}
           title={destination.name}
         />
-      </MapView>
+      </MapView> */}
+
+      <SearchResultMapComponent
+        mapRef={mapRef}
+        onRegionChangeComplete={onRegionChangeComplete}
+      />
 
       {/* 하단 정보 */}
       <View
