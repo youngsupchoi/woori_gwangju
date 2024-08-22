@@ -3,12 +3,13 @@ import {Button, Image} from 'native-base';
 import targetIcon from '../../assets/images/target.png';
 
 const CurrentLocationButtonComponent: React.FC<{
+  upPosition: number;
   onPressFunction: (zoomLevel: number) => void;
-}> = ({onPressFunction}) => {
+}> = ({onPressFunction, upPosition = 0}) => {
   return (
     <Button
       position={'absolute'}
-      bottom={30}
+      bottom={30 + upPosition}
       right={0}
       p={'10px'}
       m={18}

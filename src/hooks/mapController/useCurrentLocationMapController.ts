@@ -3,10 +3,12 @@ import MapView, {Region} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import {useRecoilState} from 'recoil';
 import {mapZoomLevelAtom} from 'state/activeWalkingRouteAtom';
+import {locationState} from 'state/locationState';
 
 export const useCurrentLocationMapController = () => {
   const mapRef = useRef<MapView | null>(null);
   const [zoomLevel, setZoomLevel] = useRecoilState(mapZoomLevelAtom);
+  const [currentLocation, setCurrentLocation] = useRecoilState(locationState);
 
   // 현재 위치를 가져와서 지도 중심과 줌 레벨을 설정하는 함수
   const setMapToCurrentLocation = (zoomLevel: number) => {
@@ -16,6 +18,8 @@ export const useCurrentLocationMapController = () => {
         const zoomFactor = Math.pow(2, zoomLevel);
         const latitudeDelta = 1 / zoomFactor;
         const longitudeDelta = 1 / zoomFactor;
+
+        setCurrentLocation({latitude, longitude}); // 현재 위치 상태 업데이트
 
         if (mapRef.current) {
           mapRef.current.animateCamera({

@@ -9,6 +9,7 @@ import {DestinationState} from 'state/RouteAtoms';
 import SearchResultMapComponent from 'components/map/SearchResultMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 import SearchResultPageBottomSheetComponent from 'components/searchpage/SearchResultPageBottomSheetComponent';
+import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
 
 const SearchResultPage = () => {
   const navigation = useNavigation();
@@ -80,7 +81,10 @@ const SearchResultPage = () => {
         mapRef={mapRef}
         onRegionChangeComplete={onRegionChangeComplete}
       />
-
+      <CurrentLocationButtonComponent
+        onPressFunction={setMapToCurrentLocation}
+        upPosition={140}
+      />
       <SearchResultPageBottomSheetComponent />
     </View>
   );
