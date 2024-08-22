@@ -37,7 +37,7 @@ export const VoiceNavigationState = atom({
 
 export const SelectedMethodState = atom({
   key: 'selectedMethodState',
-  default: '대중교통',
+  default: '휠체어',
 });
 
 export const SelectedTransportMethodState = atom({

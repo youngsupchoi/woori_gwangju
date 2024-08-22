@@ -7,16 +7,19 @@ import {ActiveWalkRouteMarker} from 'components/map/marker/ActiveWalkRouteMarker
 import {locationState} from 'state/locationState';
 import {useRecoilValue} from 'recoil';
 import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
+import {DestinationState} from 'state/RouteAtoms';
 
 const ActiveWalkingRouteMapComponente: React.FC<{
   mapRef: React.RefObject<MapView>;
   onRegionChangeComplete: (region: Region) => void;
 }> = ({mapRef, onRegionChangeComplete}) => {
   const currentLocationState = useRecoilValue(locationState);
+  console.log('🚀 ~ currentLocationState222:', currentLocationState);
+  const destinationState = useRecoilValue(DestinationState);
 
   const initialRegion = {
-    latitude: 37.556774278906374,
-    longitude: 126.92164851900282,
+    latitude: currentLocationState.latitude - 0.0016,
+    longitude: currentLocationState.longitude,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
