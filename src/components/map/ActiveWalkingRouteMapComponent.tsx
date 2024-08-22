@@ -1,14 +1,19 @@
 import React from 'react';
 import {View} from 'react-native';
 import MapView, {Region} from 'react-native-maps';
-import {rederCurrentLocationMarker} from 'components/map/marker/CurrentLocationMaker';
+// import {rederCurrentLocationMarker} from 'components/map/marker/CurrentLocationMaker';
 import {renderPolylines} from 'components/map/marker/WalkPoliLine';
 import {renderMarkers} from 'components/map/marker/StartMidEndMarker';
+import {locationState} from 'state/locationState';
+import {useRecoilValue} from 'recoil';
+import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
 
 const ActiveWalkingRouteMapComponente: React.FC<{
   mapRef: React.RefObject<MapView>;
   onRegionChangeComplete: (region: Region) => void;
 }> = ({mapRef, onRegionChangeComplete}) => {
+  const currentLocationState = useRecoilValue(locationState);
+
   const initialRegion = {
     latitude: 37.556774278906374,
     longitude: 126.92364851900282,
@@ -30,7 +35,11 @@ const ActiveWalkingRouteMapComponente: React.FC<{
         rotateEnabled={true}>
         {renderPolylines()}
         {renderMarkers()}
-        {rederCurrentLocationMarker()}
+        {/* {rederCurrentLocationMarker(
+          currentLocationState.latitude,
+          currentLocationState.longitude,
+        )} */}
+        <CurrentLocationMarker />
       </MapView>
     </View>
   );

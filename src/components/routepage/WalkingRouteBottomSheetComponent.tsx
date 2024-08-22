@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Text, HStack, Button, Image} from 'native-base';
+import {Box, Text, HStack, Button, Image, View} from 'native-base';
 import navigationIcon from '../../assets/images/navigation.png';
 import {useRecoilState} from 'recoil';
 import {VoiceGuideAtom, walkingRouteAtom} from 'state/activeWalkingRouteAtom';
@@ -28,10 +28,23 @@ export default function WalkingRouteBottmeSheetComponent() {
           alignItems="center"
           paddingBottom={'8px'}>
           <HStack alignItems="baseline">
+            {parseInt(walkingRouteState.features[0].properties.totalTime / 60) >
+            60 ? (
+              <HStack alignItems="baseline">
+                <Text fontSize="3xl" fontWeight="extrabold">
+                  {parseInt(
+                    walkingRouteState.features[0].properties.totalTime / 60,
+                  ) % 60}
+                </Text>
+                <Text fontSize="sm" fontWeight="normal">
+                  {`시간 `}
+                </Text>
+              </HStack>
+            ) : null}
             <Text fontSize="3xl" fontWeight="extrabold">
               {parseInt(
                 walkingRouteState.features[0].properties.totalTime / 60,
-              )}
+              ) % 60}
             </Text>
             <Text fontSize="sm" fontWeight="normal">
               분

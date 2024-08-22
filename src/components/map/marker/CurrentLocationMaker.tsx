@@ -1,17 +1,16 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Marker} from 'react-native-maps';
-import {useRecoilValue} from 'recoil';
-
 import currentLocatinoPin from '../../../assets/images/currentLocationPin.png';
-import {locationState} from 'state/locationState';
+import {useLocationTracking} from 'hooks/currentLocation/useLocationTracking';
 
-export const rederCurrentLocationMarker = () => {
-  const currentLocation = useRecoilValue(locationState);
+const CurrentLocationMarker: React.FC = () => {
+  const {latitude, longitude} = useLocationTracking(3000); // 3초마다 위치를 트래킹합니다.
+
   return (
     <View>
       <Marker
-        coordinate={currentLocation}
+        coordinate={{latitude, longitude}}
         title="현재 위치"
         image={currentLocatinoPin}
         zIndex={3}
@@ -19,3 +18,5 @@ export const rederCurrentLocationMarker = () => {
     </View>
   );
 };
+
+export default CurrentLocationMarker;
