@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import MapView, {Region} from 'react-native-maps';
-// import {renderPolylines} from 'components/map/marker/WalkPoliLine';
-// import {renderMarkers} from 'components/map/marker/StartMidEndMarker';
 import {View} from 'native-base';
 import {useRecoilValue} from 'recoil';
 import {locationState} from 'state/locationState';
@@ -64,7 +62,6 @@ const SearchResultMapComponent: React.FC<{
         scrollEnabled={true}
         pitchEnabled={true}
         rotateEnabled={true}>
-        {/* {rederCurrentLocationMarker(region.latitude, region.longitude)} */}
         <SelectedLocationMarker
           name={destination.name}
           latitude={destination.latitude}
