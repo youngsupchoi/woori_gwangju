@@ -6,8 +6,12 @@ import ActiveWalkingRouteBottomSheetComponent from 'components/routepage/ActiveW
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 
 export default function ActiveWalkingRoutePage() {
-  const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
-    useCurrentLocationMapController();
+  const {
+    mapRef,
+    setMapToCurrentLocation,
+    onRegionChangeComplete,
+    setMapToSpecificLocation,
+  } = useCurrentLocationMapController();
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -19,6 +23,7 @@ export default function ActiveWalkingRoutePage() {
         <Box position="absolute" bottom={0} left={0} right={0}>
           <ActiveWalkingRouteBottomSheetComponent
             setMapToCurrentLocation={setMapToCurrentLocation}
+            setMapToSpecificLocation={setMapToSpecificLocation}
           />
         </Box>
       </VStack>

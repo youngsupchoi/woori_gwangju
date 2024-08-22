@@ -14,13 +14,12 @@ import {
 import {locationState} from 'state/locationState';
 import axios from 'axios';
 import Config from 'react-native-config';
-import WalkRouteComponent from 'components/routepage/WalkRouteComponent';
 import useFetchArrivalData from 'hooks/arrivalData/useArrivalData';
 import WalkingRouteBottmeSheetComponent from 'components/routepage/WalkingRouteBottomSheetComponent';
 import ActiveWalkingRouteMapComponente from 'components/map/ActiveWalkingRouteMapComponent';
-import {useSearchWalkingRoute} from 'hooks/searchRoute/useSearchWalknigRoute';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
+// import {getWalkingRoute} from 'apis/getWalkingRoute';
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -30,23 +29,6 @@ const RoutePage = () => {
   const [destinationState] = useRecoilState(DestinationState);
   const [selectedMethodState] = useRecoilState(SelectedMethodState);
   const [routeList, setRouteList] = useRecoilState(RouteListState);
-
-  const {
-    routeData: walkingRouteData,
-    loading: searchWalkingRouteLoading,
-    error: walkingRouteError,
-  } = useSearchWalkingRoute({
-    startX: startPointState.longitude,
-    startY: startPointState.latitude,
-    endX: destinationState.longitude,
-    endY: destinationState.latitude,
-    startName: '출발',
-    endName: '도착',
-    // 사람이 걷는 속도, 단위는 Km/h
-    speed: 5,
-  });
-  console.log('🚀 ~ RoutePage ~ walkingRouteError:', walkingRouteError);
-  console.log('🚀 ~ RoutePage ~ walkingRouteData:', walkingRouteData);
 
   const fetchAddressFromCoordinates = async (latitude, longitude) => {
     try {

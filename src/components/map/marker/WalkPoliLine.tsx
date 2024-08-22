@@ -6,6 +6,7 @@ import {walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 
 export const renderPolylines = () => {
   const walkingRoute = useRecoilValue(walkingRouteAtom);
+  console.log('🚀 ~ renderPolylines ~ walkingRoute:', walkingRoute);
   return walkingRoute.features
     .filter(feature => feature.geometry.type === 'LineString')
     .map((feature, index) => {

@@ -7,7 +7,7 @@ import midPin from '../../../assets/images/midPin.png';
 import startPin from '../../../assets/images/startPin.png';
 import {View} from 'native-base';
 
-export const renderMarkers = () => {
+export const ActiveWalkRouteMarker = () => {
   const walkingRoute = useRecoilValue(walkingRouteAtom);
   return walkingRoute.features
     .filter(feature => feature.geometry.type === 'Point')

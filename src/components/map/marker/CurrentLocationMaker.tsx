@@ -16,7 +16,7 @@ const CurrentLocationMarker: React.FC = () => {
         }}
         title="현재 위치"
         image={currentLocatinoPin}
-        zIndex={3}
+        zIndex={7}
       />
     </View>
   );

@@ -40,6 +40,39 @@ export const useCurrentLocationMapController = () => {
     );
   };
 
+  const setMapToSpecificLocation = (
+    zoomLevel: number,
+    latitude: number,
+    longitude: number,
+  ) => {
+    Geolocation.getCurrentPosition(
+      position => {
+        // const {latitude, longitude} = position.coords;
+        const zoomFactor = Math.pow(2, zoomLevel);
+        const latitudeDelta = 1 / zoomFactor;
+        const longitudeDelta = 1 / zoomFactor;
+
+        // setCurrentLocation({latitude, longitude}); // 현재 위치 상태 업데이트
+
+        if (mapRef.current) {
+          mapRef.current.animateToRegion(
+            {
+              latitude,
+              longitude,
+              latitudeDelta, // zoom level 적용
+              longitudeDelta, // zoom level 적용
+            },
+            500,
+          ); // 애니메이션 지속 시간 (밀리초)
+        }
+      },
+      error => {
+        console.error('Error getting current location:', error);
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  };
+
   // 지도 영역이 변경될 때 줌 레벨 업데이트
   const onRegionChangeComplete = (region: Region) => {
     const newZoomLevel = Math.log2(360 / region.longitudeDelta);
@@ -47,5 +80,10 @@ export const useCurrentLocationMapController = () => {
     console.log('🚀 ~ useCurrentLocationMapController ~ zoomLevel:', zoomLevel);
   };
 
-  return {mapRef, setMapToCurrentLocation, onRegionChangeComplete};
+  return {
+    mapRef,
+    setMapToCurrentLocation,
+    onRegionChangeComplete,
+    setMapToSpecificLocation,
+  };
 };

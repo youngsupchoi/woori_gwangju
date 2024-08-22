@@ -22,17 +22,21 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {VoiceGuideAtom, walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 import {useNavigation} from '@react-navigation/native';
 import {useCalculateArrivalTime} from 'hooks/searchRoute/useCalculatorArrivalTime';
+import {DestinationState, StartPointState} from 'state/RouteAtoms';
 
 export default function ActiveWalkingRouteBottomSheetComponent({
   setMapToCurrentLocation,
+  setMapToSpecificLocation,
 }) {
   const navigation = useNavigation();
 
   const BottomSheetHeight = 87;
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [isWideViewState, setIsWideViewState] = useState<boolean>(false);
+  // const [isWideViewState, setIsWideViewState] = useState<boolean>(false);
   const animatedHeight = useRef(new Animated.Value(BottomSheetHeight)).current;
   const [voiceGuideState, setVoiceGuideState] = useRecoilState(VoiceGuideAtom);
+  const startPointState = useRecoilValue(StartPointState);
+  const destinationState = useRecoilValue(DestinationState);
 
   const walkingRouteState = useRecoilValue(walkingRouteAtom);
   const totalTime: number =
@@ -59,6 +63,55 @@ export default function ActiveWalkingRouteBottomSheetComponent({
     setExpanded(!expanded);
   };
 
+  //출발지와 도착지 사이의 위도 경도를 계산하여 지도의 중심을 찾고 중심부터 출발지거리에 비례하여 적절한 zoom 배율을 설정하는 함수
+  const adjustAngleToMid = () => {
+    const startPoint = startPointState;
+    console.log('🚀 ~ adjustAngleToMid ~ startPoint:', startPoint);
+    const destination = destinationState;
+    console.log('🚀 ~ adjustAngleToMid ~ destination:', destination);
+
+    // 확실히 숫자로 변환하여 덧셈 수행
+    const startLatitude = Number(startPoint.latitude);
+    const destinationLatitude = Number(destination.latitude);
+    const startLongitude = Number(startPoint.longitude);
+    const destinationLongitude = Number(destination.longitude);
+
+    const latitude: number = (startLatitude + destinationLatitude) / 2;
+    console.log(
+      '🚀 ~ adjustAngleToMid ~ startPoint.latitude + destination.latitude:',
+      startLatitude + destinationLatitude,
+    );
+    console.log('🚀 ~ adjustAngleToMid ~ latitude:', latitude);
+
+    const longitude: number = (startLongitude + destinationLongitude) / 2;
+    console.log('🚀 ~ adjustAngleToMid ~ longitude:', longitude);
+
+    const distance = Math.sqrt(
+      Math.pow(startLatitude - destinationLatitude, 2) +
+        Math.pow(startLongitude - destinationLongitude, 2),
+    );
+    console.log('🚀 ~ adjustAngleToMid ~ distance:', distance);
+    // TODO: 아래 비율 테스트 요함(광주 끝끝, 광주 근거리)
+    // 수정된 줌 레벨 설정 로직
+    let zoomLevel = 5;
+    if (distance < 0.001) {
+      zoomLevel = 8; // 매우 가까운 거리
+    } else if (distance < 0.01) {
+      zoomLevel = 6.5; // 가까운 거리
+    } else if (distance < 0.1) {
+      zoomLevel = 5.7; // 근거리
+    } else if (distance < 0.5) {
+      zoomLevel = 5.5; // 중간 거리
+    } else if (distance < 1) {
+      zoomLevel = 5; // 조금 멀리
+    } else if (distance < 2) {
+      zoomLevel = 4; // 더 먼 거리
+    } else if (distance < 5) {
+      zoomLevel = 4; // 먼 거리
+    }
+    setMapToSpecificLocation(zoomLevel, latitude, longitude);
+  };
+
   return (
     <Box flex={1} position="relative">
       {/* 하단 박스 외부에 버튼을 절대 위치로 배치 */}
@@ -70,21 +123,7 @@ export default function ActiveWalkingRouteBottomSheetComponent({
         alignItems="center">
         <IconButton
           icon={
-            isWideViewState ? (
-              <Image
-                key="wideView"
-                source={route}
-                alt="Target Icon"
-                size="2xs"
-              />
-            ) : (
-              <Image
-                key="narrowViwe"
-                source={navigationBlue}
-                alt="Target Icon"
-                size="2xs"
-              />
-            )
+            <Image key="wideView" source={route} alt="Target Icon" size="2xs" />
           }
           borderRadius="full"
           bg="#FFFFFF"
@@ -93,7 +132,7 @@ export default function ActiveWalkingRouteBottomSheetComponent({
           padding={14}
           // _hover={{bg: 'blue.600'}}
           _pressed={{bg: '#D9D9E0'}}
-          onPress={() => setIsWideViewState(!isWideViewState)}
+          onPress={() => adjustAngleToMid()}
         />
         <IconButton
           icon={
@@ -128,7 +167,7 @@ export default function ActiveWalkingRouteBottomSheetComponent({
           padding={14}
           // _hover={{bg: 'red.600'}}
           _pressed={{bg: '#D9D9E0'}}
-          onPress={() => setMapToCurrentLocation(12)}
+          onPress={() => setMapToCurrentLocation(8)}
         />
       </VStack>
 
@@ -149,6 +188,7 @@ export default function ActiveWalkingRouteBottomSheetComponent({
                 도착예정
               </Text>
               <HStack>
+                {/* TODO: 오전 오후 반영 */}
                 <Text fontSize="xl" fontWeight="extrabold">
                   오후
                 </Text>
