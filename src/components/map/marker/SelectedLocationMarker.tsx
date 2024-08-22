@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, View} from 'react-native';
+import {View} from 'react-native';
 import {Marker} from 'react-native-maps';
 import defaultPlaceMarker from '../../../assets/images/defaultPlaceMarker.png';
 import BusStationPlaceMarker from '../../../assets/images/busStationMarker.png';

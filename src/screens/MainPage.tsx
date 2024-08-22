@@ -1,6 +1,5 @@
 import React from 'react';
-import {Button, VStack, Image} from 'native-base';
-import targetIcon from '../assets/images/target.png';
+import {VStack} from 'native-base';
 import FilterButtons from 'components/mainpage/FilterButtons';
 import MainSearchBar from 'components/mainpage/MainSearchbar';
 import {searchKeywordState} from 'state/SearchAtoms';
@@ -30,23 +29,6 @@ const MainPage = () => {
         onRegionChangeComplete={onRegionChangeComplete}
       />
 
-      {/* <Button
-        position={'absolute'}
-        bottom={30}
-        right={0}
-        p={'10px'}
-        m={18}
-        _focus={{bg: 'gray.200'}}
-        _pressed={{bg: 'gray.300'}}
-        bg={'gray.100'}
-        borderRadius={'full'}
-        onPress={() => setMapToCurrentLocation(20)}>
-        <Image
-          source={targetIcon}
-          alt="target"
-          style={{width: 28, height: 28}}
-        />
-      </Button> */}
       <CurrentLocationButtonComponent
         onPressFunction={setMapToCurrentLocation}
       />
