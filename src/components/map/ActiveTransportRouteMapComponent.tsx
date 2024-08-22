@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'native-base';
 import MapView, {Circle, Marker, Polyline, Region} from 'react-native-maps';
 // import {rederCurrentLocationMarker} from 'components/map/marker/CurrentLocationMaker';
-import {renderMarkers} from 'components/map/marker/StartMidEndMarker';
+import {ActiveWalkRouteMarker} from 'components/map/marker/ActiveWalkRouteMarker';
 import {locationState} from 'state/locationState';
 import {useRecoilValue} from 'recoil';
 import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';

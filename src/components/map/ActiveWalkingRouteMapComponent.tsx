@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import MapView, {Region} from 'react-native-maps';
 // import {rederCurrentLocationMarker} from 'components/map/marker/CurrentLocationMaker';
 import {renderPolylines} from 'components/map/marker/WalkPoliLine';
-import {renderMarkers} from 'components/map/marker/StartMidEndMarker';
+import {ActiveWalkRouteMarker} from 'components/map/marker/ActiveWalkRouteMarker';
 import {locationState} from 'state/locationState';
 import {useRecoilValue} from 'recoil';
 import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
@@ -34,7 +34,7 @@ const ActiveWalkingRouteMapComponente: React.FC<{
         pitchEnabled={true}
         rotateEnabled={true}>
         {renderPolylines()}
-        {renderMarkers()}
+        {ActiveWalkRouteMarker()}
         {/* {rederCurrentLocationMarker(
           currentLocationState.latitude,
           currentLocationState.longitude,

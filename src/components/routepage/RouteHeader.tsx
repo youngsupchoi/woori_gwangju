@@ -44,6 +44,7 @@ export const RouteHeader = () => {
         bg={'#F0F0F3'}
         p={'6px'}
         borderRadius={'full'}>
+        {/* TODO: 사용자 유형에 따라 휠체어를 도보로 표기 */}
         {['휠체어', '대중교통'].map(method => (
           <MethodButton
             key={method}

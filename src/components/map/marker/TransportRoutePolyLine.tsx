@@ -1,12 +1,6 @@
 import React from 'react';
 import {View} from 'native-base';
-import MapView, {Circle, Marker, Polyline, Region} from 'react-native-maps';
-// import {rederCurrentLocationMarker} from 'components/map/marker/CurrentLocationMaker';
-import {renderPolylines} from 'components/map/marker/WalkPoliLine';
-import {renderMarkers} from 'components/map/marker/StartMidEndMarker';
-import {locationState} from 'state/locationState';
-import {useRecoilValue} from 'recoil';
-import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
+import {Polyline} from 'react-native-maps';
 
 const TransportRoutePolyline = route => {
   return route.legs.map((leg, index) => {
