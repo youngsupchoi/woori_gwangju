@@ -1,5 +1,5 @@
 import useCurrentLocation from 'hooks/currentLocation/useCurrentLocation';
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import {useRecoilState} from 'recoil';
 import {locationState} from 'state/locationState';
@@ -8,23 +8,13 @@ import {locationState} from 'state/locationState';
 export const useLocationTracking = (interval: number = 3000) => {
   const [currentLocation, setCurrentLocation] = useRecoilState(locationState);
 
-  // FIXME: 최적화 가능, 권한 문제때문에 가져옴
+  // FIXME: 최적화 가능, 권한 문제때문에 가져옴, 개발 시 간헐적으로 리로드 후 권한을 가져오지 못하는 문제 존재, 실제 배포환경에서도 그럴지는 확인되지 않음
   useCurrentLocation();
-
-  const [location, setLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  }>({
-    latitude: 0,
-    longitude: 0,
-  });
 
   useEffect(() => {
     const locationWatchId = Geolocation.watchPosition(
       position => {
         const {latitude, longitude} = position.coords;
-        console.log('hihi');
-        setLocation({latitude, longitude});
         setCurrentLocation({latitude, longitude});
       },
       error => console.log(error),
@@ -41,5 +31,5 @@ export const useLocationTracking = (interval: number = 3000) => {
     };
   }, [interval]);
 
-  return location;
+  return currentLocation;
 };

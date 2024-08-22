@@ -16,11 +16,13 @@ import VoiceSearchPage from 'screens/VoiceSearchPage';
 import RoutePage from 'screens/RoutePage';
 import ActiveWalkingRoutePage from 'screens/ActiveWalkingRoutePage';
 import LimitationsAndResponsibilitiesPage from 'screens/LimitationsAndResponsibilitiesPage';
+import {useLocationTracking} from 'hooks/currentLocation/useLocationTracking';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   useCurrentLocation();
+  useLocationTracking(3000); // 3초마다 위치를 트래킹합니다.
 
   return (
     <NavigationContainer>
