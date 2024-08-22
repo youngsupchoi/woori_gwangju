@@ -45,7 +45,6 @@ const MainMapComponent: React.FC<{
       <MapView
         ref={mapRef}
         style={{flex: 1}}
-        region={region}
         onRegionChangeComplete={onRegionChangeComplete}
         minZoomLevel={10}
         maxZoomLevel={20}

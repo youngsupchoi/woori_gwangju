@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {VStack} from 'native-base';
 import FilterButtons from 'components/mainpage/FilterButtons';
 import MainSearchBar from 'components/mainpage/MainSearchbar';
@@ -14,23 +14,25 @@ const MainPage = () => {
     useCurrentLocationMapController();
   const [, setSearchKeyword] = useRecoilState(searchKeywordState);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    setMapToCurrentLocation(8);
+  }, []);
   return (
     <VStack flex={1} bg="blue.400" p={0} m={0} position={'relative'}>
       {/* 검색 바 */}
-
       <MainSearchBar onFocus={() => navigation.navigate('Search')} flex={1} />
-
       {/* 필터 버튼들 */}
       <FilterButtons />
-
       {/* 지도 Placeholder */}
       <MainMapComponent
         mapRef={mapRef}
         onRegionChangeComplete={onRegionChangeComplete}
       />
-
+      {/* 현재위치 버튼 */}
       <CurrentLocationButtonComponent
         onPressFunction={setMapToCurrentLocation}
+        upPosition={0}
       />
     </VStack>
   );

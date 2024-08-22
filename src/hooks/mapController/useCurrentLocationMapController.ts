@@ -22,10 +22,15 @@ export const useCurrentLocationMapController = () => {
         setCurrentLocation({latitude, longitude}); // 현재 위치 상태 업데이트
 
         if (mapRef.current) {
-          mapRef.current.animateCamera({
-            center: {latitude, longitude},
-            zoom: zoomLevel, // 줌 레벨
-          });
+          mapRef.current.animateToRegion(
+            {
+              latitude,
+              longitude,
+              latitudeDelta, // zoom level 적용
+              longitudeDelta, // zoom level 적용
+            },
+            500,
+          ); // 애니메이션 지속 시간 (밀리초)
         }
       },
       error => {

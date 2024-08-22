@@ -17,7 +17,7 @@ const CurrentLocationButtonComponent: React.FC<{
       _pressed={{bg: 'gray.300'}}
       bg={'gray.100'}
       borderRadius={'full'}
-      onPress={() => onPressFunction(20)}>
+      onPress={() => onPressFunction(9)}>
       <Image source={targetIcon} alt="target" style={{width: 28, height: 28}} />
     </Button>
   );
