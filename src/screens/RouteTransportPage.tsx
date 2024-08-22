@@ -31,6 +31,7 @@ import upChevronIcon from 'assets/images/upChevron.png';
 import {useNavigation} from '@react-navigation/native';
 import ActiveTransportRouteMapComponent from 'components/map/ActiveTransportRouteMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
+import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
 
 const {width, height} = Dimensions.get('window');
 
@@ -638,6 +639,7 @@ const RouteTransportPage = () => {
     transform: [{translateY: translateY.value}],
   }));
 
+  // 지도 컨트롤 훅
   const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
     useCurrentLocationMapController();
 
@@ -647,13 +649,18 @@ const RouteTransportPage = () => {
         onBackPress={() => navigation.goBack()}
         title={selectedRoute.legs[selectedRoute.legs.length - 1].start.name}
       />
+
+      {/* 지도뷰 */}
       <ActiveTransportRouteMapComponent
         mapRef={mapRef}
         onRegionChangeComplete={onRegionChangeComplete}
         route={selectedRoute}
       />
       {/* <Animated.View style={{flex: 1, backgroundColor: 'red'}} /> */}
-
+      <CurrentLocationButtonComponent
+        onPressFunction={setMapToCurrentLocation}
+        upPosition={220}
+      />
       <Animated.View
         style={[
           {
