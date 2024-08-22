@@ -13,6 +13,7 @@ import SearchResultPageBottomSheetComponent from 'components/searchpage/SearchRe
 const SearchResultPage = () => {
   const navigation = useNavigation();
   const destination = useRecoilValue(DestinationState); // Recoil에서 목적지 정보 가져오기
+  console.log('🚀 ~ SearchResultPage ~ destination:', destination);
 
   const {width, height} = Dimensions.get('window');
   const ASPECT_RATIO = width / height;
@@ -75,11 +76,10 @@ const SearchResultPage = () => {
       </MapView> */}
 
       <SearchResultMapComponent
+        destination={destination}
         mapRef={mapRef}
         onRegionChangeComplete={onRegionChangeComplete}
       />
-
-      {/* 하단 정보 */}
 
       <SearchResultPageBottomSheetComponent />
     </View>

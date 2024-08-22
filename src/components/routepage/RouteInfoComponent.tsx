@@ -44,6 +44,7 @@ const RouteInfoComponent = () => {
     setStartPointState(destinationState);
     setDestinationState(temp);
   };
+
   return (
     <VStack
       p={'18px'}

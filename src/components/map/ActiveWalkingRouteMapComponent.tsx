@@ -16,7 +16,7 @@ const ActiveWalkingRouteMapComponente: React.FC<{
 
   const initialRegion = {
     latitude: 37.556774278906374,
-    longitude: 126.92364851900282,
+    longitude: 126.92164851900282,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };

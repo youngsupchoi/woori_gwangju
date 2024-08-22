@@ -6,11 +6,17 @@ import {View} from 'native-base';
 import {useRecoilValue} from 'recoil';
 import {locationState} from 'state/locationState';
 import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
+import SelectedLocationMarker from 'components/map/marker/SelectedLocationMarker';
 
 const SearchResultMapComponent: React.FC<{
   mapRef: React.RefObject<MapView>;
   onRegionChangeComplete: (region: Region) => void;
-}> = ({mapRef, onRegionChangeComplete}) => {
+  destination: {
+    name: string;
+    latitude: number;
+    longitude: number;
+  };
+}> = ({mapRef, onRegionChangeComplete, destination}) => {
   // 현재 위치를 가져옵니다.  locationState는 recoil을 사용하여 전역 상태로 관리합니다.
   const currentLocation: {
     latitude: number;
@@ -18,8 +24,8 @@ const SearchResultMapComponent: React.FC<{
   } = useRecoilValue(locationState);
 
   const [region, setRegion] = useState<Region>({
-    latitude: currentLocation.latitude,
-    longitude: currentLocation.longitude,
+    latitude: destination.latitude,
+    longitude: destination.longitude,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   });
@@ -45,7 +51,12 @@ const SearchResultMapComponent: React.FC<{
       <MapView
         ref={mapRef}
         style={{flex: 1}}
-        region={region}
+        initialRegion={{
+          latitude: destination.latitude,
+          longitude: destination.longitude,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        }}
         onRegionChangeComplete={onRegionChangeComplete}
         minZoomLevel={10}
         maxZoomLevel={20}
@@ -53,9 +64,12 @@ const SearchResultMapComponent: React.FC<{
         scrollEnabled={true}
         pitchEnabled={true}
         rotateEnabled={true}>
-        {/* {renderPolylines()} */}
-        {/* {renderMarkers()} */}
         {/* {rederCurrentLocationMarker(region.latitude, region.longitude)} */}
+        <SelectedLocationMarker
+          name={destination.name}
+          latitude={destination.latitude}
+          longitude={destination.longitude}
+        />
         <CurrentLocationMarker />
       </MapView>
     </View>
