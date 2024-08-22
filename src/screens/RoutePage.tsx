@@ -20,6 +20,7 @@ import WalkingRouteBottmeSheetComponent from 'components/routepage/WalkingRouteB
 import ActiveWalkingRouteMapComponente from 'components/map/ActiveWalkingRouteMapComponent';
 import {useSearchWalkingRoute} from 'hooks/searchRoute/useSearchWalknigRoute';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
+import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -132,6 +133,10 @@ const RoutePage = () => {
           <ActiveWalkingRouteMapComponente
             mapRef={mapRef}
             onRegionChangeComplete={onRegionChangeComplete}
+          />
+          <CurrentLocationButtonComponent
+            onPressFunction={setMapToCurrentLocation}
+            upPosition={160}
           />
           <Box position="absolute" bottom={0} left={0} right={0}>
             <WalkingRouteBottmeSheetComponent />
