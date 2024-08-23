@@ -4,8 +4,10 @@ import Voice from '@react-native-voice/voice';
 import {useRecoilState} from 'recoil';
 import {searchKeywordState} from 'state/SearchAtoms';
 import {useNavigation} from '@react-navigation/native';
-import voiceAnimation from 'assets/images/voiceAnimation.png';
+import voiceAnimation from 'assets/gif/Waiting2.gif';
+import loadingAnimation from 'assets/gif/LoadingAnimation.gif';
 import closeIcon from 'assets/images/closeIcon.png';
+import micBtn from 'assets/images/micBtn.png';
 
 const VoiceSearchPage = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -71,7 +73,7 @@ const VoiceSearchPage = () => {
     };
 
     // 컴포넌트 마운트 시 음성 인식 시작
-    startRecording();
+    // startRecording();
 
     return () => {
       // 컴포넌트 언마운트 시 리스너 제거
@@ -93,6 +95,7 @@ const VoiceSearchPage = () => {
           flex={5}
           justifyContent={'center'}
           borderBottomRadius={20}
+          pt={16}
           bg={'#fff'}>
           <Image
             source={voiceAnimation}
@@ -109,25 +112,22 @@ const VoiceSearchPage = () => {
           </Text>
           {isLoading ? (
             <View>
-              <Spinner size="lg" />
+              <Image
+                source={loadingAnimation}
+                alt="cancel"
+                size=""
+                w={'60px'}
+                h={'60px'}
+              />
             </View>
           ) : (
             <Button
+              variant={'ghost'}
               onPress={isRecording ? stopRecording : startRecording}
-              borderRadius="full"
-              w={16}
-              h={16}
-              bg="gray.200"
               justifyContent="center"
-              alignItems="center"
-              mt={8}>
+              alignItems="center">
               <Image
-                source={
-                  isRecording
-                    ? voiceAnimation
-                    : //   require('../assets/images/mic-off.png')
-                      null
-                }
+                source={isRecording ? micBtn : micBtn}
                 alt="mic"
                 size="lg"
               />
@@ -145,7 +145,14 @@ const VoiceSearchPage = () => {
           <Text fontSize="36px" fontWeight="bold" color="#FFFFFF" mb={4}>
             {recognizedText}
           </Text>
-          <Spinner size="lg" color="white" />
+
+          <Image
+            source={loadingAnimation}
+            alt="cancel"
+            size=""
+            w={'60px'}
+            h={'60px'}
+          />
         </VStack>
       ) : (
         <VStack
@@ -161,7 +168,14 @@ const VoiceSearchPage = () => {
           <Text fontSize="20px" fontWeight="semibold" color="#FFFFFF">
             으로 검색 중이에요
           </Text>
-          <Spinner size="lg" color="white" mt={4} />
+
+          <Image
+            source={loadingAnimation}
+            alt="cancel"
+            size=""
+            w={'60px'}
+            h={'60px'}
+          />
           <Text fontSize="24px" fontWeight="semibold" color="#FFFFFF" mt={2}>
             잠시만 기다려주세요
           </Text>
