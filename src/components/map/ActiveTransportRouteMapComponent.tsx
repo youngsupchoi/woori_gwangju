@@ -1,34 +1,32 @@
 import React from 'react';
-import {View} from 'react-native';
-import MapView, {Region} from 'react-native-maps';
+import {View} from 'native-base';
+import MapView, {Circle, Marker, Polyline, Region} from 'react-native-maps';
 // import {rederCurrentLocationMarker} from 'components/map/marker/CurrentLocationMaker';
-import {renderPolylines} from 'components/map/marker/WalkPoliLine';
 import {ActiveWalkRouteMarker} from 'components/map/marker/ActiveWalkRouteMarker';
 import {locationState} from 'state/locationState';
 import {useRecoilValue} from 'recoil';
 import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
-import {DestinationState} from 'state/RouteAtoms';
+import TransportRoutePolyline from 'components/map/marker/TransportRoutePolyLine';
+import TransportRouteMarker from 'components/map/marker/TransportRouteMarker';
 
-const ActiveWalkingRouteMapComponente: React.FC<{
+const ActiveTransportRouteMapComponent: React.FC<{
   mapRef: React.RefObject<MapView>;
   onRegionChangeComplete: (region: Region) => void;
-}> = ({mapRef, onRegionChangeComplete}) => {
+  route: any;
+}> = ({mapRef, onRegionChangeComplete, route}) => {
   const currentLocationState = useRecoilValue(locationState);
-  console.log('🚀 ~ currentLocationState222:', currentLocationState);
-  const destinationState = useRecoilValue(DestinationState);
 
-  const initialRegion = {
-    latitude: currentLocationState.latitude - 0.0016,
-    longitude: currentLocationState.longitude,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  };
   return (
     <View style={{flex: 1}}>
       <MapView
         ref={mapRef}
         style={{flex: 1}}
-        initialRegion={initialRegion}
+        initialRegion={{
+          latitude: route.legs[0].start.lat, // 경로의 첫 시작점을 지도의 초기 위치로 설정
+          longitude: route.legs[0].start.lon,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        }}
         onRegionChangeComplete={onRegionChangeComplete}
         minZoomLevel={10}
         maxZoomLevel={20}
@@ -36,8 +34,8 @@ const ActiveWalkingRouteMapComponente: React.FC<{
         scrollEnabled={true}
         pitchEnabled={true}
         rotateEnabled={true}>
-        {renderPolylines()}
-        {ActiveWalkRouteMarker()}
+        {TransportRoutePolyline(route)}
+        {TransportRouteMarker(route)}
         {/* {rederCurrentLocationMarker(
           currentLocationState.latitude,
           currentLocationState.longitude,
@@ -48,4 +46,4 @@ const ActiveWalkingRouteMapComponente: React.FC<{
   );
 };
 
-export default ActiveWalkingRouteMapComponente;
+export default ActiveTransportRouteMapComponent;

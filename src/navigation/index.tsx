@@ -13,7 +13,6 @@ import SearchResultPage from '../screens/SearchResultPage';
 import SearchDetailTransportPage from '../screens/SearchDetailTransportPage';
 import SearchDetailModificationPage from '../screens/SearchDetailModificationPage';
 import RouteTransportPage from '../screens/RouteTransportPage';
-import RouteWheelchairPage from '../screens/RouteWheelchairPage';
 import useCurrentLocation from 'hooks/currentLocation/useCurrentLocation';
 import VoiceSearchPage from 'screens/VoiceSearchPage';
 import RoutePage from 'screens/RoutePage';
@@ -22,6 +21,9 @@ import PrivacyPage from 'screens/PrivacyPage';
 import TermPage from 'screens/TermPage';
 import disabledIcon from 'assets/images/onboardingWheelchair.png';
 import rightChevron from 'assets/images/rightChevron.png';
+
+import LimitationsAndResponsibilitiesPage from 'screens/LimitationsAndResponsibilitiesPage';
+import {useLocationTracking} from 'hooks/currentLocation/useLocationTracking';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -96,6 +98,7 @@ const MainStackNavigator = () => (
 
 const AppNavigator = () => {
   useCurrentLocation();
+  useLocationTracking(3000); // 3초마다 위치를 트래킹합니다.
 
   return (
     <NavigationContainer>
@@ -108,6 +111,41 @@ const AppNavigator = () => {
         <Drawer.Screen name="Privacy" component={PrivacyPage} />
         <Drawer.Screen name="Term" component={TermPage} />
       </Drawer.Navigator>
+      <Stack.Navigator
+        initialRouteName="Main"
+        screenOptions={{
+          headerShown: false,
+          cardStyleInterpolator: ({current}: StackCardInterpolationProps) => ({
+            cardStyle: {
+              opacity: current.progress,
+            },
+          }),
+        }}>
+        <Stack.Screen name="Onboarding" component={OnboardingPage} />
+        <Stack.Screen name="Main" component={MainPage} />
+        <Stack.Screen name="Search" component={SearchPage} />
+        <Stack.Screen name="SearchResult" component={SearchResultPage} />
+        <Stack.Screen
+          name="SearchDetailTransport"
+          component={SearchDetailTransportPage}
+        />
+        <Stack.Screen name="VoiceSearch" component={VoiceSearchPage} />
+        {/* VoiceSearchPage 추가 */}
+        <Stack.Screen
+          name="SearchDetailModification"
+          component={SearchDetailModificationPage}
+        />
+        <Stack.Screen name="Route" component={RoutePage} />
+        <Stack.Screen name="RouteTransport" component={RouteTransportPage} />
+        <Stack.Screen
+          name="ActiveWalkingRoutePage"
+          component={ActiveWalkingRoutePage}
+        />
+        <Stack.Screen
+          name="LimitationsAndResponsibilitiesPage"
+          component={LimitationsAndResponsibilitiesPage}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

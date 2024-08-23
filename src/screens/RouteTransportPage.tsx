@@ -10,7 +10,6 @@ import {
   IconButton,
   Collapse,
 } from 'native-base';
-import MapView, {Circle, Marker, Polyline} from 'react-native-maps';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {selectedRouteState, VoiceNavigationState} from 'state/RouteAtoms';
 import {Dimensions, PanResponder} from 'react-native';
@@ -30,94 +29,11 @@ import routeEndIcon from 'assets/images/RouteEndIcon.png';
 import downChevronIcon from 'assets/images/downChevron.png';
 import upChevronIcon from 'assets/images/upChevron.png';
 import {useNavigation} from '@react-navigation/native';
+import ActiveTransportRouteMapComponent from 'components/map/ActiveTransportRouteMapComponent';
+import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
+import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
 
 const {width, height} = Dimensions.get('window');
-
-const MapComponent = ({route}) => {
-  const renderPolyline = () => {
-    return route.legs.map((leg, index) => {
-      // 각 구간의 linestring 데이터를 Polyline으로 변환
-      const coordinates = leg.passShape?.linestring.split(' ').map(coord => {
-        const [lon, lat] = coord.split(',').map(parseFloat);
-        return {latitude: lat, longitude: lon};
-      });
-
-      return (
-        <Polyline
-          key={index}
-          coordinates={coordinates}
-          strokeColor={`#${leg.routeColor || '000'}`} // 경로 색상, 없으면 검정색
-          strokeWidth={8}
-        />
-      );
-    });
-  };
-
-  const renderMarkers = () => {
-    const markers = [];
-
-    // 출발지 Marker
-    markers.push(
-      <Marker
-        key="start"
-        coordinate={{
-          latitude: route.legs[0].start.lat,
-          longitude: route.legs[0].start.lon,
-        }}
-        title="출발지"
-        pinColor="green">
-        <View bg={'red.500'} h={'20'} />
-      </Marker>,
-    );
-
-    // 도착지 Marker
-    markers.push(
-      <Marker
-        key="end"
-        coordinate={{
-          latitude: route.legs[route.legs.length - 1].end.lat,
-          longitude: route.legs[route.legs.length - 1].end.lon,
-        }}
-        title="도착지"
-        pinColor="red"
-      />,
-    );
-
-    // 중간 경유지 Marker (버스 정류장, 지하철 역 등)
-    route.legs.forEach((leg, legIndex) => {
-      if (leg.passStopList) {
-        leg.passStopList.stationList.forEach((station, stationIndex) => {
-          markers.push(
-            <Circle
-              key={`station-${legIndex}-${stationIndex}`}
-              // coordinate={{
-              //   latitude: parseFloat(station.lat),
-              //   longitude: parseFloat(station.lon),
-              // }}
-              title={station.stationName}
-            />,
-          );
-        });
-      }
-    });
-
-    return markers;
-  };
-
-  return (
-    <MapView
-      style={{width, height: 300}} // 지도의 높이 설정
-      initialRegion={{
-        latitude: route.legs[0].start.lat, // 경로의 첫 시작점을 지도의 초기 위치로 설정
-        longitude: route.legs[0].start.lon,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      }}>
-      {renderPolyline()}
-      {renderMarkers()}
-    </MapView>
-  );
-};
 
 const HeaderComponent = ({onBackPress, title}) => (
   <HStack
@@ -723,15 +639,28 @@ const RouteTransportPage = () => {
     transform: [{translateY: translateY.value}],
   }));
 
+  // 지도 컨트롤 훅
+  const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
+    useCurrentLocationMapController();
+
   return (
     <VStack flex={1} bg="white" position={'relative'}>
       <HeaderComponent
         onBackPress={() => navigation.goBack()}
         title={selectedRoute.legs[selectedRoute.legs.length - 1].start.name}
       />
-      <MapComponent route={selectedRoute} />
-      {/* <Animated.View style={{flex: 1, backgroundColor: 'red'}} /> */}
 
+      {/* 지도뷰 */}
+      <ActiveTransportRouteMapComponent
+        mapRef={mapRef}
+        onRegionChangeComplete={onRegionChangeComplete}
+        route={selectedRoute}
+      />
+      {/* <Animated.View style={{flex: 1, backgroundColor: 'red'}} /> */}
+      <CurrentLocationButtonComponent
+        onPressFunction={setMapToCurrentLocation}
+        upPosition={220}
+      />
       <Animated.View
         style={[
           {
