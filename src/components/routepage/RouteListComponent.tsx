@@ -106,7 +106,7 @@ const CountdownTimer = ({initialSeconds}) => {
 };
 
 const RouteListComponent = () => {
-  const [routeList] = useRecoilState(RouteListState);
+  const [routeList, setRouteList] = useRecoilState(RouteListState);
   const [selectedMethod] = useRecoilState(SelectedTransportMethodState); // 선택된 대중교통 수단
   const navigation = useNavigation();
   const [, setSelectedRouteState] = useRecoilState(selectedRouteState);
@@ -163,6 +163,10 @@ const RouteListComponent = () => {
     }
     return null;
   };
+
+  useEffect(() => {
+    setRouteList(routeList);
+  }, [routeList]);
 
   return (
     <>

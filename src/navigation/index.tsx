@@ -88,10 +88,14 @@ const MainStackNavigator = () => (
     />
     <Stack.Screen name="Route" component={RoutePage} />
     <Stack.Screen name="RouteTransport" component={RouteTransportPage} />
-    <Stack.Screen name="RouteWheelchair" component={RouteWheelchairPage} />
+    {/* <Stack.Screen name="RouteWheelchair" component={RouteWheelchairPage} /> */}
     <Stack.Screen
       name="ActiveWalkingRoutePage"
       component={ActiveWalkingRoutePage}
+    />
+    <Stack.Screen
+      name="LimitationsAndResponsibilitiesPage"
+      component={LimitationsAndResponsibilitiesPage}
     />
   </Stack.Navigator>
 );
@@ -111,41 +115,6 @@ const AppNavigator = () => {
         <Drawer.Screen name="Privacy" component={PrivacyPage} />
         <Drawer.Screen name="Term" component={TermPage} />
       </Drawer.Navigator>
-      <Stack.Navigator
-        initialRouteName="Main"
-        screenOptions={{
-          headerShown: false,
-          cardStyleInterpolator: ({current}: StackCardInterpolationProps) => ({
-            cardStyle: {
-              opacity: current.progress,
-            },
-          }),
-        }}>
-        <Stack.Screen name="Onboarding" component={OnboardingPage} />
-        <Stack.Screen name="Main" component={MainPage} />
-        <Stack.Screen name="Search" component={SearchPage} />
-        <Stack.Screen name="SearchResult" component={SearchResultPage} />
-        <Stack.Screen
-          name="SearchDetailTransport"
-          component={SearchDetailTransportPage}
-        />
-        <Stack.Screen name="VoiceSearch" component={VoiceSearchPage} />
-        {/* VoiceSearchPage 추가 */}
-        <Stack.Screen
-          name="SearchDetailModification"
-          component={SearchDetailModificationPage}
-        />
-        <Stack.Screen name="Route" component={RoutePage} />
-        <Stack.Screen name="RouteTransport" component={RouteTransportPage} />
-        <Stack.Screen
-          name="ActiveWalkingRoutePage"
-          component={ActiveWalkingRoutePage}
-        />
-        <Stack.Screen
-          name="LimitationsAndResponsibilitiesPage"
-          component={LimitationsAndResponsibilitiesPage}
-        />
-      </Stack.Navigator>
     </NavigationContainer>
   );
 };
