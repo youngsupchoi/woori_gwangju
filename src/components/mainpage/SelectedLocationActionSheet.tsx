@@ -57,8 +57,8 @@ const SelectedLocationActionSheet = () => {
         {
           startX: currentLocation.longitude,
           startY: currentLocation.latitude,
-          endX: destination.longitude,
-          endY: destination.latitude,
+          endX: selectedLocation.longitude,
+          endY: selectedLocation.latitude,
           startName: '출발지',
           endName: '도착지',
         },
