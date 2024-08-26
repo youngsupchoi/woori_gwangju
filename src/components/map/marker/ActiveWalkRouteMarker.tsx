@@ -20,10 +20,10 @@ export const ActiveWalkRouteMarker = () => {
       let zIndex = 1; // 기본 zIndex는 낮게 설정
 
       if (pointType === 'SP') {
-        markerImage = startPin;
+        markerImage = endPin;
         zIndex = 3; // 시작점 zIndex를 높게 설정
       } else if (pointType === 'EP') {
-        markerImage = endPin;
+        markerImage = startPin;
         zIndex = 3; // 도착점 zIndex를 높게 설정
       } else {
         markerImage = midPin;

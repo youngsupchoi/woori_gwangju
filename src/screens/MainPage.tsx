@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import MainMapComponent from '../components/map/MainMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
+import SelectedLocationActionSheet from 'components/mainpage/SelectedLocationActionSheet';
 // import {useRecoilState} from 'recoil';
 
 const MainPage = () => {
@@ -37,6 +38,8 @@ const MainPage = () => {
         onPressFunction={setMapToCurrentLocation}
         upPosition={0}
       />
+
+      <SelectedLocationActionSheet />
     </VStack>
   );
 };

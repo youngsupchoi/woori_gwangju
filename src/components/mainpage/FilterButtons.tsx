@@ -66,6 +66,7 @@ const FilterButtons = () => {
       h={'36px'}
       maxH={'36px'}
       mt={'18px'}
+      mb={'12px'}
       p={0}
       showsHorizontalScrollIndicator={false}>
       <HStack space={4} justifyContent="flex-start" px={4} py={0}>

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {VStack} from 'native-base';
+import {View, VStack} from 'native-base';
 import haversine from 'haversine';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
@@ -14,12 +14,29 @@ import FilterButtons from 'components/mainpage/FilterButtons';
 import {fetchPOIResults} from 'apis/poiSearch';
 import {locationState} from 'state/locationState';
 import MainSearchBar from 'components/mainpage/MainSearchbar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SearchPage = () => {
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
-  const [recentSearches] = useRecoilState(recentSearchesState);
+  const [recentSearches, setRecentSearches] =
+    useRecoilState(recentSearchesState);
   const [searchResult, setSearchResult] = useRecoilState(searchResultState);
   const currentLocation = useRecoilValue(locationState); // 현재 위치 가져오기
+
+  const handleRecentSearches = async () => {
+    try {
+      const recentSearch = await AsyncStorage.getItem('recentSearches');
+      if (recentSearch) {
+        // JSON 파싱 후 상태에 저장
+        setRecentSearches(JSON.parse(recentSearch));
+      } else {
+        setRecentSearches([]); // 비어있으면 빈 배열로 설정
+      }
+    } catch (error) {
+      console.error('Error fetching recent searches:', error);
+      setRecentSearches([]); // 에러 발생 시에도 빈 배열로 설정
+    }
+  };
 
   useEffect(() => {
     if (searchKeyword) {
@@ -32,12 +49,6 @@ const SearchPage = () => {
               latitude: item.frontLat,
               longitude: item.frontLon,
             });
-            console.log(
-              item.frontLat,
-              item.frontLon,
-              currentLocation.latitude,
-              currentLocation.longitude,
-            );
             return {...item, distance: distance.toFixed(1)}; // 거리 값을 km로 표시
           });
           setSearchResult(resultsWithDistance);
@@ -48,10 +59,13 @@ const SearchPage = () => {
     }
   }, [searchKeyword, currentLocation]);
 
+  useEffect(() => {
+    handleRecentSearches(); // 최근 검색 내역 로드
+  }, []);
+
   return (
     <VStack flex={1} bg="white" p={0} m={0}>
       {/* 검색 바 */}
-
       <MainSearchBar
         showBackButton={true}
         onChangeText={text => setSearchKeyword(text)}
@@ -60,20 +74,21 @@ const SearchPage = () => {
       {/* 필터 버튼들 */}
       <FilterButtons />
 
-      {console.log(searchResult)}
-      {searchKeyword === '' ? (
-        <SharedSearchListComponent
-          data={recentSearches}
-          iconSource={historyIcon}
-          title="최근 검색"
-        />
-      ) : (
-        <SharedSearchListComponent
-          data={searchResult}
-          iconSource={searchResultLocationIcon}
-          highlightKeyword={searchKeyword}
-        />
-      )}
+      <View flex={1}>
+        {searchKeyword === '' && recentSearches.length !== 0 ? (
+          <SharedSearchListComponent
+            data={recentSearches}
+            iconSource={historyIcon}
+            title="최근 검색"
+          />
+        ) : (
+          <SharedSearchListComponent
+            data={searchResult}
+            iconSource={searchResultLocationIcon}
+            highlightKeyword={searchKeyword}
+          />
+        )}
+      </View>
     </VStack>
   );
 };
