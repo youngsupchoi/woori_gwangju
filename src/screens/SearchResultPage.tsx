@@ -35,9 +35,7 @@ const SearchResultPage = () => {
         bg="white"
         borderBottomWidth={1}
         borderBottomColor="gray.200">
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          _pressed={{backgroundColor: 'transparent'}}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={LeftChevron}
             alt="back"

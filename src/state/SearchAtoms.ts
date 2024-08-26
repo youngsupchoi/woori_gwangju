@@ -11,11 +11,25 @@ export const recentSearchesState = atom({
     {
       name: '서울역',
       distance: 0.5,
+      newAddressList: {
+        newAddress: [
+          {
+            fullAddressRoad: '서울특별시 용산구 동자동',
+          },
+        ],
+      },
       address: '서울특별시 용산구 동자동',
     },
     {
       name: '서울역',
       distance: 0.5,
+      newAddressList: {
+        newAddress: [
+          {
+            fullAddressRoad: '서울특별시 용산구 동자동',
+          },
+        ],
+      },
       address: '서울특별시 용산구 동자동',
     },
   ], // 최근 검색 내역의 초기값
@@ -27,11 +41,25 @@ export const searchResultState = atom({
     {
       name: '서울역',
       distance: 0.5,
+      newAddressList: {
+        newAddress: [
+          {
+            fullAddressRoad: '서울특별시 용산구 동자동',
+          },
+        ],
+      },
       address: '서울특별시 용산구 동자동',
     },
     {
       name: '서울역',
       distance: 0.5,
+      newAddressList: {
+        newAddress: [
+          {
+            fullAddressRoad: '서울특별시 용산구 동자동',
+          },
+        ],
+      },
       address: '서울특별시 용산구 동자동',
     },
   ], // 최근 검색 내역의 초기값

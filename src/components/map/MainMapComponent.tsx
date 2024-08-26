@@ -1,37 +1,69 @@
-import React, {useEffect, useState} from 'react';
-import MapView, {Region} from 'react-native-maps';
-// import {renderPolylines} from 'components/map/marker/WalkPoliLine';
-// import {ActiveWalkRouteMarker} from 'components/map/marker/ActiveWalkRouteMarker';
-import {View} from 'native-base';
-import {useRecoilValue} from 'recoil';
+import React, {useState} from 'react';
+import MapView, {Marker, MapPressEvent} from 'react-native-maps';
+import {View, ActionSheet, Text, Button} from 'native-base';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {locationState} from 'state/locationState';
 import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
+import Config from 'react-native-config'; // react-native-config를 사용해 환경 변수 불러오기
+import axios from 'axios'; // HTTP 요청을 위한 axios 사용
+import {IsActionSheetOpen, SelectedLocationState} from 'state/HomeMapAtoms';
 
 const MainMapComponent: React.FC<{
   mapRef: React.RefObject<MapView>;
   onRegionChangeComplete: (region: Region) => void;
 }> = ({mapRef, onRegionChangeComplete}) => {
-  // 현재 위치를 가져옵니다.  locationState는 recoil을 사용하여 전역 상태로 관리합니다.
-  const currentLocation: {
-    latitude: number;
-    longitude: number;
-  } = useRecoilValue(locationState);
+  const currentLocation = useRecoilValue(locationState);
+  const [selectedLocation, setSelectedLocation] = useRecoilState(
+    SelectedLocationState,
+  );
+  const [isActionSheetOpen, setIsActionSheetOpen] =
+    useRecoilState(IsActionSheetOpen);
 
-  const [region, setRegion] = useState<Region>({
-    latitude: currentLocation.latitude,
-    longitude: currentLocation.longitude,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  });
-  // currentLocation이 변경될 때마다 region 상태를 업데이트
-  useEffect(() => {
-    setRegion({
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    });
-  }, [currentLocation]);
+  // TMAP API KEY 가져오기
+  const TMAP_API_KEY = Config.TMAP_API_KEY;
+
+  const handleMapPress = async (e: MapPressEvent) => {
+    const {latitude, longitude} = e.nativeEvent.coordinate;
+
+    try {
+      // TMap Reverse Geocoding API 호출
+      const response = await axios.get(
+        `https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=1&lat=${latitude}&lon=${longitude}&coordType=WGS84GEO&addressType=A10&appKey=${TMAP_API_KEY}`,
+      );
+
+      const {
+        city_do,
+        gu_gun,
+        eup_myeon,
+        adminDong,
+        ri,
+        roadName,
+        buildingIndex,
+        fullAddress,
+        buildingName,
+      } = response.data.addressInfo || {};
+
+      // 위치 정보 설정
+      setSelectedLocation({
+        city_do,
+        gu_gun,
+        eup_myeon,
+        adminDong,
+        ri,
+        roadName,
+        buildingIndex,
+        buildingName,
+        fullAddress,
+        latitude,
+        longitude,
+      });
+
+      // ActionSheet 열기
+      setIsActionSheetOpen(true);
+    } catch (error) {
+      console.error('Reverse Geocoding Error:', error);
+    }
+  };
 
   return (
     <View
@@ -51,11 +83,20 @@ const MainMapComponent: React.FC<{
         zoomEnabled={true}
         scrollEnabled={true}
         pitchEnabled={true}
-        rotateEnabled={true}>
-        {/* {renderPolylines()} */}
-        {/* {ActiveWalkRouteMarker()} */}
-        {/* {rederCurrentLocationMarker(region.latitude, region.longitude)} */}
+        rotateEnabled={true}
+        onPress={handleMapPress} // 지도 터치 이벤트 처리
+      >
         <CurrentLocationMarker />
+        {selectedLocation && isActionSheetOpen && (
+          <Marker
+            coordinate={{
+              latitude: selectedLocation.latitude,
+              longitude: selectedLocation.longitude,
+            }}
+            title="선택한 위치"
+            description={selectedLocation.address}
+          />
+        )}
       </MapView>
     </View>
   );
