@@ -7,6 +7,7 @@ import CurrentLocationMarker from 'components/map/marker/CurrentLocationMaker';
 import Config from 'react-native-config'; // react-native-config를 사용해 환경 변수 불러오기
 import axios from 'axios'; // HTTP 요청을 위한 axios 사용
 import {IsActionSheetOpen, SelectedLocationState} from 'state/HomeMapAtoms';
+import TouchedLocationMarker from 'components/map/marker/TouchedLocationMarker';
 
 const MainMapComponent: React.FC<{
   mapRef: React.RefObject<MapView>;
@@ -86,17 +87,10 @@ const MainMapComponent: React.FC<{
         rotateEnabled={true}
         onPress={handleMapPress} // 지도 터치 이벤트 처리
       >
+        {/* 현재 위치 마커 표시 */}
         <CurrentLocationMarker />
-        {selectedLocation && isActionSheetOpen && (
-          <Marker
-            coordinate={{
-              latitude: selectedLocation.latitude,
-              longitude: selectedLocation.longitude,
-            }}
-            title="선택한 위치"
-            description={selectedLocation.address}
-          />
-        )}
+        {/* 터치한 위치에 마커 표시 */}
+        {selectedLocation && isActionSheetOpen && <TouchedLocationMarker />}
       </MapView>
     </View>
   );
