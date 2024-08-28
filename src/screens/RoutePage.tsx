@@ -19,7 +19,7 @@ import WalkingRouteBottmeSheetComponent from 'components/routepage/WalkingRouteB
 import ActiveWalkingRouteMapComponente from 'components/map/ActiveWalkingRouteMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
-// import {getWalkingRoute} from 'apis/getWalkingRoute';
+import {useRoute} from '@react-navigation/native'; // route 사용을 위해 추가
 
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
@@ -29,6 +29,10 @@ const RoutePage = () => {
   const [destinationState] = useRecoilState(DestinationState);
   const [selectedMethodState] = useRecoilState(SelectedMethodState);
   const [routeList, setRouteList] = useRecoilState(RouteListState);
+  const route = useRoute(); // route 사용을 위해 추가
+
+  // 전달받은 startPoint 파라미터
+  const {startPoint} = route.params || {};
 
   const fetchAddressFromCoordinates = async (latitude, longitude) => {
     try {
@@ -52,6 +56,7 @@ const RoutePage = () => {
   // 대중 교통 경로 가져오기
   const fetchRoutes = async () => {
     try {
+      console.log(startPointState, destinationState);
       const response = await axios.post(
         'https://apis.openapi.sk.com/transit/routes',
         {
@@ -59,7 +64,7 @@ const RoutePage = () => {
           startY: startPointState.latitude,
           endX: destinationState.longitude,
           endY: destinationState.latitude,
-          count: 1,
+          count: 10,
           lang: 0,
           format: 'json',
         },
@@ -85,26 +90,30 @@ const RoutePage = () => {
       console.error('Error fetching route data:', error);
     }
   };
+
   // 위치 정보 갱신
   useEffect(() => {
-    if (currentLocation.latitude && currentLocation.longitude) {
-      // 첫 번째 API 호출
+    if (startPoint) {
+      // startPoint 파라미터가 있는 경우 이를 사용
+      setStartPointState(startPoint);
+    } else if (currentLocation.latitude && currentLocation.longitude) {
+      // startPoint 파라미터가 없는 경우 현재 위치를 사용
       fetchAddressFromCoordinates(
         currentLocation.latitude,
         currentLocation.longitude,
       );
-
-      // 3초 지연 후 두 번째 API 호출
-      setTimeout(() => {
-        fetchRoutes();
-      }, 10000);
     }
-  }, [currentLocation, setStartPointState]);
+  }, []);
+
+  useEffect(() => {
+    fetchRoutes();
+  }, [startPointState, destinationState]);
 
   useFetchArrivalData();
 
   const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
     useCurrentLocationMapController();
+
   return (
     <VStack flex={1} bg="white">
       <RouteHeader />
@@ -128,7 +137,6 @@ const RoutePage = () => {
         <ScrollView flex={1}>
           <>
             <MethodFilterComponent />
-            {/* 경로 리스트 렌더링 */}
             <RouteListComponent />
           </>
         </ScrollView>

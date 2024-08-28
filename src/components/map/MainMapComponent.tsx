@@ -50,10 +50,10 @@ const MainMapComponent: React.FC<{
 
     const filteredBusStations = busStations.filter(station => {
       return (
-        station.LATITUDE >= minLatitude &&
-        station.LATITUDE <= maxLatitude &&
-        station.LONGITUDE >= minLongitude &&
-        station.LONGITUDE <= maxLongitude
+        station.gpslati >= minLatitude &&
+        station.gpslati <= maxLatitude &&
+        station.gpslong >= minLongitude &&
+        station.gpslong <= maxLongitude
       );
     });
 
@@ -151,12 +151,12 @@ const MainMapComponent: React.FC<{
         {showMarkerState.includes('버스') &&
           visibleBusStations.map(station => (
             <Marker
-              key={station.BUSSTOP_ID}
+              key={station.nodeid}
               coordinate={{
-                latitude: station.LATITUDE,
-                longitude: station.LONGITUDE,
+                latitude: station.gpslati,
+                longitude: station.gpslong,
               }}
-              title={station.BUSSTOP_NAME}>
+              title={station.nodenm}>
               <Image
                 source={busMarkerIcon} // 버스 PNG 이미지
                 alt="Bus Station"

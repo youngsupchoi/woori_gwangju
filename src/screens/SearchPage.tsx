@@ -15,8 +15,12 @@ import {fetchPOIResults} from 'apis/poiSearch';
 import {locationState} from 'state/locationState';
 import MainSearchBar from 'components/mainpage/MainSearchbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useRoute} from '@react-navigation/native';
 
 const SearchPage = () => {
+  const route = useRoute(); // route 객체를 사용하여 전달된 파라미터 접근
+  const {isDestination = true, isReset = false} = route.params || {}; // 전달된 파라미터 사용
+
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
   const [recentSearches, setRecentSearches] =
     useRecoilState(recentSearchesState);
@@ -77,13 +81,17 @@ const SearchPage = () => {
       <View flex={1}>
         {searchKeyword === '' && recentSearches.length !== 0 ? (
           <SharedSearchListComponent
+            isDestination={isDestination}
             isRecentSearch={true}
+            isReset={isReset}
             data={recentSearches}
             iconSource={historyIcon}
             title="최근 검색"
           />
         ) : (
           <SharedSearchListComponent
+            isDestination={isDestination}
+            isReset={isReset}
             data={searchResult}
             iconSource={searchResultLocationIcon}
             highlightKeyword={searchKeyword}

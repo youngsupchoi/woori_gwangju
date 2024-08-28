@@ -12,17 +12,21 @@ import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
-import {DestinationState} from 'state/RouteAtoms';
+import {DestinationState, StartPointState} from 'state/RouteAtoms';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SharedSearchListComponent = ({
   isRecentSearch,
+  isDestination = true,
+  isReset = false,
   data,
   iconSource,
   highlightKeyword = '',
   title,
 }: {
   isRecentSearch?: boolean;
+  isDestination?: boolean;
+  isReset?: boolean;
   data: Array<any>;
   iconSource: any;
   highlightKeyword?: string;
@@ -30,32 +34,66 @@ const SharedSearchListComponent = ({
 }) => {
   const navigation = useNavigation();
   const [, setDestinationState] = useRecoilState(DestinationState);
+  const [startPointState, setStartPointState] = useRecoilState(StartPointState);
 
   const handlePress = async (item: any) => {
-    // Recoil 상태에 선택된 목적지 설정
-    setDestinationState({
-      name: item.name,
-      longitude: item.frontLon,
-      latitude: item.frontLat,
-      address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
-    });
+    let startPoint = startPointState;
+
+    if (isDestination) {
+      setDestinationState(
+        !isRecentSearch
+          ? {
+              name: item.name,
+              longitude: item.frontLon,
+              latitude: item.frontLat,
+              address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
+            }
+          : {
+              name: item.name,
+              longitude: item.longitude,
+              latitude: item.latitude,
+              address: item.address,
+            },
+      );
+    } else {
+      startPoint = !isRecentSearch
+        ? {
+            name: item.name,
+            longitude: item.frontLon,
+            latitude: item.frontLat,
+            address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
+          }
+        : {
+            name: item.name,
+            longitude: item.longitude,
+            latitude: item.latitude,
+            address: item.address,
+          };
+      setStartPointState(startPoint);
+    }
 
     try {
-      // 객체를 문자열로 변환하여 저장
       const recentSearches = await AsyncStorage.getItem('recentSearches');
       let recentSearchesArray = recentSearches
         ? JSON.parse(recentSearches)
         : [];
 
-      // 최근 검색 내역에 현재 항목 추가
-      recentSearchesArray.push({
-        name: item.name,
-        longitude: item.frontLon,
-        latitude: item.frontLat,
-        address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
-      });
+      recentSearchesArray.push(
+        !isRecentSearch
+          ? {
+              name: item.name,
+              longitude: item.frontLon,
+              latitude: item.frontLat,
+              address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
+            }
+          : {
+              name: item.name,
+              longitude: item.longitude,
+              latitude: item.latitude,
+              address: item.address,
+            },
+      );
 
-      // 업데이트된 배열을 다시 저장
       await AsyncStorage.setItem(
         'recentSearches',
         JSON.stringify(recentSearchesArray),
@@ -64,8 +102,12 @@ const SharedSearchListComponent = ({
       console.error('Error saving recent searches:', error);
     }
 
-    // SearchResultPage로 이동
-    navigation.navigate('SearchResult');
+    // Route로 이동 시 startPoint 전달
+    if (isReset) {
+      navigation.navigate('Route', {startPoint});
+    } else {
+      navigation.navigate('SearchResult');
+    }
   };
 
   const resetData = async () => {
@@ -111,6 +153,7 @@ const SharedSearchListComponent = ({
 
   return (
     <View>
+      {console.log('isReset:', isReset, 'isDestination: ', isDestination)}
       <HStack w={'100%'} justifyContent={'space-between'}>
         {title ? (
           <Text fontSize="md" bold mb={2} ml={'18px'} mt={2} isTruncated>

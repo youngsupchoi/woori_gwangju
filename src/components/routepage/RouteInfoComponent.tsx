@@ -3,8 +3,10 @@ import {VStack, Button, Image, Text, HStack, View} from 'native-base';
 import ArrowBothIcon from 'assets/images/arrowBoth.png';
 import {useRecoilState} from 'recoil';
 import {DestinationState, StartPointState} from 'state/RouteAtoms';
+import {TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-const LocationRow = ({type, label}) => (
+const LocationRow = ({type, label, navigation, isDestination}) => (
   <HStack
     space={2}
     alignItems={'center'}
@@ -16,20 +18,30 @@ const LocationRow = ({type, label}) => (
     borderBottomRadius={type === '도착지' ? '12px' : 0}
     borderColor={'#D9D9E0'}
     borderWidth={1}>
-    <View
-      borderColor={type === '출발지' ? '#80838D' : '#0090FF'}
-      borderWidth={'1px'}
-      size={'8px'}
-      borderRadius={'full'}
-      bg={type === '출발지' ? 'transparent' : '#0090FF'}
-    />
-    <Text
-      fontSize="18px"
-      fontWeight="regular"
-      color={label === '출발지' || label === '도착지' ? 'gray.500' : 'black'}
-      isTruncated>
-      {label}
-    </Text>
+    <TouchableOpacity
+      onPress={() => {
+        console.log('isDestination: ', isDestination);
+        navigation.navigate('Search', {
+          isDestination: isDestination,
+          isReset: true,
+        });
+      }}
+      style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
+      <View
+        borderColor={type === '출발지' ? '#80838D' : '#0090FF'}
+        borderWidth={'1px'}
+        size={'8px'}
+        borderRadius={'full'}
+        bg={type === '출발지' ? 'transparent' : '#0090FF'}
+      />
+      <Text
+        fontSize="18px"
+        fontWeight="regular"
+        color={label === '출발지' || label === '도착지' ? 'gray.500' : 'black'}
+        isTruncated>
+        {label}
+      </Text>
+    </TouchableOpacity>
   </HStack>
 );
 
@@ -37,6 +49,7 @@ const RouteInfoComponent = () => {
   const [startPointState, setStartPointState] = useRecoilState(StartPointState);
   const [destinationState, setDestinationState] =
     useRecoilState(DestinationState);
+  const navigation = useNavigation();
 
   // 출발지와 도착지 스왑 함수
   const swapLocations = () => {
@@ -57,6 +70,8 @@ const RouteInfoComponent = () => {
       <LocationRow
         label={startPointState.address || '출발지'}
         type={'출발지'}
+        navigation={navigation}
+        isDestination={false}
       />
       <Button
         position={'absolute'}
@@ -75,6 +90,8 @@ const RouteInfoComponent = () => {
       <LocationRow
         label={destinationState.address || '도착지'}
         type={'도착지'}
+        navigation={navigation}
+        isDestination={true}
       />
     </VStack>
   );
