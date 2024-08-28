@@ -1,3 +1,5 @@
+//src/screens/MainPage.tsx
+
 import React, {useEffect} from 'react';
 import {VStack} from 'native-base';
 import FilterButtons from 'components/mainpage/FilterButtons';

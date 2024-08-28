@@ -77,6 +77,7 @@ const SearchPage = () => {
       <View flex={1}>
         {searchKeyword === '' && recentSearches.length !== 0 ? (
           <SharedSearchListComponent
+            isRecentSearch={true}
             data={recentSearches}
             iconSource={historyIcon}
             title="최근 검색"
