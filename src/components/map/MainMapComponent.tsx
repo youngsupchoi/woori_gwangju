@@ -8,6 +8,7 @@ import Config from 'react-native-config'; // react-native-config를 사용해 �
 import axios from 'axios'; // HTTP 요청을 위한 axios 사용
 import {IsActionSheetOpen, SelectedLocationState} from 'state/HomeMapAtoms';
 import TouchedLocationMarker from 'components/map/marker/TouchedLocationMarker';
+import ForDisabledToiletLocationMarker from 'components/map/marker/ForDisabledToiletLocationMarker';
 
 const MainMapComponent: React.FC<{
   mapRef: React.RefObject<MapView>;
@@ -91,6 +92,7 @@ const MainMapComponent: React.FC<{
         <CurrentLocationMarker />
         {/* 터치한 위치에 마커 표시 */}
         {selectedLocation && isActionSheetOpen && <TouchedLocationMarker />}
+        <ForDisabledToiletLocationMarker />
       </MapView>
     </View>
   );

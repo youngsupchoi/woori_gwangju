@@ -5,9 +5,11 @@ import subwayIcon from 'assets/images/train.png';
 import peopleIcon from 'assets/images/people.png';
 import disabledIcon from 'assets/images/disabled.png';
 import settingsIcon from 'assets/images/settings.png';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {ShowMarkerState} from 'state/HomeMapAtoms';
 import {useNavigation} from '@react-navigation/native';
+import {fetchPOIResults} from 'apis/poiSearch';
+import {ShowDisabedToiletMarkerAtom} from 'state/ShowDisabedToiletMarkerAtom';
 
 const FilterButtons = () => {
   const [showMarkerState, setShowMarkerState] = useRecoilState(ShowMarkerState);
@@ -40,11 +42,32 @@ const FilterButtons = () => {
     return {borderColor: 'gray.100', backgroundColor: 'gray.100'}; // 기본 스타일
   };
 
+  interface Toilet {
+    name: string;
+    address: string;
+    latitude: number | null;
+    longitude: number | null;
+    forDisabled: boolean;
+  }
+  const setShowDisabedToiletMarkerState = useSetRecoilState(
+    ShowDisabedToiletMarkerAtom,
+  );
+  interface LocationData {
+    name: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+  }
+
   const buttons = [
     {
       label: '장애인 화장실',
       icon: disabledIcon,
-      onPress: () => toggleMarker('장애인 화장실'),
+      onPress: () => {
+        console.log('hihi');
+        setShowDisabedToiletMarkerState(prevState => !prevState);
+        toggleMarker('장애인 화장실');
+      },
     },
     {
       label: '공중화장실',

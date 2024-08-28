@@ -38,7 +38,6 @@ const MainPage = () => {
         onPressFunction={setMapToCurrentLocation}
         upPosition={0}
       />
-
       <SelectedLocationActionSheet />
     </VStack>
   );
