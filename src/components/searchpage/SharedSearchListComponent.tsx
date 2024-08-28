@@ -16,11 +16,13 @@ import {DestinationState} from 'state/RouteAtoms';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SharedSearchListComponent = ({
+  isRecentSearch,
   data,
   iconSource,
   highlightKeyword = '',
   title,
 }: {
+  isRecentSearch?: boolean;
   data: Array<any>;
   iconSource: any;
   highlightKeyword?: string;
@@ -123,6 +125,7 @@ const SharedSearchListComponent = ({
       </HStack>
       <ScrollView>
         <View pb={'240px'}>
+          {console.log(data)}
           {data?.map((item, index) => (
             <VStack key={index} space={2} mb={4}>
               <TouchableOpacity onPress={() => handlePress(item)}>
@@ -145,7 +148,7 @@ const SharedSearchListComponent = ({
                       <View maxW={'80%'} flexDir={'row'} overflow={'hidden'}>
                         {highlightText(item.name, highlightKeyword)}
                       </View>
-                      {item.distance && (
+                      {!isRecentSearch && item.distance && (
                         <View
                           px={2}
                           ml={2}
@@ -163,11 +166,11 @@ const SharedSearchListComponent = ({
                         </View>
                       )}
                     </HStack>
-                    {item.newAddressList && (
-                      <Text color="#889096" isTruncated>
-                        {item.newAddressList?.newAddress[0].fullAddressRoad}
-                      </Text>
-                    )}
+                    <Text color="#889096" isTruncated>
+                      {isRecentSearch
+                        ? item.address
+                        : item.newAddressList?.newAddress[0].fullAddressRoad}
+                    </Text>
                   </VStack>
                 </HStack>
               </TouchableOpacity>

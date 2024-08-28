@@ -1,3 +1,5 @@
+//src/components/mainpage/FilterButtons.tsx
+
 import React from 'react';
 import {ScrollView, HStack, Button, Image} from 'native-base';
 import busIcon from 'assets/images/bus.png';
