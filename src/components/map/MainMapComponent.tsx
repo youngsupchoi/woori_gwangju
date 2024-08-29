@@ -9,6 +9,7 @@ import axios from 'axios'; // HTTP 요청을 위한 axios 사용
 import {IsActionSheetOpen, SelectedLocationState} from 'state/HomeMapAtoms';
 import TouchedLocationMarker from 'components/map/marker/TouchedLocationMarker';
 import ForDisabledToiletLocationMarker from 'components/map/marker/ForDisabledToiletLocationMarker';
+import ToiletLocationMarker from 'components/map/marker/ToiletLocationMarker';
 
 const MainMapComponent: React.FC<{
   mapRef: React.RefObject<MapView>;
@@ -92,6 +93,9 @@ const MainMapComponent: React.FC<{
         <CurrentLocationMarker />
         {/* 터치한 위치에 마커 표시 */}
         {selectedLocation && isActionSheetOpen && <TouchedLocationMarker />}
+        {/* 화장실 마커 표시 */}
+        <ToiletLocationMarker />
+        {/* 장애인 화장실 마커 표시 */}
         <ForDisabledToiletLocationMarker />
       </MapView>
     </View>

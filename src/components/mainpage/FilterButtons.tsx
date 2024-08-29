@@ -9,7 +9,10 @@ import {useRecoilState, useSetRecoilState} from 'recoil';
 import {ShowMarkerState} from 'state/HomeMapAtoms';
 import {useNavigation} from '@react-navigation/native';
 import {fetchPOIResults} from 'apis/poiSearch';
-import {ShowDisabedToiletMarkerAtom} from 'state/ShowDisabedToiletMarkerAtom';
+import {
+  ShowDisabedToiletMarkerAtom,
+  ShowToiletMarkerAtom,
+} from 'state/ShowDisabedToiletMarkerAtom';
 
 const FilterButtons = () => {
   const [showMarkerState, setShowMarkerState] = useRecoilState(ShowMarkerState);
@@ -52,6 +55,7 @@ const FilterButtons = () => {
   const setShowDisabedToiletMarkerState = useSetRecoilState(
     ShowDisabedToiletMarkerAtom,
   );
+  const setShowToiletMarkerState = useSetRecoilState(ShowToiletMarkerAtom);
   interface LocationData {
     name: string;
     address: string;
@@ -72,7 +76,10 @@ const FilterButtons = () => {
     {
       label: '공중화장실',
       icon: peopleIcon,
-      onPress: () => toggleMarker('공중화장실'),
+      onPress: () => {
+        setShowToiletMarkerState(prevState => !prevState);
+        toggleMarker('공중화장실');
+      },
     },
     {label: '버스', icon: busIcon, onPress: () => toggleMarker('버스')},
     {label: '지하철', icon: subwayIcon, onPress: () => toggleMarker('지하철')},
