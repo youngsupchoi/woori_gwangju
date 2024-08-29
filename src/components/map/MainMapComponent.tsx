@@ -17,6 +17,7 @@ import busStations from '../../busDatabase/busStation.json'; // 버스 정류장
 import subwayMarkerIcon from '../../assets/images/MapPin-Metro.png'; // 지하철 PNG 아이콘
 import busMarkerIcon from '../../assets/images/MapPin-BUS.png'; // 버스 PNG 아이콘
 import ForDisabledToiletLocationMarker from 'components/map/marker/ForDisabledToiletLocationMarker';
+import ToiletLocationMarker from 'components/map/marker/ToiletLocationMarker';
 
 const MainMapComponent: React.FC<{
   mapRef: React.RefObject<MapView>;
@@ -165,6 +166,9 @@ const MainMapComponent: React.FC<{
               />
             </Marker>
           ))}
+        {/* 화장실 마커 표시 */}
+        <ToiletLocationMarker />
+        {/* 장애인 화장실 마커 표시 */}
         <ForDisabledToiletLocationMarker />
       </MapView>
     </View>
