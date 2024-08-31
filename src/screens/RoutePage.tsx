@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {VStack, ScrollView, View, Box} from 'native-base';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {RouteHeader} from 'components/routepage/RouteHeader';
 import RouteInfoComponent from 'components/routepage/RouteInfoComponent';
 import MethodFilterComponent from '../components/routepage/MethodFilterComponent';
@@ -21,18 +21,46 @@ import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLoc
 import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
 import {useRoute} from '@react-navigation/native'; // route 사용을 위해 추가
 
+import {walkingRouteAtom} from 'state/activeWalkingRouteAtom';
+import ConstraintWalkingRouteComponent from 'components/routepage/ConstraintWalkingRouteComponent';
 const TMAP_API_KEY = Config.TMAP_API_KEY;
+
+// 광주광역시의 경계값
+const GWANGJU_LAT_MAX = 35.259235;
+const GWANGJU_LAT_MIN = 34.958768;
+const GWANGJU_LON_MIN = 126.644836;
+const GWANGJU_LON_MAX = 127.028952;
 
 const RoutePage = () => {
   const [currentLocation] = useRecoilState(locationState);
   const [startPointState, setStartPointState] = useRecoilState(StartPointState);
-  const [destinationState] = useRecoilState(DestinationState);
-  const [selectedMethodState] = useRecoilState(SelectedMethodState);
+  const [destinationState, setDestinationState] =
+    useRecoilState(DestinationState);
+  const [selectedMethodState, setSelectedMethodState] =
+    useRecoilState(SelectedMethodState);
   const [routeList, setRouteList] = useRecoilState(RouteListState);
   const route = useRoute(); // route 사용을 위해 추가
 
   // 전달받은 startPoint 파라미터
   const {startPoint} = route.params || {};
+  const walkingRouteState = useRecoilValue(walkingRouteAtom);
+
+  const isOutsideGwangju = (latitude, longitude) => {
+    return (
+      latitude < GWANGJU_LAT_MIN ||
+      latitude > GWANGJU_LAT_MAX ||
+      longitude < GWANGJU_LON_MIN ||
+      longitude > GWANGJU_LON_MAX
+    );
+  };
+
+  const canDisplayWalkingRoute = () => {
+    return !(
+      walkingRouteState.features.length === 0 ||
+      isOutsideGwangju(startPointState.latitude, startPointState.longitude) ||
+      isOutsideGwangju(destinationState.latitude, destinationState.longitude)
+    );
+  };
 
   const fetchAddressFromCoordinates = async (latitude, longitude) => {
     try {
@@ -53,7 +81,6 @@ const RoutePage = () => {
     }
   };
 
-  // 대중 교통 경로 가져오기
   const fetchRoutes = async () => {
     try {
       console.log(startPointState, destinationState);
@@ -91,7 +118,6 @@ const RoutePage = () => {
     }
   };
 
-  // 위치 정보 갱신
   useEffect(() => {
     if (startPoint) {
       // startPoint 파라미터가 있는 경우 이를 사용
@@ -120,19 +146,23 @@ const RoutePage = () => {
       <RouteInfoComponent />
 
       {selectedMethodState === '휠체어' ? (
-        <>
-          <ActiveWalkingRouteMapComponente
-            mapRef={mapRef}
-            onRegionChangeComplete={onRegionChangeComplete}
-          />
-          <CurrentLocationButtonComponent
-            onPressFunction={setMapToCurrentLocation}
-            upPosition={160}
-          />
-          <Box position="absolute" bottom={0} left={0} right={0}>
-            <WalkingRouteBottmeSheetComponent />
-          </Box>
-        </>
+        canDisplayWalkingRoute() ? (
+          <>
+            <ActiveWalkingRouteMapComponente
+              mapRef={mapRef}
+              onRegionChangeComplete={onRegionChangeComplete}
+            />
+            <CurrentLocationButtonComponent
+              onPressFunction={setMapToCurrentLocation}
+              upPosition={160}
+            />
+            <Box position="absolute" bottom={0} left={0} right={0}>
+              <WalkingRouteBottmeSheetComponent />
+            </Box>
+          </>
+        ) : (
+          <ConstraintWalkingRouteComponent />
+        )
       ) : (
         <ScrollView flex={1}>
           <>

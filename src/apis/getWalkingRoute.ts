@@ -43,6 +43,7 @@ export const getWalkingRoute = async (
   version: number, // 필수 쿼리 파라미터
   callback?: string, // 선택 쿼리 파라미터
 ): Promise<PedestrianRouteResponse> => {
+  console.log('🚀 ~ routeData:', routeData);
   try {
     const response = await sktAxiosInstance.post<PedestrianRouteResponse>(
       '/tmap/routes/pedestrian', // URL을 수정하여 기본 경로를 명확히 함
@@ -82,6 +83,10 @@ export const getWalkingRoute = async (
       // Axios 외의 에러 처리
       console.error('Unexpected error:', error);
     }
+    return {
+      type: 'FeatureCollection',
+      features: [],
+    };
     throw error;
   }
 };

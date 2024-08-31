@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 import {Marker} from 'react-native-maps';
 import MapPinToiletDisabled from '../../../assets/images/MapPinToiletDisabled.png';
 import {useRecoilValue} from 'recoil';
