@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {VStack, ScrollView, View, Box} from 'native-base';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {RouteHeader} from 'components/routepage/RouteHeader';
 import RouteInfoComponent from 'components/routepage/RouteInfoComponent';
 import MethodFilterComponent from '../components/routepage/MethodFilterComponent';
@@ -19,16 +19,42 @@ import WalkingRouteBottmeSheetComponent from 'components/routepage/WalkingRouteB
 import ActiveWalkingRouteMapComponente from 'components/map/ActiveWalkingRouteMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
-// import {getWalkingRoute} from 'apis/getWalkingRoute';
-
+import {walkingRouteAtom} from 'state/activeWalkingRouteAtom';
+import ConstraintWalkingRouteComponent from 'components/routepage/ConstraintWalkingRouteComponent';
 const TMAP_API_KEY = Config.TMAP_API_KEY;
+
+// 광주광역시의 경계값
+const GWANGJU_LAT_MAX = 35.259235;
+const GWANGJU_LAT_MIN = 34.958768;
+const GWANGJU_LON_MIN = 126.644836;
+const GWANGJU_LON_MAX = 127.028952;
 
 const RoutePage = () => {
   const [currentLocation] = useRecoilState(locationState);
   const [startPointState, setStartPointState] = useRecoilState(StartPointState);
-  const [destinationState] = useRecoilState(DestinationState);
-  const [selectedMethodState] = useRecoilState(SelectedMethodState);
+  const [destinationState, setDestinationState] =
+    useRecoilState(DestinationState);
+  const [selectedMethodState, setSelectedMethodState] =
+    useRecoilState(SelectedMethodState);
   const [routeList, setRouteList] = useRecoilState(RouteListState);
+  const walkingRouteState = useRecoilValue(walkingRouteAtom);
+
+  const isOutsideGwangju = (latitude, longitude) => {
+    return (
+      latitude < GWANGJU_LAT_MIN ||
+      latitude > GWANGJU_LAT_MAX ||
+      longitude < GWANGJU_LON_MIN ||
+      longitude > GWANGJU_LON_MAX
+    );
+  };
+
+  const canDisplayWalkingRoute = () => {
+    return !(
+      walkingRouteState.features.length === 0 ||
+      isOutsideGwangju(startPointState.latitude, startPointState.longitude) ||
+      isOutsideGwangju(destinationState.latitude, destinationState.longitude)
+    );
+  };
 
   const fetchAddressFromCoordinates = async (latitude, longitude) => {
     try {
@@ -49,7 +75,6 @@ const RoutePage = () => {
     }
   };
 
-  // 대중 교통 경로 가져오기
   const fetchRoutes = async () => {
     try {
       const response = await axios.post(
@@ -85,16 +110,14 @@ const RoutePage = () => {
       console.error('Error fetching route data:', error);
     }
   };
-  // 위치 정보 갱신
+
   useEffect(() => {
     if (currentLocation.latitude && currentLocation.longitude) {
-      // 첫 번째 API 호출
       fetchAddressFromCoordinates(
         currentLocation.latitude,
         currentLocation.longitude,
       );
 
-      // 3초 지연 후 두 번째 API 호출
       setTimeout(() => {
         fetchRoutes();
       }, 10000);
@@ -105,30 +128,34 @@ const RoutePage = () => {
 
   const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
     useCurrentLocationMapController();
+
   return (
     <VStack flex={1} bg="white">
       <RouteHeader />
       <RouteInfoComponent />
 
       {selectedMethodState === '휠체어' ? (
-        <>
-          <ActiveWalkingRouteMapComponente
-            mapRef={mapRef}
-            onRegionChangeComplete={onRegionChangeComplete}
-          />
-          <CurrentLocationButtonComponent
-            onPressFunction={setMapToCurrentLocation}
-            upPosition={160}
-          />
-          <Box position="absolute" bottom={0} left={0} right={0}>
-            <WalkingRouteBottmeSheetComponent />
-          </Box>
-        </>
+        canDisplayWalkingRoute() ? (
+          <>
+            <ActiveWalkingRouteMapComponente
+              mapRef={mapRef}
+              onRegionChangeComplete={onRegionChangeComplete}
+            />
+            <CurrentLocationButtonComponent
+              onPressFunction={setMapToCurrentLocation}
+              upPosition={160}
+            />
+            <Box position="absolute" bottom={0} left={0} right={0}>
+              <WalkingRouteBottmeSheetComponent />
+            </Box>
+          </>
+        ) : (
+          <ConstraintWalkingRouteComponent />
+        )
       ) : (
         <ScrollView flex={1}>
           <>
             <MethodFilterComponent />
-            {/* 경로 리스트 렌더링 */}
             <RouteListComponent />
           </>
         </ScrollView>
