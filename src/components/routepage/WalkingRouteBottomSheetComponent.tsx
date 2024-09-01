@@ -5,6 +5,7 @@ import {useRecoilState} from 'recoil';
 import {VoiceGuideAtom, walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 import {useNavigation} from '@react-navigation/native';
 import Tts from 'react-native-tts';
+import HapticFeedback from 'react-native-haptic-feedback';
 
 export default function WalkingRouteBottmeSheetComponent() {
   const navigation = useNavigation();
@@ -95,6 +96,11 @@ export default function WalkingRouteBottmeSheetComponent() {
           backgroundColor={'#0090FF'}
           onPress={() => {
             Tts.speak('경로 안내를 시작합니다'); // 음성 안내 추가
+            const options = {
+              enableVibrateFallback: true,
+              ignoreAndroidSystemSettings: false,
+            };
+            HapticFeedback.trigger('impactLight', options);
             // 음성 안내 시작
             setVoiceGuideState(true);
 
