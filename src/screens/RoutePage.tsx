@@ -21,6 +21,7 @@ import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLoc
 import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
 import {walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 import ConstraintWalkingRouteComponent from 'components/routepage/ConstraintWalkingRouteComponent';
+import ConstraintTransportRouteComponent from 'components/routepage/ConstraintTransportRouteComponent';
 const TMAP_API_KEY = Config.TMAP_API_KEY;
 
 // 광주광역시의 경계값
@@ -51,6 +52,12 @@ const RoutePage = () => {
   const canDisplayWalkingRoute = () => {
     return !(
       walkingRouteState.features.length === 0 ||
+      isOutsideGwangju(startPointState.latitude, startPointState.longitude) ||
+      isOutsideGwangju(destinationState.latitude, destinationState.longitude)
+    );
+  };
+  const canDisplayTransportRoute = () => {
+    return !(
       isOutsideGwangju(startPointState.latitude, startPointState.longitude) ||
       isOutsideGwangju(destinationState.latitude, destinationState.longitude)
     );
@@ -152,13 +159,15 @@ const RoutePage = () => {
         ) : (
           <ConstraintWalkingRouteComponent />
         )
-      ) : (
+      ) : canDisplayTransportRoute() ? (
         <ScrollView flex={1}>
           <>
             <MethodFilterComponent />
             <RouteListComponent />
           </>
         </ScrollView>
+      ) : (
+        <ConstraintTransportRouteComponent />
       )}
     </VStack>
   );
