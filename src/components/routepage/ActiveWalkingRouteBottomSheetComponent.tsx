@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   Box,
   Text,
@@ -23,6 +23,12 @@ import {VoiceGuideAtom, walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 import {useNavigation} from '@react-navigation/native';
 import {useCalculateArrivalTime} from 'hooks/searchRoute/useCalculatorArrivalTime';
 import {DestinationState, StartPointState} from 'state/RouteAtoms';
+import {
+  endRouteGuidance,
+  expectedArrivalTimeGuidance,
+  narrowViewButtonGuidance,
+  wideViewButtonGuidance,
+} from 'utils/hapticAndTTS';
 
 export default function ActiveWalkingRouteBottomSheetComponent({
   setMapToCurrentLocation,
@@ -112,6 +118,10 @@ export default function ActiveWalkingRouteBottomSheetComponent({
     setMapToSpecificLocation(zoomLevel, latitude, longitude);
   };
 
+  useEffect(() => {
+    expectedArrivalTimeGuidance(arrivalTime);
+  }, []);
+
   return (
     <Box flex={1} position="relative">
       {/* 하단 박스 외부에 버튼을 절대 위치로 배치 */}
@@ -132,9 +142,12 @@ export default function ActiveWalkingRouteBottomSheetComponent({
           padding={14}
           // _hover={{bg: 'blue.600'}}
           _pressed={{bg: '#D9D9E0'}}
-          onPress={() => adjustAngleToMid()}
+          onPress={() => {
+            adjustAngleToMid();
+            wideViewButtonGuidance();
+          }}
         />
-        <IconButton
+        {/* <IconButton
           icon={
             voiceGuideState ? (
               <Image
@@ -157,7 +170,7 @@ export default function ActiveWalkingRouteBottomSheetComponent({
           onPress={() => {
             setVoiceGuideState(!voiceGuideState);
           }}
-        />
+        /> */}
         <IconButton
           icon={<Image source={targetIcon} alt="Target Icon" size="2xs" />}
           borderRadius="full"
@@ -167,7 +180,10 @@ export default function ActiveWalkingRouteBottomSheetComponent({
           padding={14}
           // _hover={{bg: 'red.600'}}
           _pressed={{bg: '#D9D9E0'}}
-          onPress={() => setMapToCurrentLocation(8)}
+          onPress={() => {
+            setMapToCurrentLocation(8);
+            narrowViewButtonGuidance();
+          }}
         />
       </VStack>
 
@@ -189,10 +205,9 @@ export default function ActiveWalkingRouteBottomSheetComponent({
               </Text>
               <HStack>
                 {/* TODO: 오전 오후 반영 */}
-                <Text fontSize="xl" fontWeight="extrabold">
+                {/* <Text fontSize="xl" fontWeight="extrabold">
                   오후
-                </Text>
-
+                </Text> */}
                 <Text fontSize="xl" fontWeight="extrabold">
                   {arrivalTime}
                 </Text>
@@ -254,6 +269,7 @@ export default function ActiveWalkingRouteBottomSheetComponent({
               colorScheme="red"
               onPress={() => {
                 terminateRouteGuide();
+                endRouteGuidance();
               }}>
               <Text color="white" fontWeight={'bold'}>
                 길 안내 종료하기

@@ -4,6 +4,9 @@ import navigationIcon from '../../assets/images/navigation.png';
 import {useRecoilState} from 'recoil';
 import {VoiceGuideAtom, walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 import {useNavigation} from '@react-navigation/native';
+import Tts from 'react-native-tts';
+import HapticFeedback from 'react-native-haptic-feedback';
+import {startRouteGuidance} from 'utils/hapticAndTTS';
 
 export default function WalkingRouteBottmeSheetComponent() {
   const navigation = useNavigation();
@@ -93,8 +96,10 @@ export default function WalkingRouteBottmeSheetComponent() {
           borderRadius={10}
           backgroundColor={'#0090FF'}
           onPress={() => {
+            startRouteGuidance();
             // 음성 안내 시작
             setVoiceGuideState(true);
+
             navigation.navigate('ActiveWalkingRoutePage');
           }}>
           <HStack>
