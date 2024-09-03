@@ -14,6 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
 import {DestinationState, StartPointState} from 'state/RouteAtoms';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {recentSearchesState} from 'state/SearchAtoms';
 
 const SharedSearchListComponent = ({
   isRecentSearch,
@@ -35,6 +36,7 @@ const SharedSearchListComponent = ({
   const navigation = useNavigation();
   const [, setDestinationState] = useRecoilState(DestinationState);
   const [startPointState, setStartPointState] = useRecoilState(StartPointState);
+  const [, setRecentSearches] = useRecoilState(recentSearchesState);
 
   const handlePress = async (item: any) => {
     let startPoint = startPointState;
@@ -73,27 +75,34 @@ const SharedSearchListComponent = ({
     }
 
     try {
+      // 기존 최근 검색어 가져오기
       const recentSearches = await AsyncStorage.getItem('recentSearches');
       let recentSearchesArray = recentSearches
         ? JSON.parse(recentSearches)
         : [];
 
-      recentSearchesArray.push(
-        !isRecentSearch
-          ? {
-              name: item.name,
-              longitude: item.frontLon,
-              latitude: item.frontLat,
-              address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
-            }
-          : {
-              name: item.name,
-              longitude: item.longitude,
-              latitude: item.latitude,
-              address: item.address,
-            },
+      // 동일한 항목이 있는지 확인하고 제거
+      recentSearchesArray = recentSearchesArray.filter(
+        search =>
+          search.name !== item.name ||
+          search.longitude !== item.frontLon ||
+          search.latitude !== item.frontLat,
       );
 
+      // 새로운 검색어를 맨 위에 추가
+      recentSearchesArray.unshift({
+        name: item.name,
+        longitude: item.frontLon,
+        latitude: item.frontLat,
+        address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
+      });
+
+      // 최근 검색어가 20개를 초과하면 오래된 항목 제거
+      if (recentSearchesArray.length > 20) {
+        recentSearchesArray = recentSearchesArray.slice(0, 20);
+      }
+
+      // 업데이트된 배열을 다시 저장
       await AsyncStorage.setItem(
         'recentSearches',
         JSON.stringify(recentSearchesArray),
@@ -111,7 +120,15 @@ const SharedSearchListComponent = ({
   };
 
   const resetData = async () => {
-    await AsyncStorage.removeItem('recentSearches');
+    try {
+      // AsyncStorage에서 최근 검색어 삭제
+      await AsyncStorage.removeItem('recentSearches');
+
+      // recentSearches 상태를 빈 배열로 설정하여 UI 업데이트
+      setRecentSearches([]);
+    } catch (error) {
+      console.error('Error resetting recent searches:', error);
+    }
   };
 
   const highlightText = (text: string = '', highlight: string = '') => {
