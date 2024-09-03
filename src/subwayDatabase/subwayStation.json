@@ -2,121 +2,121 @@
   {
     "name": "평동역",
     "code": 119,
-    "latitude": 35.2153,
-    "longitude": 126.7724
+    "latitude": 35.124750874,
+    "longitude": 126.769614723
   },
   {
     "name": "도산역",
     "code": 118,
-    "latitude": 35.2118,
-    "longitude": 126.7845
+    "latitude": 35.131381506,
+    "longitude": 126.787491153
   },
   {
     "name": "광주송정역",
     "code": 117,
-    "latitude": 35.2066,
-    "longitude": 126.7912
+    "latitude": 35.137683965,
+    "longitude": 126.790874944
   },
   {
     "name": "송정공원역",
     "code": 116,
-    "latitude": 35.2022,
-    "longitude": 126.7958
+    "latitude": 35.143588311,
+    "longitude": 126.79946444
   },
   {
     "name": "공항역",
     "code": 115,
-    "latitude": 35.1977,
-    "longitude": 126.8107
+    "latitude": 35.144058535,
+    "longitude": 126.811643947
   },
   {
     "name": "김대중컨벤션센터역",
     "code": 114,
-    "latitude": 35.1943,
-    "longitude": 126.8495
+    "latitude": 35.143217779,
+    "longitude": 126.841383957
   },
   {
     "name": "상무역",
     "code": 113,
-    "latitude": 35.1889,
-    "longitude": 126.8598
+    "latitude": 35.146697218,
+    "longitude": 126.848576104
   },
   {
     "name": "운천역",
     "code": 112,
-    "latitude": 35.1846,
-    "longitude": 126.8662
+    "latitude": 35.150477144,
+    "longitude": 126.858709483
   },
   {
     "name": "쌍촌역",
     "code": 111,
-    "latitude": 35.1808,
-    "longitude": 126.876
+    "latitude": 35.151606964,
+    "longitude": 126.869528478
   },
   {
     "name": "화정역",
     "code": 110,
-    "latitude": 35.1767,
-    "longitude": 126.8843
+    "latitude": 35.151993017,
+    "longitude": 126.876672356
   },
   {
     "name": "농성역",
     "code": 109,
-    "latitude": 35.1714,
-    "longitude": 126.8905
+    "latitude": 35.153297908,
+    "longitude": 126.883683297
   },
   {
     "name": "돌고개역",
     "code": 108,
-    "latitude": 35.1647,
-    "longitude": 126.8965
+    "latitude": 35.151721888,
+    "longitude": 126.895044263
   },
   {
     "name": "양동시장역",
     "code": 107,
-    "latitude": 35.1602,
-    "longitude": 126.906
+    "latitude": 35.154332074,
+    "longitude": 126.901296639
   },
   {
     "name": "금남로5가역",
     "code": 106,
-    "latitude": 35.1555,
-    "longitude": 126.9132
+    "latitude": 35.154149124,
+    "longitude": 126.90940734
   },
   {
     "name": "금남로4가역",
     "code": 105,
-    "latitude": 35.1521,
-    "longitude": 126.9165
+    "latitude": 35.150691673,
+    "longitude": 126.914602099
   },
   {
     "name": "문화전당역",
     "code": 104,
-    "latitude": 35.1472,
-    "longitude": 126.921
+    "latitude": 35.146567054,
+    "longitude": 126.919895838
   },
   {
     "name": "남광주역",
     "code": 103,
-    "latitude": 35.1445,
-    "longitude": 126.933
+    "latitude": 35.138662217,
+    "longitude": 126.921589502
   },
   {
-    "name": "학동중심사입구역",
+    "name": "학동증심사입구역",
     "code": 102,
-    "latitude": 35.1407,
-    "longitude": 126.9235
+    "latitude": 35.132610307,
+    "longitude": 126.928456736
   },
   {
     "name": "소태역",
     "code": 101,
-    "latitude": 35.1248,
-    "longitude": 126.9117
+    "latitude": 35.123405134,
+    "longitude": 126.932397823
   },
   {
     "name": "녹동역",
     "code": 100,
-    "latitude": 35.103,
-    "longitude": 126.888
+    "latitude": 35.10679834,
+    "longitude": 126.933988273
   }
 ]

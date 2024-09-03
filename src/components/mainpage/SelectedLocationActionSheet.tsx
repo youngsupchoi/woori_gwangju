@@ -39,13 +39,26 @@ const SelectedLocationActionSheet = () => {
         ? JSON.parse(recentSearches)
         : [];
 
-      // 최근 검색 내역에 현재 항목 추가
-      recentSearchesArray.push({
+      // 동일한 항목이 있는지 확인하고 제거
+      recentSearchesArray = recentSearchesArray.filter(
+        search =>
+          search.name !== selectedLocation.buildingName ||
+          search.longitude !== selectedLocation.longitude ||
+          search.latitude !== selectedLocation.latitude,
+      );
+
+      //   // 새로운 검색어를 맨 위에 추가
+      recentSearchesArray.unshift({
         name: selectedLocation.buildingName,
         longitude: selectedLocation.longitude,
         latitude: selectedLocation.latitude,
         address: selectedLocation.fullAddress,
       });
+
+      // 최근 검색어가 20개를 초과하면 오래된 항목 제거
+      if (recentSearchesArray.length > 20) {
+        recentSearchesArray = recentSearchesArray.slice(0, 20);
+      }
 
       // 업데이트된 배열을 다시 저장
       await AsyncStorage.setItem(
