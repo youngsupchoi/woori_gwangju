@@ -10,6 +10,8 @@ import {
   SelectedMethodState,
   RouteListState,
   DestinationState,
+  LoadingState,
+  ErrorState,
 } from 'state/RouteAtoms';
 import {locationState} from 'state/locationState';
 import axios from 'axios';
@@ -40,6 +42,8 @@ const RoutePage = () => {
   const [selectedMethodState, setSelectedMethodState] =
     useRecoilState(SelectedMethodState);
   const [routeList, setRouteList] = useRecoilState(RouteListState);
+  const [loading, setLoading] = useRecoilState(LoadingState); // 로딩 상태 추가
+  const [error, setError] = useRecoilState(ErrorState); // 에러 상태 추가
   const route = useRoute(); // route 사용을 위해 추가
 
   // 전달받은 startPoint 파라미터
@@ -89,6 +93,8 @@ const RoutePage = () => {
   };
 
   const fetchRoutes = async () => {
+    setLoading(true); // 로딩 시작
+    setError(null); // 에러 초기화
     try {
       console.log(startPointState, destinationState);
       const response = await axios.post(
@@ -118,10 +124,12 @@ const RoutePage = () => {
       ) {
         setRouteList(response.data.metaData.plan.itineraries);
       } else {
-        console.error('No route data found');
+        setError('너무 가까운 거리는 대중교통 안내가 지원되지 않습니다.');
       }
     } catch (error) {
-      console.error('Error fetching route data:', error);
+      setError('알 수 없는 이유로 에러가 발생했습니다.');
+    } finally {
+      setLoading(false); // 로딩 종료
     }
   };
 

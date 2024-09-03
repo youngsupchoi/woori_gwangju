@@ -43,24 +43,28 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    if (searchKeyword) {
-      // 검색어가 있을 경우 TMAP API 호출
-      fetchPOIResults(searchKeyword).then(results => {
-        if (currentLocation.latitude && currentLocation.longitude) {
-          // 현재 위치와 각 POI 간의 거리를 계산해 추가
-          const resultsWithDistance = results.map(item => {
-            const distance = haversine(currentLocation, {
-              latitude: item.frontLat,
-              longitude: item.frontLon,
+    const delayDebounceFn = setTimeout(() => {
+      if (searchKeyword) {
+        // 검색어가 있을 경우 TMAP API 호출
+        fetchPOIResults(searchKeyword).then(results => {
+          if (currentLocation.latitude && currentLocation.longitude) {
+            // 현재 위치와 각 POI 간의 거리를 계산해 추가
+            const resultsWithDistance = results.map(item => {
+              const distance = haversine(currentLocation, {
+                latitude: item.frontLat,
+                longitude: item.frontLon,
+              });
+              return {...item, distance: distance.toFixed(1)}; // 거리 값을 km로 표시
             });
-            return {...item, distance: distance.toFixed(1)}; // 거리 값을 km로 표시
-          });
-          setSearchResult(resultsWithDistance);
-        } else {
-          setSearchResult(results);
-        }
-      });
-    }
+            setSearchResult(resultsWithDistance);
+          } else {
+            setSearchResult(results);
+          }
+        });
+      }
+    }, 1000); // 1초 동안 입력이 없을 경우에만 API 호출
+
+    return () => clearTimeout(delayDebounceFn); // cleanup 함수로 이전 타이머를 취소
   }, [searchKeyword, currentLocation]);
 
   useEffect(() => {

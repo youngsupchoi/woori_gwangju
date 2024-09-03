@@ -2,15 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {VStack, Text, HStack, View, Image} from 'native-base';
 import {useRecoilState} from 'recoil';
 import {
+  ErrorState,
+  LoadingState,
   RouteListState,
   selectedRouteState,
   SelectedTransportMethodState,
 } from 'state/RouteAtoms';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native';
+import {ActivityIndicator, TouchableOpacity} from 'react-native';
 import BusIcon from 'assets/images/whiteBusIcon.png';
 import WhiteBusIcon from 'assets/images/whiteBusIcon.png';
 import TransferIcon from 'assets/images/wheelchair.png';
+import errorIcon from 'assets/images/wrongMap.png';
 
 const RouteLocationMarker = ({leg}) => {
   const backgroundColor = leg.routeColor ? `#${leg.routeColor}` : '#CDCED6';
@@ -107,6 +110,8 @@ const CountdownTimer = ({initialSeconds}) => {
 
 const RouteListComponent = () => {
   const [routeList, setRouteList] = useRecoilState(RouteListState);
+  const [loading] = useRecoilState(LoadingState); // 로딩 상태
+  const [error] = useRecoilState(ErrorState); // 에러 상태
   const [selectedMethod] = useRecoilState(SelectedTransportMethodState); // 선택된 대중교통 수단
   const navigation = useNavigation();
   const [, setSelectedRouteState] = useRecoilState(selectedRouteState);
@@ -167,6 +172,25 @@ const RouteListComponent = () => {
   useEffect(() => {
     setRouteList(routeList);
   }, [routeList]);
+
+  if (loading) {
+    return (
+      <View alignItems="center" justifyContent="center" flex={1} mt={'30%'}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View alignItems="center" justifyContent="center" flex={1} mt={'30%'}>
+        <Image source={errorIcon} alt="error" mb={'24px'} />
+        <Text fontSize={'16px'} fontWeight={'medium'} color="#B9BBC6">
+          {error}
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <>
