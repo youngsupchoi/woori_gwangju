@@ -18,6 +18,8 @@ import subwayStations from '../../subwayDatabase/subwayStation.json'; // 지하�
 import busStations from '../../busDatabase/busStation.json'; // 버스 정류장 데이터 가져오기
 import subwayMarkerIcon from '../../assets/images/MapPin-Metro.png'; // 지하철 PNG 아이콘
 import busMarkerIcon from '../../assets/images/MapPin-BUS.png'; // 버스 PNG 아이콘
+import ForDisabledToiletLocationMarker from 'components/map/marker/ForDisabledToiletLocationMarker';
+import ToiletLocationMarker from 'components/map/marker/ToiletLocationMarker';
 
 const MainMapComponent: React.FC<{
   mapRef: React.RefObject<MapView>;
@@ -52,10 +54,10 @@ const MainMapComponent: React.FC<{
 
     const filteredBusStations = busStations.filter(station => {
       return (
-        station.LATITUDE >= minLatitude &&
-        station.LATITUDE <= maxLatitude &&
-        station.LONGITUDE >= minLongitude &&
-        station.LONGITUDE <= maxLongitude
+        station.gpslati >= minLatitude &&
+        station.gpslati <= maxLatitude &&
+        station.gpslong >= minLongitude &&
+        station.gpslong <= maxLongitude
       );
     });
 
@@ -156,12 +158,12 @@ const MainMapComponent: React.FC<{
         {showMarkerState.includes('버스') &&
           visibleBusStations.map(station => (
             <Marker
-              key={station.BUSSTOP_ID}
+              key={station.nodeid}
               coordinate={{
-                latitude: station.LATITUDE,
-                longitude: station.LONGITUDE,
+                latitude: station.gpslati,
+                longitude: station.gpslong,
               }}
-              title={station.BUSSTOP_NAME}>
+              title={station.nodenm}>
               <Image
                 source={busMarkerIcon} // 버스 PNG 이미지
                 alt="Bus Station"
@@ -169,7 +171,10 @@ const MainMapComponent: React.FC<{
               />
             </Marker>
           ))}
-
+        {/* 화장실 마커 표시 */}
+        <ToiletLocationMarker />
+        {/* 장애인 화장실 마커 표시 */}
+        <ForDisabledToiletLocationMarker />
       </MapView>
     </View>
   );

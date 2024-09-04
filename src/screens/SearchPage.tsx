@@ -15,8 +15,12 @@ import {fetchPOIResults} from 'apis/poiSearch';
 import {locationState} from 'state/locationState';
 import MainSearchBar from 'components/mainpage/MainSearchbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useRoute} from '@react-navigation/native';
 
 const SearchPage = () => {
+  const route = useRoute(); // route 객체를 사용하여 전달된 파라미터 접근
+  const {isDestination = true, isReset = false} = route.params || {}; // 전달된 파라미터 사용
+
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
   const [recentSearches, setRecentSearches] =
     useRecoilState(recentSearchesState);
@@ -39,24 +43,28 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    if (searchKeyword) {
-      // 검색어가 있을 경우 TMAP API 호출
-      fetchPOIResults(searchKeyword).then(results => {
-        if (currentLocation.latitude && currentLocation.longitude) {
-          // 현재 위치와 각 POI 간의 거리를 계산해 추가
-          const resultsWithDistance = results.map(item => {
-            const distance = haversine(currentLocation, {
-              latitude: item.frontLat,
-              longitude: item.frontLon,
+    const delayDebounceFn = setTimeout(() => {
+      if (searchKeyword) {
+        // 검색어가 있을 경우 TMAP API 호출
+        fetchPOIResults(searchKeyword).then(results => {
+          if (currentLocation.latitude && currentLocation.longitude) {
+            // 현재 위치와 각 POI 간의 거리를 계산해 추가
+            const resultsWithDistance = results.map(item => {
+              const distance = haversine(currentLocation, {
+                latitude: item.frontLat,
+                longitude: item.frontLon,
+              });
+              return {...item, distance: distance.toFixed(1)}; // 거리 값을 km로 표시
             });
-            return {...item, distance: distance.toFixed(1)}; // 거리 값을 km로 표시
-          });
-          setSearchResult(resultsWithDistance);
-        } else {
-          setSearchResult(results);
-        }
-      });
-    }
+            setSearchResult(resultsWithDistance);
+          } else {
+            setSearchResult(results);
+          }
+        });
+      }
+    }, 1000); // 1초 동안 입력이 없을 경우에만 API 호출
+
+    return () => clearTimeout(delayDebounceFn); // cleanup 함수로 이전 타이머를 취소
   }, [searchKeyword, currentLocation]);
 
   useEffect(() => {
@@ -77,13 +85,17 @@ const SearchPage = () => {
       <View flex={1}>
         {searchKeyword === '' && recentSearches.length !== 0 ? (
           <SharedSearchListComponent
+            isDestination={isDestination}
             isRecentSearch={true}
+            isReset={isReset}
             data={recentSearches}
             iconSource={historyIcon}
             title="최근 검색"
           />
         ) : (
           <SharedSearchListComponent
+            isDestination={isDestination}
+            isReset={isReset}
             data={searchResult}
             iconSource={searchResultLocationIcon}
             highlightKeyword={searchKeyword}

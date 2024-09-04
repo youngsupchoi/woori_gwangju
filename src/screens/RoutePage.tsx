@@ -10,15 +10,22 @@ import {
   SelectedMethodState,
   RouteListState,
   DestinationState,
+  LoadingState,
+  ErrorState,
 } from 'state/RouteAtoms';
 import {locationState} from 'state/locationState';
 import axios from 'axios';
 import Config from 'react-native-config';
-import useFetchArrivalData from 'hooks/arrivalData/useArrivalData';
+import {
+  useFetchArrivalData,
+  fetchAndUpdateArrivalData,
+} from 'hooks/arrivalData/useArrivalData';
 import WalkingRouteBottmeSheetComponent from 'components/routepage/WalkingRouteBottomSheetComponent';
 import ActiveWalkingRouteMapComponente from 'components/map/ActiveWalkingRouteMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
+import {useRoute} from '@react-navigation/native'; // route 사용을 위해 추가
+
 import {walkingRouteAtom} from 'state/activeWalkingRouteAtom';
 import ConstraintWalkingRouteComponent from 'components/routepage/ConstraintWalkingRouteComponent';
 import ConstraintTransportRouteComponent from 'components/routepage/ConstraintTransportRouteComponent';
@@ -38,6 +45,12 @@ const RoutePage = () => {
   const [selectedMethodState, setSelectedMethodState] =
     useRecoilState(SelectedMethodState);
   const [routeList, setRouteList] = useRecoilState(RouteListState);
+  const [loading, setLoading] = useRecoilState(LoadingState); // 로딩 상태 추가
+  const [error, setError] = useRecoilState(ErrorState); // 에러 상태 추가
+  const route = useRoute(); // route 사용을 위해 추가
+
+  // 전달받은 startPoint 파라미터
+  const {startPoint} = route.params || {};
   const walkingRouteState = useRecoilValue(walkingRouteAtom);
 
   const isOutsideGwangju = (latitude, longitude) => {
@@ -83,7 +96,10 @@ const RoutePage = () => {
   };
 
   const fetchRoutes = async () => {
+    setLoading(true); // 로딩 시작
+    setError(null); // 에러 초기화
     try {
+      console.log(startPointState, destinationState);
       const response = await axios.post(
         'https://apis.openapi.sk.com/transit/routes',
         {
@@ -91,7 +107,7 @@ const RoutePage = () => {
           startY: startPointState.latitude,
           endX: destinationState.longitude,
           endY: destinationState.latitude,
-          count: 1,
+          count: 10,
           lang: 0,
           format: 'json',
         },
@@ -109,29 +125,48 @@ const RoutePage = () => {
         response.data.metaData.plan &&
         response.data.metaData.plan.itineraries
       ) {
-        setRouteList(response.data.metaData.plan.itineraries);
+        // console.log(response.data.metaData.plan.itineraries);
+        // setRouteList(response.data.metaData.plan.itineraries);
+
+        await fetchAndUpdateArrivalData(
+          response.data.metaData.plan.itineraries,
+          setRouteList,
+        );
       } else {
-        console.error('No route data found');
+        setError('너무 가까운 거리는 대중교통 안내가 지원되지 않습니다.');
       }
-    } catch (error) {
-      console.error('Error fetching route data:', error);
+    } catch (e) {
+      setError('알 수 없는 이유로 에러가 발생했습니다.');
+    } finally {
+      setLoading(false); // 로딩 종료
     }
   };
 
   useEffect(() => {
-    if (currentLocation.latitude && currentLocation.longitude) {
+    if (startPoint) {
+      // startPoint 파라미터가 있는 경우 이를 사용
+      setStartPointState(startPoint);
+    } else if (currentLocation.latitude && currentLocation.longitude) {
+      // startPoint 파라미터가 없는 경우 현재 위치를 사용
       fetchAddressFromCoordinates(
         currentLocation.latitude,
         currentLocation.longitude,
       );
-
-      setTimeout(() => {
-        fetchRoutes();
-      }, 10000);
     }
-  }, [currentLocation, setStartPointState]);
+  }, []);
 
-  useFetchArrivalData();
+  useEffect(() => {
+    if (
+      startPointState.latitude !== 0 &&
+      startPointState.longitude !== 0 &&
+      destinationState.latitude !== 0 &&
+      destinationState.longitude !== 0
+    ) {
+      fetchRoutes();
+    }
+  }, [startPointState, destinationState]);
+
+  // useFetchArrivalData();
 
   const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
     useCurrentLocationMapController();

@@ -13,6 +13,7 @@ const MainSearchBar = ({
   onChangeText,
   showBackButton = false,
   showMenuButton = false,
+  isDestination = true,
   onBackPress,
   flex = 1,
 }: {
@@ -21,6 +22,7 @@ const MainSearchBar = ({
   onChangeText?: (text: string) => void;
   showBackButton?: boolean;
   showMenuButton?: boolean;
+  isDestination?: boolean;
   onBackPress?: () => void;
   flex?: number;
 }) => {
@@ -54,7 +56,7 @@ const MainSearchBar = ({
         </Button>
       )}
       <Input
-        placeholder={placeholder}
+        placeholder={isDestination ? placeholder : '출발지 검색'}
         flex={flex}
         bg="#FFFFFF"
         fontSize="18"

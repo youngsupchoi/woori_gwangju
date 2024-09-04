@@ -1,0 +1,2221 @@
+[
+  {
+    "endnodenm": "서창농협벽진지점",
+    "routeid": "KJB1",
+    "routeno": "순환01A(계수초->시청->조선대)",
+    "routetp": "급행버스",
+    "startnodenm": "세하동"
+  },
+  {
+    "endnodenm": "장등동",
+    "routeid": "KJB10",
+    "routeno": "송정19",
+    "routetp": "간선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "도산동",
+    "routeid": "KJB100",
+    "routeno": "진월75",
+    "routetp": "지선버스",
+    "startnodenm": "송암공단"
+  },
+  {
+    "endnodenm": "천교",
+    "routeid": "KJB101",
+    "routeno": "송암31",
+    "routetp": "간선버스",
+    "startnodenm": "송암공단"
+  },
+  {
+    "endnodenm": "돈보스코학교",
+    "routeid": "KJB102",
+    "routeno": "수완12",
+    "routetp": "간선버스",
+    "startnodenm": "무등산국립공원(증심사)"
+  },
+  {
+    "endnodenm": "도산동",
+    "routeid": "KJB103",
+    "routeno": "송정100",
+    "routetp": "지선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "진흥고",
+    "routeid": "KJB104",
+    "routeno": "선운101(송산유원지)",
+    "routetp": "지선버스",
+    "startnodenm": "송산유원지(종점)"
+  },
+  {
+    "endnodenm": "장동마을",
+    "routeid": "KJB106",
+    "routeno": "두암81(무등파크.장등마을)",
+    "routetp": "지선버스",
+    "startnodenm": "장등마을"
+  },
+  {
+    "endnodenm": "비엔날레주차장",
+    "routeid": "KJB108",
+    "routeno": "송정33",
+    "routetp": "지선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "한국에너지공과대학교",
+    "routeid": "KJB109",
+    "routeno": "좌석02",
+    "routetp": "급행버스",
+    "startnodenm": "무등산국립공원(증심사)"
+  },
+  {
+    "endnodenm": "월드컵경기장",
+    "routeid": "KJB11",
+    "routeno": "첨단20",
+    "routetp": "지선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "KTX체육기지",
+    "routeid": "KJB111",
+    "routeno": "송암68",
+    "routetp": "지선버스",
+    "startnodenm": "송암공단"
+  },
+  {
+    "endnodenm": "서창농협벽진지점",
+    "routeid": "KJB112",
+    "routeno": "순환01B(계수초->운천저수지->조선대)",
+    "routetp": "급행버스",
+    "startnodenm": "세하동"
+  },
+  {
+    "endnodenm": "송원대",
+    "routeid": "KJB114",
+    "routeno": "수완03",
+    "routetp": "급행버스",
+    "startnodenm": "폭스존"
+  },
+  {
+    "endnodenm": "송산유원지",
+    "routeid": "KJB115",
+    "routeno": "선운14",
+    "routetp": "간선버스",
+    "startnodenm": "송산유원지(종점)"
+  },
+  {
+    "endnodenm": "서광주역종점",
+    "routeid": "KJB116",
+    "routeno": "첨단22",
+    "routetp": "간선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "국립광주과학관",
+    "routeid": "KJB117",
+    "routeno": "첨단23",
+    "routetp": "간선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "도선사",
+    "routeid": "KJB118",
+    "routeno": "문흥53",
+    "routetp": "지선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "신안사거리",
+    "routeid": "KJB119",
+    "routeno": "지원56",
+    "routetp": "지선버스",
+    "startnodenm": "월남동"
+  },
+  {
+    "endnodenm": "서광주역종점",
+    "routeid": "KJB12",
+    "routeno": "지원25",
+    "routetp": "간선버스",
+    "startnodenm": "월남동"
+  },
+  {
+    "endnodenm": "전통공예문화학교",
+    "routeid": "KJB120",
+    "routeno": "양산60",
+    "routetp": "지선버스",
+    "startnodenm": "효령노인복지타운"
+  },
+  {
+    "endnodenm": "두암지구입구",
+    "routeid": "KJB121",
+    "routeno": "충효188",
+    "routetp": "지선버스",
+    "startnodenm": "석저마을"
+  },
+  {
+    "endnodenm": "화순전남대병원",
+    "routeid": "KJB122",
+    "routeno": "228(구151.화순전대병원)",
+    "routetp": "지선버스",
+    "startnodenm": "운암산코오롱하늘채아파트"
+  },
+  {
+    "endnodenm": "도웅리1구",
+    "routeid": "KJB123",
+    "routeno": "지원152(도웅리)",
+    "routetp": "지선버스",
+    "startnodenm": "전대치과병원"
+  },
+  {
+    "endnodenm": "진흥고",
+    "routeid": "KJB125",
+    "routeno": "선운101(광주글로벌모터스)",
+    "routetp": "지선버스",
+    "startnodenm": "광주글로벌모터스"
+  },
+  {
+    "endnodenm": "계수초교",
+    "routeid": "KJB127",
+    "routeno": "상무62(상무역경유시청행)",
+    "routetp": "지선버스",
+    "startnodenm": "상무지구"
+  },
+  {
+    "endnodenm": "도선사",
+    "routeid": "KJB129",
+    "routeno": "두암81(각화초교.장등동)",
+    "routetp": "지선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "용전",
+    "routeid": "KJB13",
+    "routeno": "매월26",
+    "routetp": "간선버스",
+    "startnodenm": "매월동(북)"
+  },
+  {
+    "endnodenm": "도선사",
+    "routeid": "KJB130",
+    "routeno": "두암81(무등파크.장등동)",
+    "routetp": "지선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "용연정수장",
+    "routeid": "KJB131",
+    "routeno": "지원52-1",
+    "routetp": "지선버스",
+    "startnodenm": "용연동"
+  },
+  {
+    "endnodenm": "용산지구",
+    "routeid": "KJB14",
+    "routeno": "봉선27",
+    "routetp": "간선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "살레시오고/교통문화연수원",
+    "routeid": "KJB15",
+    "routeno": "일곡28",
+    "routetp": "간선버스",
+    "startnodenm": "매월동(북)"
+  },
+  {
+    "endnodenm": "살레시오고/교통문화연수원",
+    "routeid": "KJB16",
+    "routeno": "송정29",
+    "routetp": "간선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "운암산코오롱하늘채아파트",
+    "routeid": "KJB17",
+    "routeno": "첨단30",
+    "routetp": "간선버스",
+    "startnodenm": "국립광주과학관"
+  },
+  {
+    "endnodenm": "무등산국립공원(증심사)",
+    "routeid": "KJB18",
+    "routeno": "운림35",
+    "routetp": "지선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "월남동",
+    "routeid": "KJB19",
+    "routeno": "봉선37",
+    "routetp": "간선버스",
+    "startnodenm": "송산유원지(종점)"
+  },
+  {
+    "endnodenm": "하남2지구",
+    "routeid": "KJB195",
+    "routeno": "마을720",
+    "routetp": "마을버스",
+    "startnodenm": "응암공원"
+  },
+  {
+    "endnodenm": "송산유원지(종점)",
+    "routeid": "KJB20",
+    "routeno": "일곡38",
+    "routetp": "간선버스",
+    "startnodenm": "살레시오고/교통문화연수원"
+  },
+  {
+    "endnodenm": "풍암SK뷰",
+    "routeid": "KJB201",
+    "routeno": "마을760",
+    "routetp": "마을버스",
+    "startnodenm": "양동시장역(천변)"
+  },
+  {
+    "endnodenm": "건국지구대",
+    "routeid": "KJB203",
+    "routeno": "마을700",
+    "routetp": "마을버스",
+    "startnodenm": "평동우체국(동)"
+  },
+  {
+    "endnodenm": "전남대병원오거리/남동성당",
+    "routeid": "KJB208",
+    "routeno": "마을715(영어마을경유)",
+    "routetp": "마을버스",
+    "startnodenm": "도금마을회관"
+  },
+  {
+    "endnodenm": "전남대병원오거리/남동성당",
+    "routeid": "KJB209",
+    "routeno": "마을715",
+    "routetp": "마을버스",
+    "startnodenm": "도금마을회관"
+  },
+  {
+    "endnodenm": "전남대용봉탑",
+    "routeid": "KJB210",
+    "routeno": "마을777(평일운행)",
+    "routetp": "마을버스",
+    "startnodenm": "살레시오고"
+  },
+  {
+    "endnodenm": "전남대용봉탑",
+    "routeid": "KJB211",
+    "routeno": "마을777(주말운행)",
+    "routetp": "마을버스",
+    "startnodenm": "우치공원"
+  },
+  {
+    "endnodenm": "시화문화마을문화관",
+    "routeid": "KJB213",
+    "routeno": "마을788",
+    "routetp": "마을버스",
+    "startnodenm": "남부대시립국제수영장"
+  },
+  {
+    "endnodenm": "월남동",
+    "routeid": "KJB23",
+    "routeno": "지원45",
+    "routetp": "간선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "시립제2요양병원",
+    "routeid": "KJB24",
+    "routeno": "송암47",
+    "routetp": "간선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "무등산국립공원(증심사)",
+    "routeid": "KJB25",
+    "routeno": "운림50",
+    "routetp": "간선버스",
+    "startnodenm": "세하동"
+  },
+  {
+    "endnodenm": "무등산국립공원(증심사)",
+    "routeid": "KJB26",
+    "routeno": "운림51",
+    "routetp": "간선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "그린파크",
+    "routeid": "KJB27",
+    "routeno": "지원52",
+    "routetp": "지선버스",
+    "startnodenm": "내남"
+  },
+  {
+    "endnodenm": "대한적십자사",
+    "routeid": "KJB29",
+    "routeno": "운림54",
+    "routetp": "간선버스",
+    "startnodenm": "무등산국립공원(증심사)"
+  },
+  {
+    "endnodenm": "장등동",
+    "routeid": "KJB3",
+    "routeno": "매월06",
+    "routetp": "급행버스",
+    "startnodenm": "매월동(북)"
+  },
+  {
+    "endnodenm": "시립제2요양병원",
+    "routeid": "KJB30",
+    "routeno": "금남55",
+    "routetp": "지선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "조선대해오름관",
+    "routeid": "KJB31",
+    "routeno": 419,
+    "routetp": "지선버스",
+    "startnodenm": "살레시오고/교통문화연수원"
+  },
+  {
+    "endnodenm": "조선대해오름관",
+    "routeid": "KJB32",
+    "routeno": "금남57",
+    "routetp": "지선버스",
+    "startnodenm": "살레시오고/교통문화연수원"
+  },
+  {
+    "endnodenm": "국립아시아문화전당(구.도청)",
+    "routeid": "KJB33",
+    "routeno": "금남58",
+    "routetp": "간선버스",
+    "startnodenm": "동림삼익아파트"
+  },
+  {
+    "endnodenm": "덕남",
+    "routeid": "KJB34",
+    "routeno": "금남59",
+    "routetp": "간선버스",
+    "startnodenm": "매월동(북)"
+  },
+  {
+    "endnodenm": "조선대해오름관",
+    "routeid": "KJB35",
+    "routeno": "매월61",
+    "routetp": "지선버스",
+    "startnodenm": "칠석"
+  },
+  {
+    "endnodenm": "계수초교",
+    "routeid": "KJB36",
+    "routeno": "상무62(시청경유상무역행)",
+    "routetp": "지선버스",
+    "startnodenm": "상무지구"
+  },
+  {
+    "endnodenm": "대한적십자사",
+    "routeid": "KJB37",
+    "routeno": "상무63",
+    "routetp": "지선버스",
+    "startnodenm": "상무지구"
+  },
+  {
+    "endnodenm": "비엔날레전시관",
+    "routeid": "KJB38",
+    "routeno": "상무64",
+    "routetp": "지선버스",
+    "startnodenm": "세하동"
+  },
+  {
+    "endnodenm": "광주역(남)",
+    "routeid": "KJB39",
+    "routeno": "유덕65",
+    "routetp": "지선버스",
+    "startnodenm": "덕흥동"
+  },
+  {
+    "endnodenm": "살레시오고/교통문화연수원",
+    "routeid": "KJB4",
+    "routeno": "진월07",
+    "routetp": "급행버스",
+    "startnodenm": "송암공단(세영운수)"
+  },
+  {
+    "endnodenm": "양동시장역(천변)",
+    "routeid": "KJB40",
+    "routeno": "대촌69",
+    "routetp": "지선버스",
+    "startnodenm": "칠석"
+  },
+  {
+    "endnodenm": "롯데백화점",
+    "routeid": "KJB41",
+    "routeno": "대촌70",
+    "routetp": "지선버스",
+    "startnodenm": "승촌"
+  },
+  {
+    "endnodenm": "양동시장역(천변)",
+    "routeid": "KJB42",
+    "routeno": "대촌71",
+    "routetp": "지선버스",
+    "startnodenm": "구소"
+  },
+  {
+    "endnodenm": "수완지구",
+    "routeid": "KJB43",
+    "routeno": "송암72",
+    "routetp": "지선버스",
+    "startnodenm": "송암공단"
+  },
+  {
+    "endnodenm": "서광주역",
+    "routeid": "KJB44",
+    "routeno": "송암73",
+    "routetp": "지선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "무등산국립공원(증심사)",
+    "routeid": "KJB47",
+    "routeno": "봉선76",
+    "routetp": "지선버스",
+    "startnodenm": "송암공단"
+  },
+  {
+    "endnodenm": "노대",
+    "routeid": "KJB48",
+    "routeno": "진월77",
+    "routetp": "지선버스",
+    "startnodenm": "세하동"
+  },
+  {
+    "endnodenm": "이동",
+    "routeid": "KJB49",
+    "routeno": "진월78",
+    "routetp": "지선버스",
+    "startnodenm": "광주김치타운"
+  },
+  {
+    "endnodenm": "무등산국립공원(증심사)",
+    "routeid": "KJB5",
+    "routeno": "첨단09",
+    "routetp": "급행버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "천교",
+    "routeid": "KJB50",
+    "routeno": "진월79",
+    "routetp": "지선버스",
+    "startnodenm": "도동"
+  },
+  {
+    "endnodenm": "충장로5가입구",
+    "routeid": "KJB51",
+    "routeno": "문흥80",
+    "routetp": "지선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "망향동산길",
+    "routeid": "KJB52",
+    "routeno": "두암81(각화초교.장등마을)",
+    "routetp": "지선버스",
+    "startnodenm": "장등마을"
+  },
+  {
+    "endnodenm": "평동역(동)",
+    "routeid": "KJB521",
+    "routeno": "나주602",
+    "startnodenm": "나주터미널"
+  },
+  {
+    "endnodenm": "비엔날레전시관",
+    "routeid": "KJB54",
+    "routeno": "용봉83",
+    "routetp": "지선버스",
+    "startnodenm": "비엔날레전시관"
+  },
+  {
+    "endnodenm": "문흥종점",
+    "routeid": "KJB542",
+    "routeno": "나주160",
+    "startnodenm": "석기네"
+  },
+  {
+    "endnodenm": "양동시장역(천변)",
+    "routeid": "KJB55",
+    "routeno": "용전84",
+    "routetp": "지선버스",
+    "startnodenm": "송강정종점"
+  },
+  {
+    "endnodenm": "중앙여고",
+    "routeid": "KJB56",
+    "routeno": "용전85",
+    "routetp": "지선버스",
+    "startnodenm": "입암"
+  },
+  {
+    "endnodenm": "송정파출소(북)",
+    "routeid": "KJB561",
+    "routeno": "나주600",
+    "startnodenm": "나주터미널"
+  },
+  {
+    "endnodenm": "송정파출소(북)",
+    "routeid": "KJB562",
+    "routeno": "나주601",
+    "startnodenm": "나주터미널"
+  },
+  {
+    "endnodenm": "전남대동문",
+    "routeid": "KJB563",
+    "routeno": "나주997",
+    "startnodenm": "영산포터미널"
+  },
+  {
+    "endnodenm": "전남대동문",
+    "routeid": "KJB564",
+    "routeno": "나주998",
+    "startnodenm": "영산포터미널"
+  },
+  {
+    "endnodenm": "전남대동문",
+    "routeid": "KJB565",
+    "routeno": "나주999",
+    "startnodenm": "영산포터미널"
+  },
+  {
+    "endnodenm": "공항",
+    "routeid": "KJB567",
+    "routeno": "나주161",
+    "startnodenm": "석기네"
+  },
+  {
+    "endnodenm": "효령노인복지타운",
+    "routeid": "KJB57",
+    "routeno": "용전86",
+    "routetp": "지선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "조선대장미원",
+    "routeid": "KJB58",
+    "routeno": "석곡87",
+    "routetp": "지선버스",
+    "startnodenm": "청풍수련장"
+  },
+  {
+    "endnodenm": "오룡",
+    "routeid": "KJB59",
+    "routeno": "임곡89",
+    "routetp": "지선버스",
+    "startnodenm": "덕흥동"
+  },
+  {
+    "endnodenm": "태령",
+    "routeid": "KJB6",
+    "routeno": "지원15",
+    "routetp": "간선버스",
+    "startnodenm": "월남동"
+  },
+  {
+    "endnodenm": "두산",
+    "routeid": "KJB60",
+    "routeno": "임곡90",
+    "routetp": "지선버스",
+    "startnodenm": "원사호마을"
+  },
+  {
+    "endnodenm": "중장터",
+    "routeid": "KJB600",
+    "routeno": "화순318-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB601",
+    "routeno": "화순318-1",
+    "startnodenm": "중장터"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB602",
+    "routeno": "화순318-1",
+    "startnodenm": "중장터"
+  },
+  {
+    "endnodenm": "미곡리1구",
+    "routeid": "KJB606",
+    "routeno": "화순216",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "만인리",
+    "routeid": "KJB609",
+    "routeno": "화순200-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "와산",
+    "routeid": "KJB61",
+    "routeno": "임곡91",
+    "routetp": "지선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB615",
+    "routeno": "화순216",
+    "startnodenm": "미곡리1구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB618",
+    "routeno": "화순200-1",
+    "startnodenm": "만인리"
+  },
+  {
+    "endnodenm": "대리교통광장(서)",
+    "routeid": "KJB619",
+    "routeno": "화순1111",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "흑석사거리(동)",
+    "routeid": "KJB62",
+    "routeno": "첨단92",
+    "routetp": "지선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "비아호반아파트",
+    "routeid": "KJB64",
+    "routeno": "첨단94",
+    "routetp": "지선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "시립제2요양병원",
+    "routeid": "KJB65",
+    "routeno": "첨단95",
+    "routetp": "간선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "송학",
+    "routeid": "KJB66",
+    "routeno": "송정96",
+    "routetp": "지선버스",
+    "startnodenm": "용봉마을"
+  },
+  {
+    "endnodenm": "용산지구",
+    "routeid": "KJB68",
+    "routeno": "송정98",
+    "routetp": "간선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "양동시장역(천변)",
+    "routeid": "KJB69",
+    "routeno": "송정99",
+    "routetp": "지선버스",
+    "startnodenm": "용봉마을"
+  },
+  {
+    "endnodenm": "광주종합버스터미널",
+    "routeid": "KJB699",
+    "routeno": "담양2-1",
+    "startnodenm": "남면"
+  },
+  {
+    "endnodenm": "매월동(북)",
+    "routeid": "KJB7",
+    "routeno": "매월16",
+    "routetp": "간선버스",
+    "startnodenm": "국립광주과학관"
+  },
+  {
+    "endnodenm": "장단마을",
+    "routeid": "KJB700",
+    "routeno": "담양2-4",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB701",
+    "routeno": "담양4-8",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB702",
+    "routeno": "담양5-1",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "창평훈련장",
+    "routeid": "KJB703",
+    "routeno": "담양5-5",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "남면",
+    "routeid": "KJB704",
+    "routeno": "담양2-1",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "장단마을",
+    "routeid": "KJB705",
+    "routeno": "담양2-3",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "장단마을",
+    "routeid": "KJB706",
+    "routeno": "담양2-4",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "광주종합버스터미널",
+    "routeid": "KJB707",
+    "routeno": "담양2-4",
+    "startnodenm": "장단마을"
+  },
+  {
+    "endnodenm": "광주종합버스터미널",
+    "routeid": "KJB708",
+    "routeno": "담양2-3",
+    "startnodenm": "장단마을"
+  },
+  {
+    "endnodenm": "광주종합버스터미널",
+    "routeid": "KJB709",
+    "routeno": "담양2-4",
+    "startnodenm": "장단마을"
+  },
+  {
+    "endnodenm": "화순사평",
+    "routeid": "KJB71",
+    "routeno": "228(구151.화순사평)",
+    "routetp": "지선버스",
+    "startnodenm": "운암산코오롱하늘채아파트"
+  },
+  {
+    "endnodenm": "장단마을",
+    "routeid": "KJB710",
+    "routeno": "담양2-1",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "장단마을",
+    "routeid": "KJB711",
+    "routeno": "담양2-2",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "광주종합버스터미널",
+    "routeid": "KJB712",
+    "routeno": "담양2-1",
+    "startnodenm": "장단마을"
+  },
+  {
+    "endnodenm": "장단마을",
+    "routeid": "KJB713",
+    "routeno": "담양2-5",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB714",
+    "routeno": "담양3-1",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB715",
+    "routeno": "담양3-2",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "대인광장(동)",
+    "routeid": "KJB716",
+    "routeno": "담양3-2",
+    "startnodenm": "창평훈련장"
+  },
+  {
+    "endnodenm": "창평훈련장",
+    "routeid": "KJB717",
+    "routeno": "담양3-1",
+    "startnodenm": "담양터미널"
+  },
+  {
+    "endnodenm": "시목",
+    "routeid": "KJB718",
+    "routeno": "담양7-2",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "능주역",
+    "routeid": "KJB72",
+    "routeno": "지원152(능주역)",
+    "routetp": "지선버스",
+    "startnodenm": "전대치과병원"
+  },
+  {
+    "endnodenm": "시목",
+    "routeid": "KJB720",
+    "routeno": "담양7-1",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "대인광장(동)",
+    "routeid": "KJB721",
+    "routeno": "담양7-2",
+    "startnodenm": "창평훈련장"
+  },
+  {
+    "endnodenm": "창평훈련장",
+    "routeid": "KJB722",
+    "routeno": "담양1-2",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "외동",
+    "routeid": "KJB723",
+    "routeno": "담양1-1",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "산정",
+    "routeid": "KJB724",
+    "routeno": "담양6-1",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "대인광장(동)",
+    "routeid": "KJB725",
+    "routeno": "담양6-1",
+    "startnodenm": "창평훈련장"
+  },
+  {
+    "endnodenm": "산정",
+    "routeid": "KJB727",
+    "routeno": "담양6-2",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "대인광장(동)",
+    "routeid": "KJB728",
+    "routeno": "담양8-1",
+    "startnodenm": "창평훈련장"
+  },
+  {
+    "endnodenm": "롯데백화점",
+    "routeid": "KJB73",
+    "routeno": "대촌170",
+    "routetp": "지선버스",
+    "startnodenm": "도래"
+  },
+  {
+    "endnodenm": "대인광장(동)",
+    "routeid": "KJB730",
+    "routeno": "담양5-4",
+    "startnodenm": "창평훈련장"
+  },
+  {
+    "endnodenm": "해곡리(부동)",
+    "routeid": "KJB731",
+    "routeno": "담양5-2",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "해곡리(부동)",
+    "routeid": "KJB732",
+    "routeno": "담양5-4",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "대인광장(동)",
+    "routeid": "KJB733",
+    "routeno": "담양5-2",
+    "startnodenm": "창평훈련장"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB734",
+    "routeno": "담양4-1",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB736",
+    "routeno": "담양4-2",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "창평고입구",
+    "routeid": "KJB738",
+    "routeno": "담양4-2",
+    "startnodenm": "담양터미널"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB739",
+    "routeno": "담양4-3",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "양동시장역(천변)",
+    "routeid": "KJB74",
+    "routeno": "진월177",
+    "routetp": "지선버스",
+    "startnodenm": "도곡온천단지"
+  },
+  {
+    "endnodenm": "전남도립대학교",
+    "routeid": "KJB740",
+    "routeno": "담양311",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "전남도립대학교",
+    "routeid": "KJB741",
+    "routeno": "담양311-1",
+    "startnodenm": "광주종합버스터미널"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB742",
+    "routeno": "담양322",
+    "startnodenm": "담양터미널"
+  },
+  {
+    "endnodenm": "담양터미널",
+    "routeid": "KJB743",
+    "routeno": "담양322-1",
+    "startnodenm": "담양터미널"
+  },
+  {
+    "endnodenm": "창평훈련장",
+    "routeid": "KJB744",
+    "routeno": "담양3-1",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "대인광장(동)",
+    "routeid": "KJB745",
+    "routeno": "담양3-1",
+    "startnodenm": "창평훈련장"
+  },
+  {
+    "endnodenm": "창평훈련장",
+    "routeid": "KJB746",
+    "routeno": "담양8-1",
+    "startnodenm": "대인광장(동)"
+  },
+  {
+    "endnodenm": "대인광장(동)",
+    "routeid": "KJB749",
+    "routeno": "담양5-5",
+    "startnodenm": "창평훈련장"
+  },
+  {
+    "endnodenm": "신세계백화점",
+    "routeid": "KJB751",
+    "routeno": "담양311",
+    "startnodenm": "전남도립대학교"
+  },
+  {
+    "endnodenm": "신세계백화점",
+    "routeid": "KJB752",
+    "routeno": "담양311-1",
+    "startnodenm": "전남도립대학교"
+  },
+  {
+    "endnodenm": "서방사거리육교",
+    "routeid": "KJB76",
+    "routeno": "두암181",
+    "routetp": "지선버스",
+    "startnodenm": "대덕"
+  },
+  {
+    "endnodenm": "동부소방서",
+    "routeid": "KJB77",
+    "routeno": "용전184",
+    "routetp": "지선버스",
+    "startnodenm": "수북"
+  },
+  {
+    "endnodenm": "화순사평",
+    "routeid": "KJB771",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB772",
+    "routeno": "화순217",
+    "startnodenm": "남면사무소"
+  },
+  {
+    "endnodenm": "구암1리",
+    "routeid": "KJB773",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB774",
+    "routeno": "화순217-1",
+    "startnodenm": "구봉산"
+  },
+  {
+    "endnodenm": "능주농공단지",
+    "routeid": "KJB775",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB776",
+    "routeno": "화순218",
+    "startnodenm": "능주농공단지"
+  },
+  {
+    "endnodenm": "청풍면사무소",
+    "routeid": "KJB777",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB778",
+    "routeno": "화순218-1",
+    "startnodenm": "장터정류장"
+  },
+  {
+    "endnodenm": "도웅리1구",
+    "routeid": "KJB779",
+    "routeno": "화순200",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "연천",
+    "routeid": "KJB78",
+    "routeno": "충효187",
+    "routetp": "지선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB780",
+    "routeno": "화순200",
+    "startnodenm": "화순정류장"
+  },
+  {
+    "endnodenm": "도곡온천단지",
+    "routeid": "KJB781",
+    "routeno": "화순318",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB782",
+    "routeno": "화순318",
+    "startnodenm": "도곡온천단지"
+  },
+  {
+    "endnodenm": "효산삼거리",
+    "routeid": "KJB783",
+    "routeno": "화순318-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB784",
+    "routeno": "화순318-1",
+    "startnodenm": "천암리"
+  },
+  {
+    "endnodenm": "화순공공도서관입구",
+    "routeid": "KJB785",
+    "routeno": "화순216",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB786",
+    "routeno": "화순216",
+    "startnodenm": "화순공공도서관입구"
+  },
+  {
+    "endnodenm": "중앙여고",
+    "routeid": "KJB79",
+    "routeno": "첨단192",
+    "routetp": "지선버스",
+    "startnodenm": "장성마산"
+  },
+  {
+    "endnodenm": "서광주역종점",
+    "routeid": "KJB8",
+    "routeno": "진월17",
+    "routetp": "간선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "산정",
+    "routeid": "KJB80",
+    "routeno": "첨단193",
+    "routetp": "지선버스",
+    "startnodenm": "살레시오고/교통문화연수원"
+  },
+  {
+    "endnodenm": "정렬사",
+    "routeid": "KJB81",
+    "routeno": "진곡196",
+    "routetp": "지선버스",
+    "startnodenm": "진곡산단"
+  },
+  {
+    "endnodenm": "삼서면사무소",
+    "routeid": "KJB82",
+    "routeno": "송정197",
+    "routetp": "지선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "구소",
+    "routeid": "KJB83",
+    "routeno": "대촌270",
+    "routetp": "지선버스",
+    "startnodenm": "매월동(북)"
+  },
+  {
+    "endnodenm": "유마사",
+    "routeid": "KJB837",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순사평",
+    "routeid": "KJB838",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "밀양(내리)",
+    "routeid": "KJB839",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "와산",
+    "routeid": "KJB84",
+    "routeno": "임곡290",
+    "routetp": "지선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "절산(리)1구",
+    "routeid": "KJB840",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "검산(리)",
+    "routeid": "KJB841",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "동산(종점)",
+    "routeid": "KJB842",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "다산",
+    "routeid": "KJB843",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "가수리3구",
+    "routeid": "KJB844",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "주암(종점)",
+    "routeid": "KJB845",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "유천리입구",
+    "routeid": "KJB846",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "주암(종점)",
+    "routeid": "KJB847",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "용암(종점)",
+    "routeid": "KJB848",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "북면",
+    "routeid": "KJB849",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "동림마을",
+    "routeid": "KJB85",
+    "routeno": "송정296",
+    "routetp": "지선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "북면",
+    "routeid": "KJB850",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "와천리",
+    "routeid": "KJB851",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "송단(평지)",
+    "routeid": "KJB852",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순제일중",
+    "routeid": "KJB853",
+    "routeno": "화순217",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB854",
+    "routeno": "화순217",
+    "startnodenm": "유마사"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB855",
+    "routeno": "화순217",
+    "startnodenm": "화순사평"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB856",
+    "routeno": "화순217",
+    "startnodenm": "밀양(내리)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB857",
+    "routeno": "화순217",
+    "startnodenm": "절산(리)1구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB858",
+    "routeno": "화순217",
+    "startnodenm": "검산(리)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB859",
+    "routeno": "화순217",
+    "startnodenm": "동산(종점)"
+  },
+  {
+    "endnodenm": "상무지구",
+    "routeid": "KJB86",
+    "routeno": 518,
+    "routetp": "지선버스",
+    "startnodenm": "효령노인복지타운"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB860",
+    "routeno": "화순217",
+    "startnodenm": "다산"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB861",
+    "routeno": "화순217",
+    "startnodenm": "가수리3구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB862",
+    "routeno": "화순217",
+    "startnodenm": "주암(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB863",
+    "routeno": "화순217",
+    "startnodenm": "유천리입구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB864",
+    "routeno": "화순217",
+    "startnodenm": "주암(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB865",
+    "routeno": "화순217",
+    "startnodenm": "용암(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB866",
+    "routeno": "화순217",
+    "startnodenm": "북면"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB867",
+    "routeno": "화순217",
+    "startnodenm": "북면"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB868",
+    "routeno": "화순217",
+    "startnodenm": "와천리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB869",
+    "routeno": "화순217",
+    "startnodenm": "송단(평지)"
+  },
+  {
+    "endnodenm": "무등산국립공원(원효사)",
+    "routeid": "KJB87",
+    "routeno": 1187,
+    "routetp": "지선버스",
+    "startnodenm": "덕흥동"
+  },
+  {
+    "endnodenm": "야사",
+    "routeid": "KJB872",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "주암(종점)",
+    "routeid": "KJB873",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "노치(리)",
+    "routeid": "KJB874",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "야사",
+    "routeid": "KJB875",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "야사",
+    "routeid": "KJB876",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "야사",
+    "routeid": "KJB877",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "야사",
+    "routeid": "KJB878",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "다곡",
+    "routeid": "KJB879",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "서광주역",
+    "routeid": "KJB88",
+    "routeno": "금호36",
+    "routetp": "간선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "가수리3구",
+    "routeid": "KJB880",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "갑동",
+    "routeid": "KJB881",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "야사",
+    "routeid": "KJB882",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "동복정류소",
+    "routeid": "KJB883",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "호동",
+    "routeid": "KJB884",
+    "routeno": "화순217-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB887",
+    "routeno": "화순217-1",
+    "startnodenm": "야사"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB888",
+    "routeno": "화순217-1",
+    "startnodenm": "주암(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB889",
+    "routeno": "화순217-1",
+    "startnodenm": "노치(리)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB890",
+    "routeno": "화순217-1",
+    "startnodenm": "야사"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB891",
+    "routeno": "화순217-1",
+    "startnodenm": "야사"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB892",
+    "routeno": "화순217-1",
+    "startnodenm": "다곡"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB893",
+    "routeno": "화순217-1",
+    "startnodenm": "갑동"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB894",
+    "routeno": "화순217-1",
+    "startnodenm": "유천리입구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB895",
+    "routeno": "화순217-1",
+    "startnodenm": "호동"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB896",
+    "routeno": "화순217-1",
+    "startnodenm": "북면"
+  },
+  {
+    "endnodenm": "중장터",
+    "routeid": "KJB899",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "진곡산단",
+    "routeid": "KJB9",
+    "routeno": "문흥18",
+    "routetp": "간선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "국립광주과학관",
+    "routeid": "KJB90",
+    "routeno": "문흥39",
+    "routetp": "간선버스",
+    "startnodenm": "장등동"
+  },
+  {
+    "endnodenm": "중장터",
+    "routeid": "KJB900",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "중장터",
+    "routeid": "KJB901",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "중장터",
+    "routeid": "KJB902",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "행산(리)",
+    "routeid": "KJB903",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "행산(리)",
+    "routeid": "KJB904",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "우치리",
+    "routeid": "KJB905",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "대초리(종점)",
+    "routeid": "KJB906",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "대초리(종점)",
+    "routeid": "KJB907",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "덕곡(리)1구",
+    "routeid": "KJB908",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "덕곡(리)1구",
+    "routeid": "KJB909",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "장등동",
+    "routeid": "KJB91",
+    "routeno": "송암74",
+    "routetp": "지선버스",
+    "startnodenm": "송암공단"
+  },
+  {
+    "endnodenm": "오음2구",
+    "routeid": "KJB910",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "오음2구",
+    "routeid": "KJB911",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "오음3구",
+    "routeid": "KJB912",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "오음3구",
+    "routeid": "KJB913",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "우봉리",
+    "routeid": "KJB914",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "대신리3구",
+    "routeid": "KJB915",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "변천리",
+    "routeid": "KJB916",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "용곡(리)1구",
+    "routeid": "KJB917",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "등광리",
+    "routeid": "KJB918",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "등광리",
+    "routeid": "KJB919",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "도산동",
+    "routeid": "KJB92",
+    "routeno": "첨단40",
+    "routetp": "지선버스",
+    "startnodenm": "첨단종점"
+  },
+  {
+    "endnodenm": "등광리",
+    "routeid": "KJB920",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "양곡(종점)",
+    "routeid": "KJB921",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "신덕종점",
+    "routeid": "KJB922",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "춘양합동정류소",
+    "routeid": "KJB923",
+    "routeno": "화순218",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB924",
+    "routeno": "화순218",
+    "startnodenm": "중장터"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB925",
+    "routeno": "화순218",
+    "startnodenm": "중장터"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB926",
+    "routeno": "화순218",
+    "startnodenm": "중장터"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB927",
+    "routeno": "화순218",
+    "startnodenm": "중장터"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB928",
+    "routeno": "화순218",
+    "startnodenm": "중장터"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB929",
+    "routeno": "화순218",
+    "startnodenm": "행산(리)"
+  },
+  {
+    "endnodenm": "광암복림",
+    "routeid": "KJB93",
+    "routeno": "송정97",
+    "routetp": "지선버스",
+    "startnodenm": "공항"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB930",
+    "routeno": "화순218",
+    "startnodenm": "행산(리)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB931",
+    "routeno": "화순218",
+    "startnodenm": "우치리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB932",
+    "routeno": "화순218",
+    "startnodenm": "우치리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB933",
+    "routeno": "화순218",
+    "startnodenm": "대초리(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB934",
+    "routeno": "화순218",
+    "startnodenm": "대초리(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB935",
+    "routeno": "화순218",
+    "startnodenm": "대초리(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB936",
+    "routeno": "화순218",
+    "startnodenm": "덕곡(리)1구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB937",
+    "routeno": "화순218",
+    "startnodenm": "덕곡(리)1구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB938",
+    "routeno": "화순218",
+    "startnodenm": "오음2구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB939",
+    "routeno": "화순218",
+    "startnodenm": "오음3구"
+  },
+  {
+    "endnodenm": "연산동",
+    "routeid": "KJB94",
+    "routeno": "송정93",
+    "routetp": "지선버스",
+    "startnodenm": "도산동"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB940",
+    "routeno": "화순218",
+    "startnodenm": "오음3구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB941",
+    "routeno": "화순218",
+    "startnodenm": "우봉리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB942",
+    "routeno": "화순218",
+    "startnodenm": "대신리3구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB943",
+    "routeno": "화순218",
+    "startnodenm": "변천리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB944",
+    "routeno": "화순218",
+    "startnodenm": "등광리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB945",
+    "routeno": "화순218",
+    "startnodenm": "등광리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB946",
+    "routeno": "화순218",
+    "startnodenm": "등광리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB947",
+    "routeno": "화순218",
+    "startnodenm": "양곡(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB948",
+    "routeno": "화순218",
+    "startnodenm": "신덕종점"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB949",
+    "routeno": "화순218",
+    "startnodenm": "용곡(리)1구"
+  },
+  {
+    "endnodenm": "서광주역",
+    "routeid": "KJB95",
+    "routeno": "금호46",
+    "routetp": "간선버스",
+    "startnodenm": "국립광주과학관"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB950",
+    "routeno": "화순218",
+    "startnodenm": "춘양합동정류소"
+  },
+  {
+    "endnodenm": "청풍면사무소",
+    "routeid": "KJB951",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "한지리1구",
+    "routeid": "KJB952",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "증리",
+    "routeid": "KJB953",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "곰치휴게소",
+    "routeid": "KJB954",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "옥리2구",
+    "routeid": "KJB955",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "한지리1구",
+    "routeid": "KJB956",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "쌍봉사(종점)",
+    "routeid": "KJB957",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "백운리(종점)",
+    "routeid": "KJB958",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "연화리(종점)",
+    "routeid": "KJB959",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "진곡산단",
+    "routeid": "KJB96",
+    "routeno": "일곡10",
+    "routetp": "간선버스",
+    "startnodenm": "살레시오고/교통문화연수원"
+  },
+  {
+    "endnodenm": "초방리(종점)",
+    "routeid": "KJB960",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "초방리(종점)",
+    "routeid": "KJB961",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "어리2구",
+    "routeid": "KJB962",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "어리2구",
+    "routeid": "KJB963",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "어리2구",
+    "routeid": "KJB964",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "쌍봉사(종점)",
+    "routeid": "KJB965",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "쌍봉사(종점)",
+    "routeid": "KJB966",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "곰치휴게소",
+    "routeid": "KJB967",
+    "routeno": "화순218-1",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB969",
+    "routeno": "화순218-1",
+    "startnodenm": "청풍면사무소"
+  },
+  {
+    "endnodenm": "전남여고",
+    "routeid": "KJB97",
+    "routeno": "1187-1",
+    "routetp": "지선버스",
+    "startnodenm": "무등산국립공원(원효사)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB970",
+    "routeno": "화순218-1",
+    "startnodenm": "한지리1구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB971",
+    "routeno": "화순218-1",
+    "startnodenm": "서온동"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB972",
+    "routeno": "화순218-1",
+    "startnodenm": "곰치휴게소"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB973",
+    "routeno": "화순218-1",
+    "startnodenm": "옥리2구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB974",
+    "routeno": "화순218-1",
+    "startnodenm": "한지리1구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB975",
+    "routeno": "화순218-1",
+    "startnodenm": "쌍봉사(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB976",
+    "routeno": "화순218-1",
+    "startnodenm": "백운리(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB977",
+    "routeno": "화순218-1",
+    "startnodenm": "백운리(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB978",
+    "routeno": "화순218-1",
+    "startnodenm": "연화리(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB979",
+    "routeno": "화순218-1",
+    "startnodenm": "초방리(종점)"
+  },
+  {
+    "endnodenm": "수완지구",
+    "routeid": "KJB98",
+    "routeno": "수완49",
+    "routetp": "지선버스",
+    "startnodenm": "무등산국립공원(증심사)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB980",
+    "routeno": "화순218-1",
+    "startnodenm": "어리2구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB981",
+    "routeno": "화순218-1",
+    "startnodenm": "어리2구"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB982",
+    "routeno": "화순218-1",
+    "startnodenm": "쌍봉사(종점)"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB983",
+    "routeno": "화순218-1",
+    "startnodenm": "증리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB984",
+    "routeno": "화순218-1",
+    "startnodenm": "곰치휴게소"
+  },
+  {
+    "endnodenm": "천암리",
+    "routeid": "KJB986",
+    "routeno": "화순200",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "신덕종점",
+    "routeid": "KJB988",
+    "routeno": "화순200",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB989",
+    "routeno": "화순200",
+    "startnodenm": "천암리"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB990",
+    "routeno": "화순200",
+    "startnodenm": "고인돌공원주차장"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB991",
+    "routeno": "화순200",
+    "startnodenm": "신덕종점"
+  },
+  {
+    "endnodenm": "고인돌공원주차장",
+    "routeid": "KJB993",
+    "routeno": "화순318",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "도곡복지회관",
+    "routeid": "KJB994",
+    "routeno": "화순318",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "고인돌공원주차장",
+    "routeid": "KJB995",
+    "routeno": "화순318",
+    "startnodenm": "화순교통"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB996",
+    "routeno": "화순318",
+    "startnodenm": "고인돌공원주차장"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB997",
+    "routeno": "화순318",
+    "startnodenm": "도곡복지회관"
+  },
+  {
+    "endnodenm": "화순교통",
+    "routeid": "KJB998",
+    "routeno": "화순318",
+    "startnodenm": "도곡농공단지"
+  },
+  {
+    "endnodenm": "중장터",
+    "routeid": "KJB999",
+    "routeno": "화순318-1",
+    "startnodenm": "화순교통"
+  }
+]

@@ -7,6 +7,7 @@ import subwaySchedule from '../../subwayDatabase/subwaySchedule.json';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import busStations from '../../busDatabase/busStation.json';
 
 // dayjs 플러그인 초기화
 dayjs.extend(utc);
@@ -23,24 +24,16 @@ const TAGO_API_KEY =
 
 // 버스 정류소 Node ID를 가져오는 함수
 const fetchBusStopNodeId = async nodeNm => {
-  const serviceKey = TAGO_API_KEY;
-  const cityCode = '24';
-  const nodeNmString = encodeURIComponent(String(nodeNm));
-
   try {
-    const response = await axios.get(
-      `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnNoList?serviceKey=${serviceKey}&pageNo=1&numOfRows=100&_type=json&cityCode=${cityCode}&nodeNm=${nodeNmString}`,
+    const matchingStations = busStations.filter(station =>
+      station.nodenm.includes(nodeNm),
     );
 
-    const data = response.data;
-
-    if (!data.response.body.items.item) {
+    if (matchingStations.length === 0) {
       throw new Error('No bus stop found with the given name');
     }
 
-    return Array.isArray(data.response.body.items.item)
-      ? data.response.body.items.item
-      : [data.response.body.items.item];
+    return matchingStations;
   } catch (error) {
     console.error('Error fetching bus stop node ID:', error);
     return [];
@@ -171,124 +164,122 @@ const getSubwayDirection = (
 
   return startIndex < endIndex ? 1 : 2; // 1: 상행 (녹동 -> 평동), 2: 하행 (평동 -> 녹동)
 };
+export const fetchAndUpdateArrivalData = async (routeList, setRouteList) => {
+  try {
+    const updatedRouteList = await Promise.all(
+      routeList.map(async route => {
+        console.log('Processing route:', route);
+        const tempLegs = await Promise.all(
+          route.legs.map(async leg => {
+            // SUBWAY 모드일 때 처리
+            if (leg.mode === 'SUBWAY') {
+              const startStation = leg.passStopList?.stationList[0].stationName;
+              const endStation =
+                leg.passStopList?.stationList[
+                  leg.passStopList?.stationList.length - 1
+                ].stationName;
 
-const useFetchArrivalData = () => {
-  const [routeList, setRouteList] = useRecoilState(RouteListState);
+              // 상하행 구분
+              const direction = getSubwayDirection(startStation, endStation);
 
-  useEffect(() => {
-    const fetchAndUpdateArrivalData = async () => {
-      const updatedRouteList = await Promise.all(
-        routeList.map(async route => {
-          const tempLegs = await Promise.all(
-            route.legs.map(async leg => {
-              // SUBWAY 모드일 때 처리
-              if (leg.mode === 'SUBWAY') {
-                const startStation =
-                  leg.passStopList?.stationList[0].stationName;
-                const endStation =
-                  leg.passStopList?.stationList[
-                    leg.passStopList?.stationList.length - 1
-                  ].stationName;
+              // 시작 역 코드 찾기
+              const startStationData = subwayStations.find(station =>
+                removeWhitespace(station.name).includes(
+                  removeWhitespace(startStation),
+                ),
+              );
+              const startStationCode = startStationData?.code;
 
-                console.log(startStation, endStation);
-
-                // 상하행 구분
-                const direction = getSubwayDirection(startStation, endStation);
-
-                // 시작 역 코드 찾기
-                const startStationData = subwayStations.find(station =>
-                  removeWhitespace(station.name).includes(
-                    removeWhitespace(startStation),
-                  ),
+              if (startStationCode) {
+                // 가장 가까운 지하철 도착 시간 찾기
+                const nearestSubwayTime = findNearestSubwayTime(
+                  startStationCode,
+                  direction,
                 );
-                const startStationCode = startStationData?.code;
 
-                if (startStationCode) {
-                  // 가장 가까운 지하철 도착 시간 찾기
-                  const nearestSubwayTime = findNearestSubwayTime(
-                    startStationCode,
+                if (nearestSubwayTime) {
+                  // 남은 시간을 초 단위로 계산
+                  const remainingTimeInSeconds =
+                    calculateRemainingTimeInSeconds(nearestSubwayTime);
+                  // 도착 시간을 업데이트한 leg 반환
+                  return {
+                    ...leg,
+                    arrtime: remainingTimeInSeconds,
                     direction,
-                  );
-                  console.log(
-                    '가장 가까운 지하철 도착 시간:',
-                    nearestSubwayTime,
-                  );
-
-                  if (nearestSubwayTime) {
-                    // 남은 시간을 초 단위로 계산
-                    const remainingTimeInSeconds =
-                      calculateRemainingTimeInSeconds(nearestSubwayTime);
-                    console.log('남은 시간(초):', remainingTimeInSeconds);
-
-                    // 도착 시간을 업데이트한 leg 반환
-                    return {
-                      ...leg,
-                      arrtime: remainingTimeInSeconds,
-                      direction,
-                    };
-                  }
+                  };
                 }
               }
+            }
 
-              // BUS 모드일 때 처리
-              if (leg.mode === 'BUS') {
-                const busStops = await fetchBusStopNodeId(leg.start.name);
+            // BUS 모드일 때 처리
+            if (leg.mode === 'BUS') {
+              const busStops = await fetchBusStopNodeId(leg.start.name);
 
-                if (busStops.length > 0) {
-                  for (const stop of busStops) {
-                    const nodeId = stop.nodeid;
+              if (busStops.length > 0) {
+                for (const stop of busStops) {
+                  const nodeId = stop.nodeid;
 
-                    const busRoutes = await fetchBusRoutesAtStop(nodeId);
+                  const busRoutes = await fetchBusRoutesAtStop(nodeId);
 
-                    const legRouteNumber = leg.route?.match(/\d+/)?.[0]; // 경로에서 숫자만 추출
+                  const legRouteNumber = leg.route?.match(/\d+/)?.[0]; // 경로에서 숫자만 추출
 
-                    const matchedRoutes = busRoutes.filter(route => {
-                      const routeno = route.routeno;
+                  const matchedRoutes = busRoutes.filter(route => {
+                    const routeno = route.routeno;
+                    if (routeno && typeof routeno === 'string') {
                       const routeNumberInRouteNo = routeno.match(/\d+/)?.[0]; // routeno에서 숫자만 추출
 
                       return routeNumberInRouteNo === legRouteNumber;
-                    });
+                    }
+                    return false;
+                  });
 
-                    for (const matchedRoute of matchedRoutes) {
-                      const arrivalDataArray = await fetchBusArrivalInfo(
-                        nodeId,
-                        matchedRoute.routeid,
-                      );
+                  for (const matchedRoute of matchedRoutes) {
+                    const arrivalDataArray = await fetchBusArrivalInfo(
+                      nodeId,
+                      matchedRoute.routeid,
+                    );
 
-                      for (const arrivalData of arrivalDataArray) {
-                        if (arrivalData) {
-                          return {
-                            ...leg,
-                            arrprevstationcnt: arrivalData.arrprevstationcnt,
-                            arrtime: arrivalData.arrtime,
-                            vehicletp: arrivalData.vehicletp,
-                          };
-                        }
+                    for (const arrivalData of arrivalDataArray) {
+                      if (arrivalData) {
+                        return {
+                          ...leg,
+                          arrprevstationcnt: arrivalData.arrprevstationcnt,
+                          arrtime: arrivalData.arrtime,
+                          vehicletp: arrivalData.vehicletp,
+                        };
                       }
                     }
                   }
                 }
               }
+            }
 
-              // SUBWAY나 BUS 모드가 아닌 경우, 기존 leg 그대로 반환
-              return leg;
-            }),
-          );
+            // SUBWAY나 BUS 모드가 아닌 경우, 기존 leg 그대로 반환
+            return leg;
+          }),
+        );
 
-          // 각 route의 legs를 업데이트한 결과 반환
-          return {
-            ...route,
-            legs: tempLegs,
-          };
-        }),
-      );
+        // 각 route의 legs를 업데이트한 결과 반환
+        console.log('Updated legs:', tempLegs);
+        return {
+          ...route,
+          legs: tempLegs,
+        };
+      }),
+    );
+    console.log('Updated Route List:', updatedRouteList);
 
-      // 업데이트된 routeList를 Recoil 상태로 반영
-      setRouteList(updatedRouteList);
-    };
-
-    fetchAndUpdateArrivalData();
-  }, []);
+    // 업데이트된 routeList를 Recoil 상태로 반영
+    setRouteList(updatedRouteList);
+  } catch (error) {
+    console.error('Error fetching or updating arrival data:', error);
+  }
 };
 
-export default useFetchArrivalData;
+export const useFetchArrivalData = () => {
+  const [routeList, setRouteList] = useRecoilState(RouteListState);
+
+  useEffect(() => {
+    fetchAndUpdateArrivalData(routeList, setRouteList);
+  }, []);
+};

@@ -2,15 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {VStack, Text, HStack, View, Image} from 'native-base';
 import {useRecoilState} from 'recoil';
 import {
+  ErrorState,
+  LoadingState,
   RouteListState,
   selectedRouteState,
   SelectedTransportMethodState,
 } from 'state/RouteAtoms';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native';
+import {ActivityIndicator, TouchableOpacity} from 'react-native';
 import BusIcon from 'assets/images/whiteBusIcon.png';
 import WhiteBusIcon from 'assets/images/whiteBusIcon.png';
 import TransferIcon from 'assets/images/wheelchair.png';
+import errorIcon from 'assets/images/wrongMap.png';
 
 const RouteLocationMarker = ({leg}) => {
   const backgroundColor = leg.routeColor ? `#${leg.routeColor}` : '#CDCED6';
@@ -107,6 +110,8 @@ const CountdownTimer = ({initialSeconds}) => {
 
 const RouteListComponent = () => {
   const [routeList, setRouteList] = useRecoilState(RouteListState);
+  const [loading] = useRecoilState(LoadingState); // 로딩 상태
+  const [error] = useRecoilState(ErrorState); // 에러 상태
   const [selectedMethod] = useRecoilState(SelectedTransportMethodState); // 선택된 대중교통 수단
   const navigation = useNavigation();
   const [, setSelectedRouteState] = useRecoilState(selectedRouteState);
@@ -151,13 +156,14 @@ const RouteListComponent = () => {
   const renderBusTag = route => {
     if (!route) return null; // route가 undefined 또는 null인 경우 처리
 
-    const tagLabel = route.includes(':') ? route.split(':')[0] : null;
+    const tagLabel = route.includes(':') ? route.split(':')[0] : route;
     if (tagLabel) {
       let bgColor = '#FFA500'; // 기본 배경색: 노란색 (간선)
-      if (tagLabel === '지선') bgColor = '#00C853'; // 지선: 초록색
-      else if (tagLabel === '직행좌석') bgColor = '#CDCED6';
-      else if (tagLabel === '저상') bgColor = '#419E1A';
-      else if (tagLabel === '일반') bgColor = '#F44336'; // 일반: 빨간색
+      if (tagLabel.includes('지선')) bgColor = '#00C853'; // 지선: 초록색
+      else if (tagLabel.includes('직행')) bgColor = '#CDCED6';
+      else if (tagLabel.includes('저상')) bgColor = '#419E1A';
+      else if (tagLabel.includes('일반')) bgColor = '#CDCED6'; // 일반: 빨간색
+      else if (tagLabel.includes('첨단')) bgColor = '#F44336'; // 일반: 빨간색
 
       return <DetailTag label={tagLabel} bgColor={bgColor} textColor="white" />;
     }
@@ -167,6 +173,25 @@ const RouteListComponent = () => {
   useEffect(() => {
     setRouteList(routeList);
   }, [routeList]);
+
+  if (loading) {
+    return (
+      <View alignItems="center" justifyContent="center" flex={1} mt={'30%'}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View alignItems="center" justifyContent="center" flex={1} mt={'30%'}>
+        <Image source={errorIcon} alt="error" mb={'24px'} />
+        <Text fontSize={'16px'} fontWeight={'medium'} color="#B9BBC6">
+          {error}
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <>
@@ -201,6 +226,7 @@ const RouteListComponent = () => {
                     alignItems={'center'}
                     justifyContent={'center'}>
                     <RouteLocationMarker leg={leg} />
+                    {console.log(leg.vehicletp, leg.mode)}
                     <VStack space={1} ml={'36px'}>
                       <HStack
                         space={1}
@@ -223,7 +249,9 @@ const RouteListComponent = () => {
                         />
                       </HStack>
                       <HStack space={1} alignItems="center">
-                        {renderBusTag(leg.route)}
+                        {renderBusTag(
+                          leg.mode === 'BUS' ? leg.vehicletp : leg.route,
+                        )}
                         <Text fontSize="16px" fontWeight="medium">
                           {leg.route?.includes(':')
                             ? leg.route?.split(':')[1]
