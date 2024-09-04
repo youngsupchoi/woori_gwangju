@@ -12,6 +12,8 @@ import {
   ShowMarkerState,
 } from 'state/HomeMapAtoms';
 import TouchedLocationMarker from 'components/map/marker/TouchedLocationMarker';
+import ForDisabledToiletLocationMarker from 'components/map/marker/ForDisabledToiletLocationMarker';
+import ToiletLocationMarker from 'components/map/marker/ToiletLocationMarker';
 import subwayStations from '../../subwayDatabase/subwayStation.json'; // 지하철 역 데이터 가져오기
 import busStations from '../../busDatabase/busStation.json'; // 버스 정류장 데이터 가져오기
 import subwayMarkerIcon from '../../assets/images/MapPin-Metro.png'; // 지하철 PNG 아이콘
@@ -130,7 +132,10 @@ const MainMapComponent: React.FC<{
 
         {/* 터치한 위치에 마커 표시 */}
         {selectedLocation && isActionSheetOpen && <TouchedLocationMarker />}
-
+        {/* 화장실 마커 표시 */}
+        <ToiletLocationMarker />
+        {/* 장애인 화장실 마커 표시 */}
+        <ForDisabledToiletLocationMarker />
         {/* 지하철 마커 표시 */}
         {showMarkerState.includes('지하철') &&
           subwayStations.map(station => (
