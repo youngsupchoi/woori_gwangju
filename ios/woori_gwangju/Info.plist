@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is needed to provide nearby results.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -38,20 +38,20 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	<key>NSAllowsArbitraryLoads</key>
-	<true/>
-	<key>NSExceptionDomains</key>
-	<dict>
-		<key>apis.data.go.kr</key> <!-- 공공데이터 API 도메인 -->
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
 		<dict>
-		<key>NSIncludesSubdomains</key>
-		<true/>
-		<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-		<true/>
-		<key>NSTemporaryExceptionMinimumTLSVersion</key>
-		<string>TLSv1.0</string>
+			<key>apis.data.go.kr</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.0</string>
+			</dict>
 		</dict>
-	</dict>
 	</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -71,5 +71,19 @@
 	<string>${TAGO_API_KEY}</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PretendardVariable.ttf</string>
+		<string>Pretendard-Black.otf</string>
+		<string>Pretendard-Bold.otf</string>
+		<string>Pretendard-ExtraBold.otf</string>
+		<string>Pretendard-ExtraLight.otf</string>
+		<string>Pretendard-Light.otf</string>
+		<string>Pretendard-Medium.otf</string>
+		<string>Pretendard-Regular.otf</string>
+		<string>Pretendard-SemiBold.otf</string>
+		<string>Pretendard-Thin.otf</string>
+		<string>SB-AGGRO.ttf</string>
+	</array>
 </dict>
 </plist>
