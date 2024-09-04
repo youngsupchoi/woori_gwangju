@@ -17,6 +17,8 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
+  useAnimatedGestureHandler,
+  runOnJS,
 } from 'react-native-reanimated';
 import LeftChevron from 'assets/images/leftChevron.png';
 import CloseIcon from 'assets/images/closeIcon.png';
@@ -32,6 +34,7 @@ import {useNavigation} from '@react-navigation/native';
 import ActiveTransportRouteMapComponent from 'components/map/ActiveTransportRouteMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
 import CurrentLocationButtonComponent from 'components/map/CurrentLocationButtonComponent';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 
 const {width, height} = Dimensions.get('window');
 
@@ -55,7 +58,7 @@ const HeaderComponent = ({onBackPress, title}) => (
     </Text>
     <Button
       variant="ghost"
-      onPress={() => console.log('Close pressed')}
+      onPress={onBackPress}
       _pressed={{backgroundColor: 'transparent'}}>
       <Image source={CloseIcon} alt="close" width={'24px'} height={'24px'} />
     </Button>
@@ -78,7 +81,7 @@ const RouteInfoComponent = ({route}) => {
   ); // 도착 시간 포맷 (totalTime을 초 단위로 계산 후 더함)
 
   return (
-    <VStack px={'18px'} bg="white" flex={1} w={'100%'} pb={'16px'}>
+    <VStack px={'18px'} bg="white" w={'100%'} pb={'16px'}>
       <HStack justifyContent="space-between" alignItems="center">
         <HStack justifyContent={'flex-end'} alignItems={'baseline'}>
           <Text fontSize="32px" fontWeight="bold">
@@ -271,13 +274,13 @@ const DetailTag = ({
 const renderBusTag = route => {
   if (!route) return null; // route가 undefined 또는 null인 경우 처리
 
-  const tagLabel = route.includes(':') ? route.split(':')[0] : null;
+  const tagLabel = route.includes(':') ? route.split(':')[0] : route;
   if (tagLabel) {
     let bgColor = '#FFA500'; // 기본 배경색: 노란색 (간선)
-    if (tagLabel === '지선') bgColor = '#00C853'; // 지선: 초록색
-    else if (tagLabel === '직행좌석') bgColor = '#CDCED6';
-    else if (tagLabel === '저상') bgColor = '#419E1A';
-    else if (tagLabel === '일반') bgColor = '#F44336'; // 일반: 빨간색
+    if (tagLabel.includes('지선')) bgColor = '#00C853'; // 지선: 초록색
+    else if (tagLabel.includes('직행좌석')) bgColor = '#CDCED6';
+    else if (tagLabel.includes('저상')) bgColor = '#419E1A';
+    else if (tagLabel.includes('일반')) bgColor = '#F44336'; // 일반: 빨간색
 
     return <DetailTag label={tagLabel} bgColor={bgColor} textColor="white" />;
   }
@@ -303,10 +306,9 @@ const RouteDetailsComponent = ({route}) => {
     <VStack
       space={4}
       p={'16px'}
-      height={height / 2}
-      mb={'240px'}
       borderTopColor={'#E0E1E6'}
-      borderTopWidth={1}>
+      borderTopWidth={1}
+      mb={180}>
       {route.legs.map((leg, index) => {
         const legColor = `#${leg.routeColor || '888'}`; // 경로 색상, 없으면 기본 검정색
         const stationCount = leg.passStopList?.stationList.length - 1; // 정거장 또는 역의 수
@@ -320,7 +322,7 @@ const RouteDetailsComponent = ({route}) => {
               flex={1}
               width={'2px'}
               height={'100%'}
-              bg={index !== leg.length - 2 ? legColor : 'transparent'}
+              bg={index === route.legs.length - 1 ? 'transparent' : legColor}
               top={'60px'}
               bottom={0}
               left={'30px'}
@@ -434,7 +436,8 @@ const RouteDetailsComponent = ({route}) => {
                       휠체어 {leg.distance}m
                     </Text>
                   )}
-                  {renderBusTag(leg.route)}
+                  {console.log(leg.vehicletp)}
+                  {renderBusTag(leg.mode === 'BUS' ? leg.vehicletp : leg.route)}
                   {leg.mode === 'BUS' && (
                     <Text fontSize="16px" color="black" fontWeight={'semibold'}>
                       {leg.route.includes(':')
@@ -613,26 +616,32 @@ const RouteTransportPage = () => {
   const translateY = useSharedValue(height / 2 + 240); // 애니메이션을 위한 위치 값
   const [modalState, setModalState] = useState('접기');
   const navigation = useNavigation();
-  // PanResponder를 사용하여 위/아래 스와이프 감지
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: (evt, gestureState) => {
-        // 세로로 20 이상 움직일 경우 감지, 단 스크롤 중일 때는 감지하지 않음
-        return Math.abs(gestureState.dy) > 20 && !gestureState.vy;
-      },
-      onPanResponderRelease: (evt, gestureState) => {
-        if (gestureState.dy > 20) {
-          // 아래로 스와이프
+  const [isScrolling, setIsScrolling] = useState(false); // 스크롤 상태 관리
+
+  // Gesture Handler를 사용한 동작 감지
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (_, context) => {
+      context.startY = translateY.value;
+    },
+    onActive: (event, context) => {
+      if (!isScrolling) {
+        // 스크롤 중이 아니면 동작
+        translateY.value = Math.max(context.startY + event.translationY, 160);
+      }
+    },
+    onEnd: event => {
+      if (!isScrolling) {
+        // 스크롤 중이 아닐 때만 동작
+        if (event.translationY > 0) {
           translateY.value = withSpring(height / 2 + 240); // 닫힘 애니메이션
-          setModalState('접기');
-        } else if (gestureState.dy < -20) {
-          // 위로 스와이프
+          runOnJS(setModalState)('접기'); // UI 스레드에서 상태 업데이트
+        } else {
           translateY.value = withSpring(160); // 열림 애니메이션
-          setModalState('펼치기');
+          runOnJS(setModalState)('펼치기');
         }
-      },
-    }),
-  ).current;
+      }
+    },
+  });
 
   // 애니메이션 스타일
   const animatedStyle = useAnimatedStyle(() => ({
@@ -649,54 +658,64 @@ const RouteTransportPage = () => {
         onBackPress={() => navigation.goBack()}
         title={selectedRoute.legs[selectedRoute.legs.length - 1].start.name}
       />
-
       {/* 지도뷰 */}
       <ActiveTransportRouteMapComponent
         mapRef={mapRef}
         onRegionChangeComplete={onRegionChangeComplete}
         route={selectedRoute}
       />
-      {/* <Animated.View style={{flex: 1, backgroundColor: 'red'}} /> */}
       <CurrentLocationButtonComponent
         onPressFunction={setMapToCurrentLocation}
         upPosition={220}
       />
-      <Animated.View
-        style={[
-          {
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 10,
-            backgroundColor: 'white',
-            borderRadius: 20,
-            alignItems: 'center',
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: -8,
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+        <Animated.View
+          style={[
+            {
+              position: 'absolute',
+              flex: 1,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 10,
+              backgroundColor: 'white',
+              borderRadius: 20,
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: -8,
+              },
+              shadowRadius: 20,
+              shadowOpacity: 0.1,
             },
-            shadowRadius: 20,
-            shadowOpacity: 0.1,
-          },
-          animatedStyle,
-        ]}
-        {...panResponder.panHandlers}>
-        <View
-          w={'32px'}
-          h={'4px'}
-          bg={'#EEF0F3'}
-          my={'18px'}
-          borderRadius={'full'}
-        />
-        <VStack w="100%" borderTopRadius="20px">
-          <RouteInfoComponent route={selectedRoute} />
-          <ScrollView w={'100%'} pb={'80px'} nestedScrollEnabled={true}>
-            <RouteDetailsComponent route={selectedRoute} />
-          </ScrollView>
-        </VStack>
-      </Animated.View>
+            animatedStyle,
+          ]}>
+          <View
+            w={'32px'}
+            h={'4px'}
+            bg={'#EEF0F3'}
+            my={'18px'}
+            borderRadius={'full'}
+          />
+          <VStack w="100%" borderTopRadius="20px" mb={'80px'} flex={1}>
+            <RouteInfoComponent route={selectedRoute} />
+            <View flex={1}>
+              <ScrollView
+                flex={1}
+                scrollsToTop={false}
+                h={height / 2 + 240}
+                nestedScrollEnabled={true}
+                onScrollBeginDrag={() => setIsScrolling(true)} // 스크롤 시작 시 상태 변경
+                onScrollEndDrag={() => setIsScrolling(false)} // 스크롤 끝날 시 상태 변경
+                onMomentumScrollEnd={() => setIsScrolling(false)}>
+                <RouteDetailsComponent route={selectedRoute} />
+              </ScrollView>
+            </View>
+          </VStack>
+        </Animated.View>
+      </PanGestureHandler>
+
       <ActionButtonsComponent
         modalState={modalState}
         onDetailsPress={() => {

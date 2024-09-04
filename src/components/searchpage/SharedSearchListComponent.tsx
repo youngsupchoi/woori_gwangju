@@ -41,36 +41,24 @@ const SharedSearchListComponent = ({
   const handlePress = async (item: any) => {
     let startPoint = startPointState;
 
+    const newItem = !isRecentSearch
+      ? {
+          name: item.name,
+          longitude: item.frontLon,
+          latitude: item.frontLat,
+          address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
+        }
+      : {
+          name: item.name,
+          longitude: item.longitude,
+          latitude: item.latitude,
+          address: item.address,
+        };
+
     if (isDestination) {
-      setDestinationState(
-        !isRecentSearch
-          ? {
-              name: item.name,
-              longitude: item.frontLon,
-              latitude: item.frontLat,
-              address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
-            }
-          : {
-              name: item.name,
-              longitude: item.longitude,
-              latitude: item.latitude,
-              address: item.address,
-            },
-      );
+      setDestinationState(newItem);
     } else {
-      startPoint = !isRecentSearch
-        ? {
-            name: item.name,
-            longitude: item.frontLon,
-            latitude: item.frontLat,
-            address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
-          }
-        : {
-            name: item.name,
-            longitude: item.longitude,
-            latitude: item.latitude,
-            address: item.address,
-          };
+      startPoint = newItem;
       setStartPointState(startPoint);
     }
 
@@ -81,21 +69,16 @@ const SharedSearchListComponent = ({
         ? JSON.parse(recentSearches)
         : [];
 
-      // 동일한 항목이 있는지 확인하고 제거
+      // 동일한 항목이 있는지 확인하고 제거 (name으로만 비교)
       recentSearchesArray = recentSearchesArray.filter(
         search =>
-          search.name !== item.name ||
-          search.longitude !== item.frontLon ||
-          search.latitude !== item.frontLat,
+          search.name !== newItem.name ||
+          search.longitude !== newItem.longitude ||
+          search.latitude !== newItem.latitude,
       );
 
       // 새로운 검색어를 맨 위에 추가
-      recentSearchesArray.unshift({
-        name: item.name,
-        longitude: item.frontLon,
-        latitude: item.frontLat,
-        address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
-      });
+      recentSearchesArray.unshift(newItem);
 
       // 최근 검색어가 20개를 초과하면 오래된 항목 제거
       if (recentSearchesArray.length > 20) {
@@ -185,7 +168,6 @@ const SharedSearchListComponent = ({
       </HStack>
       <ScrollView>
         <View pb={'240px'}>
-          {console.log(data)}
           {data?.map((item, index) => (
             <VStack key={index} space={2} mb={4}>
               <TouchableOpacity onPress={() => handlePress(item)}>

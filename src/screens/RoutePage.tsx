@@ -16,7 +16,10 @@ import {
 import {locationState} from 'state/locationState';
 import axios from 'axios';
 import Config from 'react-native-config';
-import useFetchArrivalData from 'hooks/arrivalData/useArrivalData';
+import {
+  useFetchArrivalData,
+  fetchAndUpdateArrivalData,
+} from 'hooks/arrivalData/useArrivalData';
 import WalkingRouteBottmeSheetComponent from 'components/routepage/WalkingRouteBottomSheetComponent';
 import ActiveWalkingRouteMapComponente from 'components/map/ActiveWalkingRouteMapComponent';
 import {useCurrentLocationMapController} from 'hooks/mapController/useCurrentLocationMapController';
@@ -122,11 +125,17 @@ const RoutePage = () => {
         response.data.metaData.plan &&
         response.data.metaData.plan.itineraries
       ) {
-        setRouteList(response.data.metaData.plan.itineraries);
+        // console.log(response.data.metaData.plan.itineraries);
+        // setRouteList(response.data.metaData.plan.itineraries);
+
+        await fetchAndUpdateArrivalData(
+          response.data.metaData.plan.itineraries,
+          setRouteList,
+        );
       } else {
         setError('너무 가까운 거리는 대중교통 안내가 지원되지 않습니다.');
       }
-    } catch (error) {
+    } catch (e) {
       setError('알 수 없는 이유로 에러가 발생했습니다.');
     } finally {
       setLoading(false); // 로딩 종료
@@ -147,10 +156,17 @@ const RoutePage = () => {
   }, []);
 
   useEffect(() => {
-    fetchRoutes();
+    if (
+      startPointState.latitude !== 0 &&
+      startPointState.longitude !== 0 &&
+      destinationState.latitude !== 0 &&
+      destinationState.longitude !== 0
+    ) {
+      fetchRoutes();
+    }
   }, [startPointState, destinationState]);
 
-  useFetchArrivalData();
+  // useFetchArrivalData();
 
   const {mapRef, setMapToCurrentLocation, onRegionChangeComplete} =
     useCurrentLocationMapController();
