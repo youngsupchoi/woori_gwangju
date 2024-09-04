@@ -24,6 +24,7 @@ import rightChevron from 'assets/images/rightChevron.png';
 
 import LimitationsAndResponsibilitiesPage from 'screens/LimitationsAndResponsibilitiesPage';
 import {useLocationTracking} from 'hooks/currentLocation/useLocationTracking';
+import SplashScreen from 'screens/SplashScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -65,7 +66,7 @@ const CustomDrawerContent = ({navigation}) => {
 // StackNavigator를 정의하는 함수
 const MainStackNavigator = () => (
   <Stack.Navigator
-    initialRouteName="Main"
+    initialRouteName="Splash"
     screenOptions={{
       headerShown: false,
       cardStyleInterpolator: ({current}: StackCardInterpolationProps) => ({
@@ -74,6 +75,7 @@ const MainStackNavigator = () => (
         },
       }),
     }}>
+    <Stack.Screen name="Splash" component={SplashScreen} />
     <Stack.Screen name="Main" component={MainPage} />
     <Stack.Screen name="Search" component={SearchPage} />
     <Stack.Screen name="SearchResult" component={SearchResultPage} />

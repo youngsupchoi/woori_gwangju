@@ -108,7 +108,7 @@ const VoiceSearchPage = () => {
             목적지를 말씀해주세요
           </Text>
           <Text fontSize="36px" fontWeight="bold" color="#3D7BF6" mt={2}>
-            "광주시청"
+            "광주광역시청"
           </Text>
           {isLoading ? (
             <View>
