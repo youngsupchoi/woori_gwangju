@@ -19,7 +19,7 @@ const HeaderComponent = ({onBackPress, title}) => (
       _pressed={{backgroundColor: 'transparent'}}>
       <Image source={LeftChevron} alt="back" width={'24px'} height={'24px'} />
     </Button>
-    <Text fontSize="18" bold isTruncated maxWidth="80%">
+    <Text fontFamily={'mono'} fontSize="18" bold isTruncated maxWidth="80%">
       {title}
     </Text>
     <Button

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {VStack, Text, Spinner, Button, Image, View} from 'native-base';
+import FastImage from 'react-native-fast-image'; // FastImage 사용
 import Voice from '@react-native-voice/voice';
 import {useRecoilState} from 'recoil';
 import {searchKeywordState} from 'state/SearchAtoms';
@@ -97,27 +98,32 @@ const VoiceSearchPage = () => {
           borderBottomRadius={20}
           pt={16}
           bg={'#fff'}>
-          <Image
+          <FastImage
             source={voiceAnimation}
-            alt="cancel"
-            size="lg"
-            w={'260px'}
-            h={'260px'}
+            style={{width: 260, height: 260}} // 스타일로 크기 설정
+            resizeMode={FastImage.resizeMode.contain} // 크기에 맞게 조정
           />
-          <Text fontSize="24px" fontWeight="semibold" color="#1A1A1A">
+          <Text
+            fontFamily={'mono'}
+            fontSize="24px"
+            fontWeight="semibold"
+            color="#1A1A1A">
             목적지를 말씀해주세요
           </Text>
-          <Text fontSize="36px" fontWeight="bold" color="#3D7BF6" mt={2}>
+          <Text
+            fontFamily={'mono'}
+            fontSize="36px"
+            fontWeight="bold"
+            color="#3D7BF6"
+            mt={2}>
             "광주광역시청"
           </Text>
           {isLoading ? (
             <View>
-              <Image
+              <FastImage
                 source={loadingAnimation}
-                alt="cancel"
-                size=""
-                w={'60px'}
-                h={'60px'}
+                style={{width: 60, height: 60}} // 스타일로 크기 설정
+                resizeMode={FastImage.resizeMode.contain} // 크기에 맞게 조정
               />
             </View>
           ) : (
@@ -142,7 +148,12 @@ const VoiceSearchPage = () => {
           justifyContent={'center'}
           borderBottomRadius={20}
           bg={'#34383B'}>
-          <Text fontSize="36px" fontWeight="bold" color="#FFFFFF" mb={4}>
+          <Text
+            fontFamily={'mono'}
+            fontSize="36px"
+            fontWeight="bold"
+            color="#FFFFFF"
+            mb={4}>
             {recognizedText}
           </Text>
 
@@ -162,10 +173,19 @@ const VoiceSearchPage = () => {
           justifyContent={'center'}
           borderBottomRadius={20}
           bg={'#34383B'}>
-          <Text fontSize="30px" fontWeight="bold" color="#8EC8F6" mb={4}>
+          <Text
+            fontFamily={'mono'}
+            fontSize="30px"
+            fontWeight="bold"
+            color="#8EC8F6"
+            mb={4}>
             "{recognizedText}"
           </Text>
-          <Text fontSize="20px" fontWeight="semibold" color="#FFFFFF">
+          <Text
+            fontFamily={'mono'}
+            fontSize="20px"
+            fontWeight="semibold"
+            color="#FFFFFF">
             으로 검색 중이에요
           </Text>
 
@@ -176,7 +196,12 @@ const VoiceSearchPage = () => {
             w={'60px'}
             h={'60px'}
           />
-          <Text fontSize="24px" fontWeight="semibold" color="#FFFFFF" mt={2}>
+          <Text
+            fontFamily={'mono'}
+            fontSize="24px"
+            fontWeight="semibold"
+            color="#FFFFFF"
+            mt={2}>
             잠시만 기다려주세요
           </Text>
         </VStack>

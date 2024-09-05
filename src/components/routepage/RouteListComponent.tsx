@@ -63,7 +63,7 @@ const DetailTag = ({
   textColor = '#80838D',
 }: DetailTagProps) => (
   <View bg={bgColor} borderRadius={'4px'} py={'2px'} px={'4px'}>
-    <Text fontSize="12" fontWeight="bold" color={textColor}>
+    <Text fontFamily={'mono'} fontSize="12" fontWeight="bold" color={textColor}>
       {label}
     </Text>
   </View>
@@ -92,7 +92,7 @@ const CountdownTimer = ({initialSeconds}) => {
 
   if (secondsLeft <= 0) {
     return (
-      <Text fontSize="16px" color="red.500">
+      <Text fontFamily={'mono'} fontSize="16px" color="red.500">
         곧 도착
       </Text>
     );
@@ -102,7 +102,7 @@ const CountdownTimer = ({initialSeconds}) => {
   const seconds = secondsLeft % 60;
 
   return (
-    <Text fontSize="16px" color="red.500">
+    <Text fontFamily={'mono'} fontSize="16px" color="red.500">
       {minutes > 0 ? `${minutes}분 ${seconds}초` : `${seconds}초`}
     </Text>
   );
@@ -186,7 +186,11 @@ const RouteListComponent = () => {
     return (
       <View alignItems="center" justifyContent="center" flex={1} mt={'30%'}>
         <Image source={errorIcon} alt="error" mb={'24px'} />
-        <Text fontSize={'16px'} fontWeight={'medium'} color="#B9BBC6">
+        <Text
+          fontFamily={'mono'}
+          fontSize={'16px'}
+          fontWeight={'medium'}
+          color="#B9BBC6">
           {error}
         </Text>
       </View>
@@ -201,7 +205,7 @@ const RouteListComponent = () => {
           onPress={() => handleRoutePress(item)}
           activeOpacity={0.8}>
           <VStack pt={'16px'}>
-            <Text fontSize="24px" fontWeight="bold" px={4}>
+            <Text fontFamily={'mono'} fontSize="24px" fontWeight="bold" px={4}>
               {formatTime(item.totalTime)}
             </Text>
             <VStack
@@ -234,6 +238,7 @@ const RouteListComponent = () => {
                         w={'100%'}
                         maxW={'100%'}>
                         <Text
+                          fontFamily={'mono'}
                           fontSize="18px"
                           color="#1C2024"
                           isTruncated
@@ -252,7 +257,10 @@ const RouteListComponent = () => {
                         {renderBusTag(
                           leg.mode === 'BUS' ? leg.vehicletp : leg.route,
                         )}
-                        <Text fontSize="16px" fontWeight="medium">
+                        <Text
+                          fontFamily={'mono'}
+                          fontSize="16px"
+                          fontWeight="medium">
                           {leg.route?.includes(':')
                             ? leg.route?.split(':')[1]
                             : leg.route}
@@ -270,7 +278,7 @@ const RouteListComponent = () => {
                 <RouteLocationMarker leg={item.legs[item.legs.length - 1]} />
                 <VStack ml={'36px'}>
                   <HStack space={1} alignItems="center">
-                    <Text fontSize="18px" color="#1C2024">
+                    <Text fontFamily={'mono'} fontSize="18px" color="#1C2024">
                       {item.legs[item.legs.length - 1].start.name} 도착
                     </Text>
                   </HStack>

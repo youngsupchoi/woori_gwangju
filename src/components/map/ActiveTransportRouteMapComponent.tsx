@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'native-base';
+import {Text, View} from 'native-base';
 import MapView, {Circle, Marker, Polyline, Region} from 'react-native-maps';
 // import {rederCurrentLocationMarker} from 'components/map/marker/CurrentLocationMaker';
 import {ActiveWalkRouteMarker} from 'components/map/marker/ActiveWalkRouteMarker';
@@ -16,14 +16,22 @@ const ActiveTransportRouteMapComponent: React.FC<{
 }> = ({mapRef, onRegionChangeComplete, route}) => {
   const currentLocationState = useRecoilValue(locationState);
 
+  if (!route || !route.legs || route.legs.length === 0) {
+    return (
+      <View>
+        <Text>경로 데이터가 없습니다.</Text>
+      </View>
+    ); // route가 없을 경우 처리
+  }
+
   return (
     <View style={{flex: 1}}>
       <MapView
         ref={mapRef}
         style={{flex: 1}}
         initialRegion={{
-          latitude: route.legs[0].start.lat, // 경로의 첫 시작점을 지도의 초기 위치로 설정
-          longitude: route.legs[0].start.lon,
+          latitude: parseFloat(route.legs[0].start.lat), // 경로의 첫 시작점을 지도의 초기 위치로 설정
+          longitude: parseFloat(route.legs[0].start.lon),
           latitudeDelta: 0.05,
           longitudeDelta: 0.05,
         }}

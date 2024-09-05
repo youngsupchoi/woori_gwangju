@@ -32,10 +32,10 @@ const SearchResultPageBottomSheetComponent = () => {
   const navigation = useNavigation();
   return (
     <View px={4} py={4} bg="white" position="absolute" bottom={0} width="100%">
-      <Text fontSize="20" bold isTruncated>
+      <Text fontFamily={'mono'} fontSize="20" bold isTruncated>
         {destination.name}
       </Text>
-      <Text fontSize={'16'} color="gray.500" isTruncated>
+      <Text fontFamily={'mono'} fontSize={'16'} color="gray.500" isTruncated>
         {destination.address}
       </Text>
 
@@ -43,7 +43,12 @@ const SearchResultPageBottomSheetComponent = () => {
         <Button
           flex={1}
           bg={'#F0F0F3'}
-          _text={{color: '#1C2024', fontSize: '16', fontWeight: 'semibold'}}
+          _text={{
+            fontFamily: 'mono',
+            color: '#1C2024',
+            fontSize: '16',
+            fontWeight: 'semibold',
+          }}
           borderRadius={'xl'}
           h={'56px'}
           onPress={() => navigation.goBack()}>
@@ -52,7 +57,12 @@ const SearchResultPageBottomSheetComponent = () => {
         <Button
           flex={1}
           bg={'#113264'}
-          _text={{color: '#ffffff', fontSize: '16', fontWeight: 'semibold'}}
+          _text={{
+            color: '#ffffff',
+            fontFamily: 'mono',
+            fontSize: '16',
+            fontWeight: 'semibold',
+          }}
           borderRadius={'xl'}
           h={'56px'}
           onPress={() => {

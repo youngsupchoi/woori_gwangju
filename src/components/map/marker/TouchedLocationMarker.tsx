@@ -15,8 +15,8 @@ const TouchedLocationMarker: React.FC = () => {
     <View>
       <Marker
         coordinate={{
-          latitude: selectedLocation.latitude,
-          longitude: selectedLocation.longitude,
+          latitude: parseFloat(selectedLocation.latitude),
+          longitude: parseFloat(selectedLocation.longitude),
         }}
         title="선택한 위치"
         image={defaultPlaceMarker}

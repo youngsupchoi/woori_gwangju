@@ -155,8 +155,8 @@ const MainMapComponent: React.FC<{
             <Marker
               key={station.nodeid}
               coordinate={{
-                latitude: station.gpslati,
-                longitude: station.gpslong,
+                latitude: parseFloat(station.gpslati),
+                longitude: parseFloat(station.gpslong),
               }}
               title={station.nodenm}>
               <Image

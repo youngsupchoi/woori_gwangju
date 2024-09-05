@@ -26,6 +26,7 @@ const LimitationsAndResponsibilitiesPage = () => {
           />
         </Button>
         <Text
+          fontFamily={'mono'}
           fontSize="18"
           bold
           isTruncated

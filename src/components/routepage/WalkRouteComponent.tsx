@@ -31,20 +31,20 @@ const RouteLocationMarker = () => (
 const RouteDetails = () => (
   <VStack space={1}>
     <HStack space={1} alignItems="center">
-      <Text fontSize="18px" color="#1C2024">
+      <Text fontFamily={'mono'} fontSize="18px" color="#1C2024">
         배명중고교
       </Text>
     </HStack>
     <HStack space={1} alignItems="center">
-      <Text fontSize="16" fontWeight="medium">
+      <Text fontFamily={'mono'} fontSize="16" fontWeight="medium">
         3422
       </Text>
-      <Text fontSize="16" color="red.500">
+      <Text fontFamily={'mono'} fontSize="16" color="red.500">
         2분 12초
       </Text>
     </HStack>
     <HStack space={1} alignItems="center">
-      <Text fontSize="18px" color="#1C2024">
+      <Text fontFamily={'mono'} fontSize="18px" color="#1C2024">
         삼성역3번출구 정류장
       </Text>
     </HStack>
@@ -55,7 +55,7 @@ const WalkRouteComponent = () => (
   <>
     {[1, 2, 3].map((item, index) => (
       <VStack key={index} pt={'16px'}>
-        <Text fontSize="24px" fontWeight="bold" px={4}>
+        <Text fontFamily={'mono'} fontSize="24px" fontWeight="bold" px={4}>
           1시간 29분
         </Text>
         <HStack

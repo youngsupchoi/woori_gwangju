@@ -11,27 +11,27 @@ const SearchResultMapComponent: React.FC<{
   onRegionChangeComplete: (region: Region) => void;
   destination: {
     name: string;
-    latitude: number;
-    longitude: number;
+    latitude: number | string; // string일 가능성도 체크
+    longitude: number | string; // string일 가능성도 체크
   };
 }> = ({mapRef, onRegionChangeComplete, destination}) => {
   // 현재 위치를 가져옵니다.  locationState는 recoil을 사용하여 전역 상태로 관리합니다.
   const currentLocation: {
-    latitude: number;
-    longitude: number;
+    latitude: number | string; // string일 가능성도 체크
+    longitude: number | string; // string일 가능성도 체크
   } = useRecoilValue(locationState);
 
   const [region, setRegion] = useState<Region>({
-    latitude: destination.latitude,
-    longitude: destination.longitude,
+    latitude: parseFloat(destination.latitude as string),
+    longitude: parseFloat(destination.longitude as string),
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   });
   // currentLocation이 변경될 때마다 region 상태를 업데이트
   useEffect(() => {
     setRegion({
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
+      latitude: parseFloat(currentLocation.latitude as string),
+      longitude: parseFloat(currentLocation.longitude as string),
       latitudeDelta: 0.01,
       longitudeDelta: 0.01,
     });
@@ -50,8 +50,8 @@ const SearchResultMapComponent: React.FC<{
         ref={mapRef}
         style={{flex: 1}}
         initialRegion={{
-          latitude: destination.latitude,
-          longitude: destination.longitude,
+          latitude: parseFloat(destination.latitude as string),
+          longitude: parseFloat(destination.longitude as string),
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         }}
@@ -64,8 +64,8 @@ const SearchResultMapComponent: React.FC<{
         rotateEnabled={true}>
         <SelectedLocationMarker
           name={destination.name}
-          latitude={destination.latitude}
-          longitude={destination.longitude}
+          latitude={parseFloat(destination.latitude as string)}
+          longitude={parseFloat(destination.longitude as string)}
         />
         <CurrentLocationMarker />
       </MapView>

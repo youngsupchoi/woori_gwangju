@@ -8,13 +8,15 @@ import startPin from '../../../assets/images/startPin.png';
 const TransportRouteMarker = route => {
   const markers = [];
 
+  if (!route.legs || route.legs.length === 0) return null; // legs가 없으면 null 반환
+
   // 출발지 Marker (이미지 사용)
   markers.push(
     <Marker
       key="end"
       coordinate={{
-        latitude: route.legs[0].start.lat,
-        longitude: route.legs[0].start.lon,
+        latitude: parseFloat(route.legs[0].start.lat),
+        longitude: parseFloat(route.legs[0].start.lon),
       }}
       title="도착지"
       image={endPin} // 시작점 이미지를 사용
@@ -27,8 +29,8 @@ const TransportRouteMarker = route => {
     <Marker
       key="start"
       coordinate={{
-        latitude: route.legs[route.legs.length - 1].end.lat,
-        longitude: route.legs[route.legs.length - 1].end.lon,
+        latitude: parseFloat(route.legs[route.legs.length - 1].end.lat),
+        longitude: parseFloat(route.legs[route.legs.length - 1].end.lon),
       }}
       title="출발지"
       image={startPin} // 도착점 이미지를 사용
