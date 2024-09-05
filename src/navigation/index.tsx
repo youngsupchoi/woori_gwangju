@@ -37,7 +37,7 @@ const CustomDrawerContent = ({navigation}) => {
         <HStack alignItems="center" justifyContent="space-between" py={4}>
           <HStack alignItems={'center'} space={'2px'}>
             <Image source={disabledIcon} alt="disabled" size={'28px'} />
-            <Text fontSize="20px" fontWeight="semibold">
+            <Text fontFamily={'mono'} fontSize="20px" fontWeight="semibold">
               휠체어 이용자 모드
             </Text>
           </HStack>
@@ -45,17 +45,17 @@ const CustomDrawerContent = ({navigation}) => {
         </HStack>
       </Pressable>
       <Pressable onPress={() => navigation.navigate('Privacy')}>
-        <Text fontSize="20px" fontWeight={'medium'} py={2}>
+        <Text fontFamily={'mono'} fontSize="20px" fontWeight={'medium'} py={2}>
           개인정보처리방침
         </Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate('Term')}>
-        <Text fontSize="20px" fontWeight={'medium'} py={2}>
+        <Text fontFamily={'mono'} fontSize="20px" fontWeight={'medium'} py={2}>
           서비스이용약관
         </Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate('Onboarding')}>
-        <Text fontSize="20px" fontWeight={'medium'} py={2}>
+        <Text fontFamily={'mono'} fontSize="20px" fontWeight={'medium'} py={2}>
           설정
         </Text>
       </Pressable>
@@ -78,6 +78,7 @@ const MainStackNavigator = () => (
     <Stack.Screen name="Splash" component={SplashScreen} />
     <Stack.Screen name="Main" component={MainPage} />
     <Stack.Screen name="Search" component={SearchPage} />
+    <Stack.Screen name="Onboarding" component={OnboardingPage} />
     <Stack.Screen name="SearchResult" component={SearchResultPage} />
     <Stack.Screen
       name="SearchDetailTransport"

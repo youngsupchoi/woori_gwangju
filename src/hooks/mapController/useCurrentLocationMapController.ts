@@ -19,13 +19,16 @@ export const useCurrentLocationMapController = () => {
         const latitudeDelta = 1 / zoomFactor;
         const longitudeDelta = 1 / zoomFactor;
 
-        setCurrentLocation({latitude, longitude}); // 현재 위치 상태 업데이트
+        setCurrentLocation({
+          latitude: Number(latitude), // 숫자로 변환
+          longitude: Number(longitude), // 숫자로 변환
+        });
 
         if (mapRef.current) {
           mapRef.current.animateToRegion(
             {
-              latitude,
-              longitude,
+              latitude: Number(latitude), // 숫자로 변환
+              longitude: Number(longitude), // 숫자로 변환
               latitudeDelta, // zoom level 적용
               longitudeDelta, // zoom level 적용
             },
@@ -57,8 +60,8 @@ export const useCurrentLocationMapController = () => {
         if (mapRef.current) {
           mapRef.current.animateToRegion(
             {
-              latitude,
-              longitude,
+              latitude: Number(latitude), // 숫자로 변환
+              longitude: Number(longitude), // 숫자로 변환
               latitudeDelta, // zoom level 적용
               longitudeDelta, // zoom level 적용
             },

@@ -36,14 +36,6 @@
     {
       "path": "src/assets/fonts/Pretendard-Thin.otf",
       "sha1": "72cf55b4d2ea4adc75123f33ca839c10cabfaab4"
-    },
-    {
-      "path": "src/assets/fonts/PretendardVariable.ttf",
-      "sha1": "89b05a2f18c76f8deb577505d48237127ccfc908"
-    },
-    {
-      "path": "src/assets/fonts/SB-AGGRO.ttf",
-      "sha1": "862c097443cdfb24050904d3a9bd9ed80e395b5b"
     }
   ]
 }

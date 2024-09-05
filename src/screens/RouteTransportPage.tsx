@@ -53,7 +53,7 @@ const HeaderComponent = ({onBackPress, title}) => (
       _pressed={{backgroundColor: 'transparent'}}>
       <Image source={LeftChevron} alt="back" width={'24px'} height={'24px'} />
     </Button>
-    <Text fontSize="18" bold isTruncated maxWidth="80%">
+    <Text fontFamily={'mono'} fontSize="18" bold isTruncated maxWidth="80%">
       {title}
     </Text>
     <Button
@@ -84,25 +84,37 @@ const RouteInfoComponent = ({route}) => {
     <VStack px={'18px'} bg="white" w={'100%'} pb={'16px'}>
       <HStack justifyContent="space-between" alignItems="center">
         <HStack justifyContent={'flex-end'} alignItems={'baseline'}>
-          <Text fontSize="32px" fontWeight="bold">
+          <Text fontFamily={'mono'} fontSize="32px" fontWeight="bold">
             {Math.ceil(route.totalTime / 60)}
           </Text>
-          <Text fontSize="16px" fontWeight="medium">
+          <Text fontFamily={'mono'} fontSize="16px" fontWeight="medium">
             분
           </Text>
         </HStack>
         <View px={'6px'} py={'4px'} borderRadius={'4px'} bg={'#F0F0F3'}>
-          <Text fontSize="12px" color="#8B8D98" fontWeight={'bold'}>
+          <Text
+            fontFamily={'mono'}
+            fontSize="12px"
+            color="#8B8D98"
+            fontWeight={'bold'}>
             {(route.totalDistance / 1000).toFixed(1)}km
           </Text>
         </View>
       </HStack>
       <HStack space={2}>
-        <Text color="#60646C" fontSize="16px" fontWeight={'medium'}>
+        <Text
+          color="#60646C"
+          fontFamily={'mono'}
+          fontSize="16px"
+          fontWeight={'medium'}>
           {departureTime} - {arrivalTime}
         </Text>
         <View h={'100%'} bg={'#E8E8EC'} w={'0.5px'} />
-        <Text color="#60646C" fontSize="16px" fontWeight={'medium'}>
+        <Text
+          color="#60646C"
+          fontFamily={'mono'}
+          fontSize="16px"
+          fontWeight={'medium'}>
           {route.fare.regular.totalFare.toLocaleString()}원
         </Text>
       </HStack>
@@ -149,6 +161,7 @@ const RouteInfoComponent = ({route}) => {
                     bg={'#F0F0F3'}
                     borderRadius={'full'}
                     py={'0px'}
+                    fontFamily={'mono'}
                     fontSize="10px"
                     color={'#60646C'}
                     flex={legTime}
@@ -177,6 +190,7 @@ const RouteInfoComponent = ({route}) => {
                     bg={legColor}
                     borderRadius={'full'}
                     py={'0px'}
+                    fontFamily={'mono'}
                     fontSize="10px"
                     color={'white'}
                     flex={legTime}
@@ -206,6 +220,7 @@ const RouteInfoComponent = ({route}) => {
                     borderRadius={'4px'}
                     py={'0px'}
                     mx={'-5px'}
+                    fontFamily={'mono'}
                     fontSize="10px"
                     color={'white'}
                     flex={legTime}
@@ -237,7 +252,7 @@ const CountdownTimer = ({initialSeconds}) => {
 
   if (secondsLeft <= 0) {
     return (
-      <Text fontSize="16px" color="red.500">
+      <Text fontFamily={'mono'} fontSize="16px" color="red.500">
         곧 도착
       </Text>
     );
@@ -247,7 +262,7 @@ const CountdownTimer = ({initialSeconds}) => {
   const seconds = secondsLeft % 60;
 
   return (
-    <Text fontSize="16px" color="red.500">
+    <Text fontFamily={'mono'} fontSize="16px" color="red.500">
       {minutes > 0 ? `${minutes}분 ${seconds}초` : `${seconds}초`}
     </Text>
   );
@@ -265,7 +280,7 @@ const DetailTag = ({
   textColor = '#80838D',
 }: DetailTagProps) => (
   <View bg={bgColor} borderRadius={'4px'} py={'2px'} px={'4px'}>
-    <Text fontSize="12" fontWeight="bold" color={textColor}>
+    <Text fontFamily={'mono'} fontSize="12" fontWeight="bold" color={textColor}>
       {label}
     </Text>
   </View>
@@ -424,12 +439,17 @@ const RouteDetailsComponent = ({route}) => {
 
               {/* 경로 정보 */}
               <VStack flex={1} space={1}>
-                <Text fontWeight="bold" color="black" fontSize={'16px'}>
+                <Text
+                  fontWeight="bold"
+                  color="black"
+                  fontFamily={'mono'}
+                  fontSize={'16px'}>
                   {leg.start.name} {getLegStatus(index, leg.mode)}
                 </Text>
                 <HStack alignItems={'center'} space={1}>
                   {leg.mode === 'WALK' && (
                     <Text
+                      fontFamily={'mono'}
                       fontSize="14px"
                       color="gray.500"
                       fontWeight={'medium'}>
@@ -439,14 +459,22 @@ const RouteDetailsComponent = ({route}) => {
                   {console.log(leg.vehicletp)}
                   {renderBusTag(leg.mode === 'BUS' ? leg.vehicletp : leg.route)}
                   {leg.mode === 'BUS' && (
-                    <Text fontSize="16px" color="black" fontWeight={'semibold'}>
+                    <Text
+                      fontFamily={'mono'}
+                      fontSize="16px"
+                      color="black"
+                      fontWeight={'semibold'}>
                       {leg.route.includes(':')
                         ? leg.route.split(':')[1]
                         : leg.route}
                     </Text>
                   )}
                   {leg.mode === 'SUBWAY' && (
-                    <Text fontSize="16px" color="black" fontWeight={'semibold'}>
+                    <Text
+                      fontFamily={'mono'}
+                      fontSize="16px"
+                      color="black"
+                      fontWeight={'semibold'}>
                       {leg.route}
                     </Text>
                   )}
@@ -457,6 +485,7 @@ const RouteDetailsComponent = ({route}) => {
                 <HStack alignItems={'center'}>
                   {leg.mode === 'BUS' && (
                     <Text
+                      fontFamily={'mono'}
                       fontSize="14px"
                       color="gray.500"
                       mr={2}
@@ -466,6 +495,7 @@ const RouteDetailsComponent = ({route}) => {
                   )}
                   {leg.mode === 'SUBWAY' && (
                     <Text
+                      fontFamily={'mono'}
                       fontSize="14px"
                       color="gray.500"
                       mr={2}
@@ -473,7 +503,11 @@ const RouteDetailsComponent = ({route}) => {
                       {stationCount}개 역 이동
                     </Text>
                   )}
-                  <Text fontSize="16px" color="black" fontWeight={'bold'}>
+                  <Text
+                    fontFamily={'mono'}
+                    fontSize="16px"
+                    color="black"
+                    fontWeight={'bold'}>
                     {Math.ceil(leg.sectionTime / 60)}분
                   </Text>
 
@@ -527,7 +561,10 @@ const RouteDetailsComponent = ({route}) => {
                       py={1}>
                       <HStack>
                         <View w={'76px'} />
-                        <Text fontSize="14px" color="gray.500">
+                        <Text
+                          fontFamily={'mono'}
+                          fontSize="14px"
+                          color="gray.500">
                           {station.stationName}
                         </Text>
                       </HStack>
@@ -581,7 +618,11 @@ const ActionButtonsComponent = ({onDetailsPress, modalState}) => {
           </>
         }
         onPress={onDetailsPress}>
-        <Text color={'#60646C'} fontSize={'16px'} fontWeight={'semibold'}>
+        <Text
+          color={'#60646C'}
+          fontFamily={'mono'}
+          fontSize={'16px'}
+          fontWeight={'semibold'}>
           {modalState === '접기' ? '상세 경로' : '지도뷰 보기'}
         </Text>
       </Button>
@@ -603,7 +644,11 @@ const ActionButtonsComponent = ({onDetailsPress, modalState}) => {
             />
           )
         }>
-        <Text color={'white'} fontSize={'16px'} fontWeight={'bold'}>
+        <Text
+          color={'white'}
+          fontFamily={'mono'}
+          fontSize={'16px'}
+          fontWeight={'bold'}>
           {voiceNavigationState ? '음성 안내 종료' : '음성 안내 시작하기'}
         </Text>
       </Button>

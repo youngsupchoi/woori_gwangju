@@ -34,22 +34,22 @@ export default function WalkingRouteBottmeSheetComponent() {
             {parseInt(walkingRouteState.features[0].properties.totalTime / 60) >
             60 ? (
               <HStack alignItems="baseline">
-                <Text fontSize="3xl" fontWeight="extrabold">
+                <Text fontFamily={'mono'} fontSize="3xl" fontWeight="extrabold">
                   {parseInt(
                     walkingRouteState.features[0].properties.totalTime / 60,
                   ) % 60}
                 </Text>
-                <Text fontSize="sm" fontWeight="normal">
+                <Text fontFamily={'mono'} fontSize="sm" fontWeight="normal">
                   {`시간 `}
                 </Text>
               </HStack>
             ) : null}
-            <Text fontSize="3xl" fontWeight="extrabold">
+            <Text fontFamily={'mono'} fontSize="3xl" fontWeight="extrabold">
               {parseInt(
                 walkingRouteState.features[0].properties.totalTime / 60,
               ) % 60}
             </Text>
-            <Text fontSize="sm" fontWeight="normal">
+            <Text fontFamily={'mono'} fontSize="sm" fontWeight="normal">
               분
             </Text>
           </HStack>
@@ -59,27 +59,36 @@ export default function WalkingRouteBottmeSheetComponent() {
             borderRadius="md"
             backgroundColor={'#F0F0F3'}
             paddingX={2}>
-            <Text fontSize="xl" fontWeight="bold" color="gray.500">
+            <Text
+              fontFamily={'mono'}
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.500">
               {parseInt(
                 walkingRouteState.features[0].properties.totalDistance / 100,
               ) / 10}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="gray.500">
+            <Text
+              fontFamily={'mono'}
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.500">
               km
             </Text>
           </HStack>
         </HStack>
         <Box borderTopWidth={1} borderTopColor={'#E0E0E0'} paddingTop={'10px'}>
-          <Text fontSize="xs" color="gray.500">
+          <Text fontFamily={'mono'} fontSize="xs" color="gray.500">
             휠체어 이동 시간을 고려한 도착 예정 시간입니다
           </Text>
 
           <HStack justifyContent="start" alignItems="center">
-            <Text fontSize="xs" color="gray.500">
+            <Text fontFamily={'mono'} fontSize="xs" color="gray.500">
               안내정보는 참고로만 활용하세요
             </Text>
             <Text
               underline
+              fontFamily={'mono'}
               fontSize="xs"
               color="gray.500"
               onPress={() => {

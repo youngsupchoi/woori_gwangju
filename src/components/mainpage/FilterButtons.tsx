@@ -115,7 +115,12 @@ const FilterButtons = () => {
             _focus={{bg: 'gray.200'}}
             _pressed={{bg: 'gray.300'}}
             py={0}
-            _text={{color: 'black', fontSize: 'md', fontWeight: 'bold'}}
+            _text={{
+              fontFamily: 'mono',
+              color: 'black',
+              fontSize: 'md',
+              fontWeight: 'bold',
+            }}
             onPress={button.onPress}
             leftIcon={
               <Image

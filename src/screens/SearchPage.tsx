@@ -51,8 +51,8 @@ const SearchPage = () => {
             // 현재 위치와 각 POI 간의 거리를 계산해 추가
             const resultsWithDistance = results.map(item => {
               const distance = haversine(currentLocation, {
-                latitude: item.frontLat,
-                longitude: item.frontLon,
+                latitude: parseFloat(item.frontLat),
+                longitude: parseFloat(item.frontLon),
               });
               return {...item, distance: distance.toFixed(1)}; // 거리 값을 km로 표시
             });

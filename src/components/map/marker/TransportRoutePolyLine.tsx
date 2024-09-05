@@ -4,10 +4,11 @@ import {Polyline} from 'react-native-maps';
 
 const TransportRoutePolyline = route => {
   return route.legs.map((leg, index) => {
+    if (!leg.passShape?.linestring) return null; // linestring이 없는 경우 렌더링하지 않음
     // 각 구간의 linestring 데이터를 Polyline으로 변환
     const coordinates = leg.passShape?.linestring.split(' ').map(coord => {
       const [lon, lat] = coord.split(',').map(parseFloat);
-      return {latitude: lat, longitude: lon};
+      return {latitude: parseFloat(lat), longitude: parseFloat(lon)};
     });
 
     return (

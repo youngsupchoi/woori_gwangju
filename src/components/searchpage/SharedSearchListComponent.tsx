@@ -44,14 +44,14 @@ const SharedSearchListComponent = ({
     const newItem = !isRecentSearch
       ? {
           name: item.name,
-          longitude: item.frontLon,
-          latitude: item.frontLat,
+          longitude: parseFloat(item.frontLon),
+          latitude: parseFloat(item.frontLat),
           address: item.newAddressList?.newAddress[0]?.fullAddressRoad,
         }
       : {
           name: item.name,
-          longitude: item.longitude,
-          latitude: item.latitude,
+          longitude: parseFloat(item.longitude),
+          latitude: parseFloat(item.latitude),
           address: item.address,
         };
 
@@ -118,7 +118,12 @@ const SharedSearchListComponent = ({
     if (!highlight || !text.includes(highlight)) {
       return (
         <View>
-          <Text fontSize={18} fontWeight={'regular'} p={0} isTruncated>
+          <Text
+            fontFamily={'mono'}
+            fontSize={18}
+            fontWeight={'regular'}
+            p={0}
+            isTruncated>
             {text}
           </Text>
         </View>
@@ -130,6 +135,7 @@ const SharedSearchListComponent = ({
       part.toLowerCase() === highlight.toLowerCase() ? (
         <Text
           key={index}
+          fontFamily={'mono'}
           fontSize={'18px'}
           fontWeight={'regular'}
           color="blue.500"
@@ -140,6 +146,7 @@ const SharedSearchListComponent = ({
       ) : (
         <Text
           key={index}
+          fontFamily={'mono'}
           fontSize={'18px'}
           fontWeight={'regular'}
           p={0}
@@ -156,14 +163,21 @@ const SharedSearchListComponent = ({
       {console.log('isReset:', isReset, 'isDestination: ', isDestination)}
       <HStack w={'100%'} justifyContent={'space-between'}>
         {title ? (
-          <Text fontSize="md" bold mb={2} ml={'18px'} mt={2} isTruncated>
+          <Text
+            fontFamily={'mono'}
+            fontSize="md"
+            bold
+            mb={2}
+            ml={'18px'}
+            mt={2}
+            isTruncated>
             {title}
           </Text>
         ) : (
           <View />
         )}
         <Button onPress={resetData} variant={'ghost'}>
-          <Text>재설정</Text>
+          <Text fontFamily={'mono'}>재설정</Text>
         </Button>
       </HStack>
       <ScrollView>
@@ -201,6 +215,7 @@ const SharedSearchListComponent = ({
                           <Text
                             color="gray.500"
                             fontWeight={'semibold'}
+                            fontFamily={'mono'}
                             fontSize={'12px'}
                             isTruncated>
                             {item.distance}km

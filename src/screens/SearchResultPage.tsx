@@ -43,7 +43,7 @@ const SearchResultPage = () => {
             height={'32px'}
           />
         </TouchableOpacity>
-        <Text fontSize="18" bold isTruncated maxWidth="80%">
+        <Text fontFamily={'mono'} fontSize="18" bold isTruncated maxWidth="80%">
           {destination.name}
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Main')}>

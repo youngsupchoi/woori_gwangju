@@ -2,6 +2,7 @@ import React from 'react';
 import {Center, Image, Button, Text, VStack, View} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image'; // FastImage 사용
 import disabledPeople from 'assets/gif/disabled_people.gif';
 import onboardingWheelchair from 'assets/images/onboardingWheelchair.png';
 import onboardingBlindMan from 'assets/images/onboardingBlindMan.png';
@@ -34,6 +35,7 @@ const OnboardingPage = () => {
       leftIcon={<Image source={icon} size={'36px'} alt="icon" />}
       onPress={() => handleDisabilitySelection(type)}>
       <Text
+        fontFamily={'mono'}
         fontSize={'20px'}
         color={'#11181C'}
         fontWeight={'semibold'}
@@ -53,21 +55,28 @@ const OnboardingPage = () => {
         alignContent={'center'}
         w={'100%'}
         px={'18px'}>
-        <Text fontSize="28px" fontWeight="bold" textAlign="left">
+        <Text
+          fontFamily={'mono'}
+          fontSize="28px"
+          fontWeight="bold"
+          textAlign="left">
           어떤 도움이 필요하신가요?
         </Text>
-        <Text fontSize={'16px'} color="coolGray.500" textAlign="left">
+        <Text
+          fontFamily={'mono'}
+          fontSize={'16px'}
+          color="coolGray.500"
+          textAlign="left">
           맞춤형 도움을 제공해드릴게요.
         </Text>
       </VStack>
 
       {/* 이미지 */}
       <View w={'100%'}>
-        <Image
+        <FastImage
           source={disabledPeople}
-          alt="Disabled People"
-          mx={'18px'}
-          resizeMode="contain"
+          style={{width: '100%', height: 200}} // 스타일로 크기 설정
+          resizeMode={FastImage.resizeMode.contain} // 크기에 맞게 조정
         />
       </View>
 
